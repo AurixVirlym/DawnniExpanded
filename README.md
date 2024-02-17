@@ -19,4 +19,4 @@ To install DawnniExpanded:
 3. Launch the game!
 
 ## Thanks
-Special thanks to Petr Hudeček for listening to my ramblings on the Dawnsbury Days Discord and being the main developer and everyone who contributed to the game. 
+Special thanks to Petr Hudeček for listening to my ramblings on the Dawnsbury Days Discord and being the main developer and to everyone who contributed to the game. 
