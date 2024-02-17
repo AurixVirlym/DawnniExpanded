@@ -1,4 +1,4 @@
-## DawnniExpanded v 0.1
+## DawnniExpanded v 1.0.0
 This is a content expansion mod for the game Dawnsbury Days, it adds a random collection of items, spells and features that I felt a particular desire to add.
 
 If there's any problem with the mod, feel free to contact on Discord. @comradedanni.
