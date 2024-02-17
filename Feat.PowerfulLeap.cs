@@ -1,4 +1,3 @@
-using System.Linq;
 using Dawnsbury.Core;
 using Dawnsbury.Core.Mechanics;
 
@@ -7,19 +6,9 @@ using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
 using Dawnsbury.Core.CharacterBuilder.Feats;
 using Dawnsbury.Core.CharacterBuilder;
-using Dawnsbury.Core.CombatActions;
-
-using Dawnsbury.Core.Possibilities;
 
 
 using Dawnsbury.Core.Creatures;
-
-using Dawnsbury.Core.Mechanics.Targeting.Targets;
-
-using Dawnsbury.Core.Tiles;
-
-using Dawnsbury.Core.Animations.Movement;
-using Dawnsbury.Display.Illustrations;
 
 
 
