@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ## DawnniExpanded v1.1.0
+=======
+## DawnniExpanded
+>>>>>>> 9db4ebb421e0913876d8db3a73cd673feea5229a
 This is a content expansion mod for the game Dawnsbury Days, it adds a random collection of items, spells and features that I felt a particular desire to add.
 
 If there's any problem with the mod, feel free to contact on Discord. @comradedanni.
@@ -26,4 +30,4 @@ To install DawnniExpanded:
 - Serene Mutagen gives a flat damage reduction rather than scaling with number of damage dice.
 
 ## Thanks
-Special thanks to Petr Hudeček for listening to my ramblings on the Dawnsbury Days Discord and being the main developer and everyone who contributed to the game. 
+Special thanks to Petr Hudeček for listening to my ramblings on the Dawnsbury Days Discord and being the main developer and to everyone who contributed to the game. 
