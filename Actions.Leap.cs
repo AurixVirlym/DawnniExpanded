@@ -11,7 +11,6 @@ using Dawnsbury.Core.Tiles;
 using Dawnsbury.Core.Animations.Movement;
 
 
-
 namespace Dawnsbury.Mods.DawnniExpanded;
 
 public static class ActionLeap
@@ -64,7 +63,7 @@ public static class ActionLeap
                                 LeapingFlying.DoNotShowUpOverhead = true;
 
                                 caster.AddQEffect(LeapingFlying);
-
+                                
                                 await caster.MoveTo(target.ChosenTile, action, new MovementStyle()
                                 {
                                 Shifting = true,
@@ -72,7 +71,7 @@ public static class ActionLeap
                                 MaximumSquares = 100
                                 });
                             })
-                            //.WithSoundEffect(SfxName.Tremor)
+
                             .WithActionCost(1);
 
                             ActionPossibility leapActionPossibility = leapAction;

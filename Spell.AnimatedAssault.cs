@@ -41,7 +41,7 @@ public class SpellAnimatedAssualt
                             await CommonSpellEffects.DealBasicDamage(spell, caster, target, result, ((spellLevel-1)*2)+"d10", DamageKind.Bludgeoning);
 
 
-                        }).WithEffectOnChosenTargets(async (spell, creature, chosenTargets) =>
+                        }).WithEffectOnChosenTargets(async (CombatAction spell, Creature creature, ChosenTargets chosenTargets) =>
           {
               List<TileQEffect> listOfDependentEffects = new List<TileQEffect>();
               foreach (Tile owner in chosenTargets.ChosenTiles)

@@ -137,9 +137,9 @@ public static class ItemMutagenDrakeheart
                     },
 
                     ProvidesArmor = obj,
-                    ProvideContextualAction = qfSelf => new ActionPossibility(new CombatAction(qfSelf.Owner, illustrationFinalSurge, "Final Surge", new Trait[2]
+                    ProvideContextualAction = qfSelf => new ActionPossibility(new CombatAction(qfSelf.Owner, illustrationFinalSurge, "Final Surge", new Trait[1]
                     {
-                        Trait.Move,DawnniExpanded.DETrait
+                        Trait.Move
                     }, "Stride twice. This ends the Drakeheart Mutagen.", Target.Self()).WithActionCost(1).WithSoundEffect(SfxName.Footsteps).WithEffectOnSelf( async (CombatAction action, Creature self) =>
                     {
                         if (!await self.StrideAsync("Choose where to Stride with Final Surge. (1/2)", allowCancel: true))

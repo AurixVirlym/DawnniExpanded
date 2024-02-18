@@ -12,12 +12,12 @@ namespace Dawnsbury.Mods.DawnniExpanded;
 public static class ItemStaffofSpellPotency
 {
     public static void LoadMod()
-    {
-       
+    {   
+        
         ItemName StaffofPotency = ModManager.RegisterNewItemIntoTheShop("Staff Of Spell Potency +1", itemName =>
-            new Item(itemName, (Illustration)IllustrationName.Quarterstaff, "Staff Of Spell Potency +1", 2, 35, DawnniExpanded.DETrait, DawnniExpanded.HomebrewTrait){
+            new Item(itemName, (Illustration) IllustrationName.Quarterstaff, "Staff Of Spell Potency +1", 2, 35, DawnniExpanded.DETrait, DawnniExpanded.HomebrewTrait, Trait.SpecificMagicWeapon, Trait.Simple, Trait.Club, Trait.WizardWeapon){
                 Description = "While you hold the {i}Staff Of Spell Potency +1{/i}, you have a +1 to spell attack rolls.",
-            }
+            }.WithWeaponProperties(new WeaponProperties("1d4", DamageKind.Bludgeoning))
             );
         
         ModManager.RegisterActionOnEachCreature(creature =>
@@ -43,10 +43,10 @@ public static class ItemStaffofSpellPotency
                 });
         });
 
-        var StaffofPotencyfocusing = ModManager.RegisterNewItemIntoTheShop("Staff Of Spell Potency +1 Focusing", itemName =>
-            new Item(itemName, (Illustration)IllustrationName.Quarterstaff, "Staff Of Spell Potency +1 Focusing", 4, 100, DawnniExpanded.DETrait, DawnniExpanded.HomebrewTrait){
+        ItemName StaffofPotencyfocusing = ModManager.RegisterNewItemIntoTheShop("Staff Of Spell Potency +1 Focusing", itemName =>
+            new Item(itemName, (Illustration) IllustrationName.Quarterstaff, "Staff Of Spell Potency +1 Focusing", 4, 100, DawnniExpanded.DETrait, DawnniExpanded.HomebrewTrait, Trait.SpecificMagicWeapon, Trait.Simple, Trait.Club, Trait.WizardWeapon){
                 Description = "While you hold the {i}Staff Of Spell Potency +1 Focusing{/i}, you have a +1 to spell DCs and attack rolls.",
-            }
+            }.WithWeaponProperties(new WeaponProperties("1d4", DamageKind.Bludgeoning))
 );
         
         ModManager.RegisterActionOnEachCreature(creature =>
