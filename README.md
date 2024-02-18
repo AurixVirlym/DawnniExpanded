@@ -4,14 +4,14 @@ This is a content expansion mod for the game Dawnsbury Days, it adds a random co
 If there's any problem with the mod, feel free to contact on Discord. @comradedanni.
 
 ## It currently includes:
-- A univerial Leap action for characters.
-- 5 New Spells (Animated Assasult, Scorching Ray, False Life, Rousing Splash and Endure)
+- A universal Leap action for characters.
+- 5 New Spells (Animated Assault, Scorching Ray, False Life, Rousing Splash and Endure)
 - 2 New Feats (Battle Medicine and Powerful Leap)
-- 5 Mutagens (Energy, Drakeheart, Serene, Juggarnaut and Bestial) in both lesser and moderate versions.
+- 5 Mutagens (Energy, Drakeheart, Serene, Juggernaut and Bestial) in both lesser and moderate versions.
 - Homebrew Staves of Spell Potency, 1 handed weapons which grant a bonus to spell attack rolls and DCs.
 - Heightened Scrolls up to 4th for any base game scroll which had a built in Heightened +1 effect.
 
-Every new feature has been given the **DawnniEx** Trait and any feature that is not in the standard Pathfinder 2e rules has addtionally been marked with the **Homebrew** Trait.
+Every new feature has been given the **DawnniEx** Trait and any feature that is not in the standard Pathfinder 2e rules has additionally been marked with the **Homebrew** Trait.
 
 ## Installation
 To install DawnniExpanded:
