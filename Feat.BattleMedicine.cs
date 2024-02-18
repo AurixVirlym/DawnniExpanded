@@ -5,24 +5,82 @@ using Dawnsbury.Core.CharacterBuilder;
 using Dawnsbury.Core.Mechanics;
 using Dawnsbury.Core.CombatActions;
 using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Core.Mechanics.Targeting.TargetingRequirements;
 using Dawnsbury.Core.Possibilities;
 using Dawnsbury.Core.Mechanics.Core;
 using Dawnsbury.Core;
 using Dawnsbury.Core.Roller;
 using Dawnsbury.Audio;
 using Dawnsbury.Display.Illustrations;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Dawnsbury.Audio;
+using Dawnsbury.Core.Animations;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.Coroutines.Options;
+using Dawnsbury.Core.Coroutines.Requests;
+using Dawnsbury.Core.Creatures;
+using Dawnsbury.Core.Mechanics;
+using Dawnsbury.Core.Mechanics.Core;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
 
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 
 public class FeatBattleMedicine
+
+
 {
+    public static async Task BattleMedicineAdjacentCreature(Creature self)
+    {
+        List<Option> options = new List<Option>();
+        
+            CombatAction trainedBM = TrainedBattleMedAction;
+            CombatAction expertBM = ExpertBattleMedAction;
+
+            trainedBM.WithActionCost(0);
+            expertBM.WithActionCost(0);
+
+            trainedBM.Owner = self;
+            expertBM.Owner = self;
+            
+            GameLoop.AddDirectUsageOnCreatureOptions(trainedBM, options, noConfirmation: false);
+            GameLoop.AddDirectUsageOnCreatureOptions(expertBM, options, noConfirmation: false);
+
+
+
+        if (options.Count > 0)
+        {
+            if (options.Count == 1)
+            {
+                await options[0].Action();
+                return;
+            }
+
+            await (await self.Battle.SendRequest(new AdvancedRequest(self, "Choose a creature to Strike.", options)
+            {
+                TopBarText = "Choose a creature to use Battle Medicine on.",
+                TopBarIcon = new ModdedIllustration("DawnniburyExpandedAssets/BattleMedicine.png")
+            })).ChosenOption.Action();
+            }
+        }
+    
+           
+    
+
+    public static Feat BattleMedicineTrueFeat;
+
+    public static CombatAction ExpertBattleMedAction;
+    public static CombatAction TrainedBattleMedAction;
     public static void LoadMod()
     {
-
-        ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 1,
+        BattleMedicineTrueFeat = new TrueFeat(FeatName.CustomFeat, 1,
                 "You can patch up wounds, even in combat.",
-                "Attempt a Medicine check with the same DC as for Treat Wounds and restore the corresponding amount of HP; this doesn't remove the wounded condition. As with Treat Wounds, you can attempt checks against higher DCs if you have the minimum proficiency rank.\n\nIf you're an expert in Medicine, you can instead attempt a DC 20 check to increase the Hit Points regained by 10.\n\nThe target is then temporarily immune to your Battle Medicine until long rest.\n\nIt is assumed you have a healer's kit as long as you have a hand free otherwise you may not use Treat Wounds.",
+                "Attempt a Medicine check with the same DC as for Treat Wounds and restore the corresponding amount of HP; this doesn't remove the wounded condition. As with Treat Wounds, you can attempt checks against higher DCs if you have the minimum proficiency rank.\n\nIf you're an expert in Medicine, you can instead attempt a DC 20 check to increase the Hit Points regained by 10.\n\nThe target is then temporarily immune to your Battle Medicine until long rest.\n\nIt is assumed you have a healer's kit as long as you have a hand free otherwise you may not use Treat Wounds."+" Expanded healer's tools adds a +1 item bonus to your check." ,
                 new[] { Trait.General, Trait.Skill, Trait.Healing, Trait.Manipulate, DawnniExpanded.DETrait}
                 )
             .WithActionCost(1)
@@ -42,32 +100,47 @@ public class FeatBattleMedicine
                             return null;
                         }
 
-                        CombatAction TrainedBattleMedAction = new CombatAction(creature, new ModdedIllustration("DawnniburyExpandedAssets/BattleMedicine.png"), "Battle Medicine (Trained)", new Trait[] { Trait.General, Trait.Skill, Trait.Healing, Trait.Manipulate, Trait.Basic, Trait.AttackDoesNotTargetAC,DawnniExpanded.DETrait },
-                            "Attempt a {b}DC 15 Medicine check{/b} targeting an adjacent ally or yourself. The target is then temporarily immune to your Battle Medicine until long rest.\n\n{b}Critical Success{/b} The target regains 4d8 Hit Points.\n{b}Success{/b} The target regains 2d8 Hit Points.\n{b}Critical Failure{b}: The target takes 1d8 daamge.",
-                             Target.AdjacentFriendOrSelf().WithAdditionalConditionOnTargetCreature((a, d) => a.HasFreeHand ? Usability.Usable : Usability.CommonReasons.NoFreeHandForManeuver)
-                            .WithAdditionalConditionOnTargetCreature((a, d) => !a.PersistentUsedUpResources.UsedUpActions.Contains("BattleMedicine:"+d.CreatureId) ? Usability.Usable : Usability.NotUsable("Target has Been already affected by your Battle Medicine today."))
-                            )
-                            .WithSoundEffect(SfxName.Healing)
-                            .WithActionCost(1);
-                        
+                            CombatAction TrainedBattleMedAction = new CombatAction(creature, new ModdedIllustration("DawnniburyExpandedAssets/BattleMedicine.png"), "Battle Medicine (Trained)", new Trait[] { Trait.General, Trait.Skill, Trait.Healing, Trait.Manipulate, Trait.Basic, Trait.AttackDoesNotTargetAC, DawnniExpanded.DETrait },
+                                "Attempt a {b}DC 15 Medicine check{/b} targeting an adjacent ally or yourself. The target is then temporarily immune to your Battle Medicine until long rest.\n\n{b}Critical Success{/b} The target regains 4d8 Hit Points.\n{b}Success{/b} The target regains 2d8 Hit Points.\n{b}Critical Failure{b}: The target takes 1d8 daamge.",
+                                    Target.AdjacentFriendOrSelf()
+                                .WithAdditionalConditionOnTargetCreature((a, d) =>
+                                {
+                                    
+                                    if (!a.HasFreeHand)
+                                    {
+                                        return Usability.CommonReasons.NoFreeHandForManeuver;
+                                    }
 
+                                    if (d.HP == d.MaxHP)
+                                    {
+                                        return Usability.NotUsableOnThisCreature("Target is full on HP.");
+                                    }
 
-                        CombatAction ExpertBattleMedAction = new CombatAction(creature, new ModdedIllustration("DawnniburyExpandedAssets/BattleMedicine.png"), "Battle Medicine (Expert)", new Trait[] { Trait.General, Trait.Skill, Trait.Healing, Trait.Manipulate, Trait.Basic, Trait.AttackDoesNotTargetAC,DawnniExpanded.DETrait },
-                             "Attempt a {b}DC 20 Medicine check{/b} targeting an adjacent ally or yourself. The target is then temporarily immune to your Battle Medicine until long rest.\n\n{b}Critical Success{/b} The target regains 4d8+10 Hit Points.\n{b}Success{/b} The target regains 2d8+10 Hit Points.\n{b}Critical Failure{/b} The target takes 1d8 daamge.",
-                            Target.AdjacentFriendOrSelf().WithAdditionalConditionOnTargetCreature((a, d) => a.HasFreeHand ? Usability.Usable : Usability.CommonReasons.NoFreeHandForManeuver)
-                            .WithAdditionalConditionOnTargetCreature((a, d) => !a.PersistentUsedUpResources.UsedUpActions.Contains("BattleMedicine:"+d.CreatureId) ? Usability.Usable : Usability.NotUsable("Target has Been already affected by your Battle Medicine today.") )
-                            )
-                            .WithSoundEffect(SfxName.Healing)
-                            .WithActionCost(1);
+                                    if (!a.PersistentUsedUpResources.UsedUpActions.Contains("BattleMedicine:" + d.Name))
+                                    {
+                                        return Usability.Usable;
+                                    }
+                                    else if (!a.PersistentUsedUpResources.UsedUpActions.Contains("BattleMedicineMedicArchetypePassed") && a.PersistentCharacterSheet.Calculated.AllFeats.Contains(ArchetypeMedic.MedicDedicationFeat))
+                                    {
+                                        return Usability.Usable;
+                                    }
 
-                        ActionPossibility TrainedBattleMed = TrainedBattleMedAction
-                        .WithActiveRollSpecification(
+                                    return Usability.NotUsableOnThisCreature("Target has been already affected by your Battle Medicine today.");
+                                })
+                                )
+                                .WithSoundEffect(SfxName.Healing)
+                                .WithActionCost(1)
+                                .WithActiveRollSpecification(
                             new ActiveRollSpecification(Checks.SkillCheck(Skill.Medicine), Checks.FlatDC(15)))                     
                             .WithEffectOnEachTarget(async (spell, caster, target, result) =>
                             {
                                 
-
-                                creature.PersistentUsedUpResources.UsedUpActions.Add("BattleMedicine:" + target.CreatureId);
+                                if (creature.PersistentUsedUpResources.UsedUpActions.Contains("BattleMedicine:" + target.Name) && caster.PersistentCharacterSheet.Calculated.AllFeats.Contains(ArchetypeMedic.MedicDedicationFeat)){
+                                    creature.PersistentUsedUpResources.UsedUpActions.Add("BattleMedicineMedicArchetypePassed");
+                                    caster.Occupies.Overhead("Medic Dedication bypasses Immunity",Color.White);
+                                } else { 
+                                    creature.PersistentUsedUpResources.UsedUpActions.Add("BattleMedicine:" + target.Name);
+                                };
 
                                 if (result == CheckResult.CriticalSuccess)
                                 {
@@ -93,24 +166,64 @@ public class FeatBattleMedicine
                             });
 
 
-                            ActionPossibility ExpertBattleMed = ExpertBattleMedAction
-                        .WithActiveRollSpecification(
+
+                            CombatAction ExpertBattleMedAction = new CombatAction(creature, new ModdedIllustration("DawnniburyExpandedAssets/BattleMedicine.png"), "Battle Medicine (Expert)", new Trait[] { Trait.General, Trait.Skill, Trait.Healing, Trait.Manipulate, Trait.Basic, Trait.AttackDoesNotTargetAC,DawnniExpanded.DETrait },
+                             "Attempt a {b}DC 20 Medicine check{/b} targeting an adjacent ally or yourself. The target is then temporarily immune to your Battle Medicine until long rest.\n\n{b}Critical Success{/b} The target regains 4d8+10 Hit Points.\n{b}Success{/b} The target regains 2d8+10 Hit Points.\n{b}Critical Failure{/b} The target takes 1d8 daamge."
+                             ,
+                            Target.AdjacentFriendOrSelf()
+                            .WithAdditionalConditionOnTargetCreature((a, d) =>
+                                {
+                                    
+                                    if (!a.HasFreeHand)
+                                    {
+                                        return Usability.CommonReasons.NoFreeHandForManeuver;
+                                    }
+
+                                    if (d.HP == d.MaxHP)
+                                    {
+                                        return Usability.NotUsableOnThisCreature("Target is full on HP.");
+                                    }
+
+                                    if (!a.PersistentUsedUpResources.UsedUpActions.Contains("BattleMedicine:" + d.Name))
+                                    {
+                                        return Usability.Usable;
+                                    }
+                                    else if (!a.PersistentUsedUpResources.UsedUpActions.Contains("BattleMedicineMedicArchetypePassed") && a.PersistentCharacterSheet.Calculated.AllFeats.Contains(ArchetypeMedic.MedicDedicationFeat))
+                                    {
+                                        return Usability.Usable;
+                                    }
+
+                                    return Usability.NotUsableOnThisCreature("Target has been already affected by your Battle Medicine today.");
+                                })
+                                )
+                            .WithSoundEffect(SfxName.Healing)
+                            .WithActionCost(1).WithActiveRollSpecification(
                             new ActiveRollSpecification(Checks.SkillCheck(Skill.Medicine), Checks.FlatDC(20)))                     
                             .WithEffectOnEachTarget(async (spell, caster, target, result) =>
                             {
 
-                               creature.PersistentUsedUpResources.UsedUpActions.Add("BattleMedicine:" + target.CreatureId);
+                               if (creature.PersistentUsedUpResources.UsedUpActions.Contains("BattleMedicine:" + target.Name) && caster.         PersistentCharacterSheet.Calculated.AllFeats.Contains(ArchetypeMedic.MedicDedicationFeat)){
+                                    creature.PersistentUsedUpResources.UsedUpActions.Add("BattleMedicineMedicArchetypePassed");
+                                    caster.Occupies.Overhead("Medic Dedication bypasses Immunity",Color.White);
+                                } else { 
+                                    creature.PersistentUsedUpResources.UsedUpActions.Add("BattleMedicine:" + target.Name);
+                                };
+
+                               string HealModifier = "10";
+                               if (creature.HasFeat(ArchetypeMedic.MedicDedicationFeat.FeatName)){
+                                HealModifier = "15";
+                               }
 
                                 if (result == CheckResult.CriticalSuccess)
                                 {
-
-                                    target.Heal("4d8+10", spell);
+                                    
+                                    target.Heal("4d8+" + HealModifier, spell);
                                     
                                 }
                                 else if (result == CheckResult.Success)
                                 {
                                 
-                                    target.Heal("2d8+10", spell);
+                                    target.Heal("2d8+" +HealModifier, spell);
                                     
                                 }
                                 else if(result == CheckResult.Failure)
@@ -124,6 +237,14 @@ public class FeatBattleMedicine
                                     await caster.DealDirectDamage(spell, damage, target, CheckResult.Success, DamageKind.Untyped);
                                 }
                             });
+
+
+                        ActionPossibility TrainedBattleMed = TrainedBattleMedAction;
+                        ActionPossibility ExpertBattleMed = ExpertBattleMedAction;
+
+
+                            
+                        
                 
                         SubmenuPossibility submenuPossibility = new SubmenuPossibility(IllustrationName.Heal,"Battle Medicine");
                             PossibilitySection possibilitySection = new PossibilitySection("Battle Medicine");
@@ -142,7 +263,14 @@ public class FeatBattleMedicine
                         ;
 
                 
-            }));
+            });
+
+            ModManager.AddFeat(BattleMedicineTrueFeat);
+
+
+        
+
+  
 
     }
 }

@@ -19,7 +19,8 @@ public class DawnniExpanded
             new TraitProperties("Homebrew", true)
             );
 
-        
+
+        SpellHorizonThunderSphere.LoadMod();
         SpellAnimatedAssualt.LoadMod();
         SpellScorchingRay.LoadMod();
         SpellEndure.LoadMod();
@@ -32,5 +33,7 @@ public class DawnniExpanded
         TraitMutagens.LoadMod();
         ItemMutagens.LoadMod();
         GenerateHeightenedScrolls.LoadMod();
+        FeatArchetype.LoadMod();
+        ArchetypeMedic.LoadMod();
     }
 }

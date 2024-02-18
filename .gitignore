@@ -104,3 +104,7 @@ obj/Debug/net6.0-windows/ref/Dawnsbury.Mods.DawnniExpanded.dll
 obj/Debug/net6.0-windows/refint/Dawnsbury.Mods.DawnniExpanded.dll
 Dawnsbury.Mods.DawnniExpanded.csproj
 Dawnsbury.Mods.DawnniExpanded.sln
+DawnniburyExpandedAssets/Endure.png
+DawnniburyExpandedAssets/EnergyMutagenElectricity.png
+DawnniburyExpandedAssets/FalseLife.png
+DawnniburyExpandedAssets/RousingSplash.png

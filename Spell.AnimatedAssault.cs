@@ -105,7 +105,7 @@ public class SpellAnimatedAssualt
               {
                   CheckResult checkResult = CommonSpellEffects.RollSpellSavingThrow(defender, spell, Defense.Reflex);
                   DiceFormula damage = Checks.ModifyDamageFromBasicSave(DiceFormula.FromText((spell.SpellLevel-1)+"d10", spell.Name), checkResult);
-                  await creature.DealDirectDamage(spell, damage, defender, checkResult, DamageKind.Fire);
+                  await creature.DealDirectDamage(spell, damage, defender, checkResult, DamageKind.Bludgeoning);
               }
           });
                     

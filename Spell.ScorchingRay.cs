@@ -37,7 +37,10 @@ public class SpellScorchingRay
                         ),
                         2,
                         null
-                        ).WithActionCost(-1).WithSpellAttackRoll().WithSoundEffect(SfxName.FireRay).WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
+                        ).WithActionCost(-1)
+                        .WithSpellAttackRoll()
+                        .WithSoundEffect(SfxName.FireRay)
+                        .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
                         {
                             var _Damage = ((spellLevel) * 2) + "d6";
 
