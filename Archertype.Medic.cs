@@ -13,6 +13,7 @@ using Dawnsbury.Core.Mechanics;
 using Dawnsbury.Core.Mechanics.Targeting;
 using Dawnsbury.Core.Possibilities;
 using Dawnsbury.Display.Illustrations;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb;
 
 
 
@@ -30,13 +31,12 @@ public static class ArchetypeMedic
         MedicDedicationFeat = new TrueFeat(FeatName.CustomFeat, 
                 2, 
                 "You've studied countless techniques for providing medical aid, making you a peerless doctor and healer.", 
-                "You become an expert in Medicine.\r\n\r\nWhen you succeed with Battle Medicine, the target regains 5 additional HP at DC 20.\r\n\r\nOnce per day, you can use Battle Medicine on a creature that's temporarily immune.", 
+                "You become an expert in Medicine. (Retrain if you perviously had Expert Medicine)\r\n\r\nWhen you succeed with Battle Medicine, the target regains 5 additional HP at DC 20.\r\n\r\nOnce per day, you can use Battle Medicine on a creature that's temporarily immune.", 
                 new Trait[] {FeatArchetype.DedicationTrait,FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait})
                 .WithCustomName("Medic Dedication")
                 .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) >= Proficiency.Trained, "You must be trained in Medicine.")
                 .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FeatBattleMedicine.BattleMedicineTrueFeat),"You must have the feat Battle Medicine.")
-                .WithOnSheet(sheet => sheet.SetProficiency(Trait.Medicine, Proficiency.Expert))
-                .WithOnCreature((CalculatedCharacterSheetValues sheet, Creature cr) => cr.Skills.Set(Skill.Medicine, sheet.FinalAbilityScores.TotalModifier(Skills.GetSkillAbility(Skill.Medicine)) + sheet.GetProficiency(Trait.Medicine).ToNumber(cr.Level)));
+                .WithOnSheet(sheet => sheet.GrantFeat(FeatName.ExpertMedicine));
         
         Illustration IllustrationDocVisit = new ModdedIllustration("DawnniburyExpandedAssets/DoctorsVisitation.png");
 
@@ -61,6 +61,7 @@ public static class ArchetypeMedic
         else
         {
           await FeatBattleMedicine.BattleMedicineAdjacentCreature(self);
+        
         }
       }))))));
         

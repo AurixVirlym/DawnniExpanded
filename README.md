@@ -1,12 +1,14 @@
-## DawnniExpanded v1.1.0
+## DawnniExpanded v1.2.0
 This is a content expansion mod for the game Dawnsbury Days, it adds a random collection of items, spells and features that I felt a particular desire to add.
 
 If there's any problem with the mod, feel free to contact on Discord. @comradedanni.
 
 ## It currently includes:
-- A univerial Leap action for characters.
-- 5 New Spells (Animated Assasult, Scorching Ray, False Life, Rousing Splash and Endure)
-- 2 New Feats (Battle Medicine and Powerful Leap)
+- A universal Leap action for characters.
+- 6 New Spells (Horizon Thunder Sphere, Animated Assault, Scorching Ray, False Life, Rousing Splash and Endure)
+- 3 New Feats (Dueling Parry, Battle Medicine and Powerful Leap)
+- 8 Archetype Dedication (Fighter, Ranger, Rogue, Barbarian, Monk, Medic, Sentinel and Duelist)
+- 8 Archetype Feats.
 - 5 Mutagens (Energy, Drakeheart, Serene, Juggarnaut and Bestial) in both lesser and moderate versions.
 - Homebrew Staves of Spell Potency, 1 handed weapons which grant a bonus to spell attack rolls and DCs.
 - Heightened Scrolls up to 4th for any base game scroll which had a built in Heightened +1 effect.

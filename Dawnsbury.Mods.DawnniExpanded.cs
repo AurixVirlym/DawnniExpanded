@@ -34,6 +34,6 @@ public class DawnniExpanded
         ItemMutagens.LoadMod();
         GenerateHeightenedScrolls.LoadMod();
         FeatArchetype.LoadMod();
-        ArchetypeMedic.LoadMod();
+        FeatDuelingParry.LoadMod();
     }
 }
