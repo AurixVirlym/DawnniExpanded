@@ -43,6 +43,7 @@ public static class ArchetypeRanger
                 .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     
         {
+          sheet.AdditionalClassTraits.Add(Trait.Ranger);
 
           if (sheet.GetProficiency(Trait.Ranger) == Proficiency.Untrained){
             sheet.SetProficiency(Trait.Ranger,Proficiency.Trained);
@@ -69,9 +70,9 @@ public static class ArchetypeRanger
             ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 
                     4, 
                     "You are able to learn how to perform Hunter's Tricks.", 
-                    "You gain a 1st- or 2nd-level ranger feat. \n\n{b}THIS DOES NOT CURRENTLY WORK.{/b}", 
+                    "You gain a 1st- or 2nd-level ranger feat.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,RangerArchetypeTrait})
-                    .WithCustomName("Basic Hunter's Trick DOES NOT WORK")
+                    .WithCustomName("Basic Hunter's Trick")
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RangerDedicationFeat),"You must have the feat Ranger Dedication feat.")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     

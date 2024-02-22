@@ -43,6 +43,8 @@ public static class ArchetypeRogue
                     
         {
 
+          sheet.AdditionalClassTraits.Add(Trait.Rogue);
+
           if (sheet.GetProficiency(Trait.Rogue) == Proficiency.Untrained){
             sheet.SetProficiency(Trait.Rogue,Proficiency.Trained);
           }
@@ -98,9 +100,9 @@ public static class ArchetypeRogue
             ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 
                     4, 
                     "You are able to learn how to perform Rogue Trickery.", 
-                    "You gain a 1st- or 2nd-level rogue feat. \n\n{b}THIS DOES NOT CURRENTLY WORK.{/b}", 
+                    "You gain a 1st- or 2nd-level rogue feat.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,RogueArchetypeTrait})
-                    .WithCustomName("Basic Trickery DOES NOT WORK")
+                    .WithCustomName("Basic Trickery")
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RogueDedicationFeat),"You must have the feat Rogue Dedication feat.")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     

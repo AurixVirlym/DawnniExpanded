@@ -11,46 +11,46 @@ using Dawnsbury.Display.Illustrations;
 using Dawnsbury.Core.CombatActions;
 using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.Creatures;
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 
+
 public class SpellScorchingRay
 {
-    public static void LoadMod()
-    {
-        ModdedIllustration illustrationScorchingRay = new ModdedIllustration("DawnniburyExpandedAssets/ScorchingRay.png");
-        
-        SpellId ScorchingRayid  = ModManager.RegisterNewSpell("ScorchingRay", 2, ((spellId, spellcaster, spellLevel, inCombat) =>
+    public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/ScorchingRay.png");
+    public static SpellId Id;
+    public static CombatAction MakeScorchingRaySpell(Creature caster, int spellLevel, bool inCombat){
         {
             CreatureTarget creatureTarget = Target.Ranged(12);
-            CombatAction ScorchingRaySpell = Spells.CreateModern(illustrationScorchingRay,
+            CombatAction ScorchingRaySpell = Spells.CreateModern(Spellillustration,
                 "Scorching Ray",
             new[] { Trait.Fire, Trait.Attack, Trait.Evocation, Trait.Arcane, Trait.Primal, DawnniExpanded.DETrait },
                     "You fire a ray of heat and flame.",
-                    "Make a ranged spell attack roll against a single creature within 60ft." + S.FourDegreesOfSuccessReverse((string)null, (string)null, "The target takes 2d6 fire damage.", "Double damage.") + "\n\nFor each additional action you use when Casting the Spell, you can fire an additional ray at a different target, to a maximum of three rays targeting three different targets for 3 actions. These attacks each increase your multiple attack penalty, but you don't increase your multiple attack penalty until after you make all the spell attack rolls for scorching ray.\n\nIf you spend 2 or more actions Casting the Spell, the damage increases to 4d6 fire damage on a hit, and it still deals double damage on a critical hit." 
-                    //+"\n\n{b}Heightened (+1){/b} The damage to each target increases by 1d6 for the 1-action version, or by 2d6 for the 2-action and 3-action versions."
-                    ,
+                    "Make a ranged spell attack roll against a single creature within 60ft." + S.FourDegreesOfSuccessReverse((string)null, (string)null, "The target takes "+S.HeightenedVariable(spellLevel,3) + "d6 fire damage.", "Double damage.") + "\n\nFor each additional action you use when Casting the Spell, you can fire an additional ray at a different target, to a maximum of three rays targeting three different targets for 3 actions. These attacks each increase your multiple attack penalty, but you don't increase your multiple attack penalty until after you make all the spell attack rolls for scorching ray.\n\nIf you spend 2 or more actions Casting the Spell, the damage increases to "+S.HeightenedVariable(((spellLevel) * 2),4)+"d6 fire damage on a hit, and it still deals double damage on a critical hit." 
+                    +HS.HeightenTextLevels(spellLevel>2,spellLevel,inCombat,"\n\n{b}Heightened (+1){/b} The damage to each target increases by 1d6 for the 1-action version, or by 2d6 for the 2-action and 3-action versions.")
+                    , 
                     Target.DependsOnActionsSpent(
                         Target.MultipleCreatureTargets(creatureTarget).WithMustBeDistinct(),
                         Target.MultipleCreatureTargets(creatureTarget, creatureTarget).WithMustBeDistinct(),
                         Target.MultipleCreatureTargets(creatureTarget, creatureTarget, creatureTarget).WithMustBeDistinct()
                         ),
-                        2,
+                        spellLevel,
                         null
                         ).WithActionCost(-1)
                         .WithSpellAttackRoll()
                         .WithSoundEffect(SfxName.FireRay)
                         .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
                         {
-                            var _Damage = ((spellLevel) * 2) + "d6";
+                            string _Damage = ((spellLevel) * 2) + "d6";
 
                             if (spell.SpentActions == 1)
                             {
-                                _Damage = (2 + (spellLevel - 2)) + "d6";
+                                _Damage = spellLevel + "d6";
                             }
 
 
-                            await caster.Battle.SpawnOverairProjectileParticlesAsync(1, caster.Occupies, target.Occupies, Color.White, illustrationScorchingRay);
+                            await caster.Battle.SpawnOverairProjectileParticlesAsync(1, caster.Occupies, target.Occupies, Color.White, Spellillustration);
                             await CommonSpellEffects.DealAttackRollDamage(spell, caster, target, result, _Damage, DamageKind.Fire);
 
                         })).WithEffectOnChosenTargets(async (spell, caster, targets) =>
@@ -63,7 +63,14 @@ public class SpellScorchingRay
                         return ScorchingRaySpell;
 
                 
-        }));   
+        }
+    }
+    public static void LoadMod()
+    {
+        
+        
+        Id  = ModManager.RegisterNewSpell("ScorchingRay", 2, (spellId, spellcaster, spellLevel, inCombat) => MakeScorchingRaySpell(spellcaster,spellLevel,inCombat)
+        );   
         
 }
 }

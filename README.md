@@ -1,4 +1,4 @@
-## DawnniExpanded v1.2.0
+## DawnniExpanded v1.2.2
 This is a content expansion mod for the game Dawnsbury Days, it adds a random collection of items, spells and features that I felt a particular desire to add.
 
 If there's any problem with the mod, feel free to contact on Discord. @comradedanni.
@@ -8,10 +8,11 @@ If there's any problem with the mod, feel free to contact on Discord. @comradeda
 - 6 New Spells (Horizon Thunder Sphere, Animated Assault, Scorching Ray, False Life, Rousing Splash and Endure)
 - 3 New Feats (Dueling Parry, Battle Medicine and Powerful Leap)
 - 8 Archetype Dedication (Fighter, Ranger, Rogue, Barbarian, Monk, Medic, Sentinel and Duelist)
-- 8 Archetype Feats.
+- 13 Archetype Feats, including Basic feats to take feat from other classes.
 - 5 Mutagens (Energy, Drakeheart, Serene, Juggarnaut and Bestial) in both lesser and moderate versions.
 - Homebrew Staves of Spell Potency, 1 handed weapons which grant a bonus to spell attack rolls and DCs.
-- Heightened Scrolls up to 4th for any base game scroll which had a built in Heightened +1 effect.
+- Heightened Scrolls up to 4th for any base game scroll which had a built in Heightened +1 effect (And 3rd level Fear).
+- Heightened Scrolls up to 4th for any spell from this mod.
 
 Every new feature has been given the **DawnniEx** Trait and any feature that is not in the standard Pathfinder 2e rules has addtionally been marked with the **Homebrew** Trait.
 
@@ -24,7 +25,6 @@ To install DawnniExpanded:
 ## Differences from Tabletop
 - Leap Action only provokes at start of movement.
 - Endure lasts an entire encounter and has been reduced to 4 temp HP per spell level.
-- Rousing Splash does not reduce the DC with the check to remove Presistent Damage.
 - Serene Mutagen gives a flat damage reduction rather than scaling with number of damage dice.
 
 ## Thanks

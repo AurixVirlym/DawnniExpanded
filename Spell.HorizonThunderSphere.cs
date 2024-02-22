@@ -25,14 +25,12 @@ namespace Dawnsbury.Mods.DawnniExpanded;
 
 public class SpellHorizonThunderSphere
 {
-    public static void LoadMod()
-    {
-        ModdedIllustration illustrationHorizonThunderSphere = new ModdedIllustration("DawnniburyExpandedAssets/HorizonThunderSphere.png");
-        
-        
-        SpellId HorizonThunderSphereid  = ModManager.RegisterNewSpell("Horizon Thunder Sphere", 1, ((spellId, spellcaster, spellLevel, inCombat) =>
-        {
-            CombatAction HorizonThunderSphereSpell = Spells.CreateModern(illustrationHorizonThunderSphere,
+
+    public static ModdedIllustration SpellIllustration = new ModdedIllustration("DawnniburyExpandedAssets/HorizonThunderSphere.png");
+    public static SpellId Id;
+    public static CombatAction CombatAction(Creature spellcaster, int spellLevel, bool inCombat ){
+
+        CombatAction HorizonThunderSphereSpell = Spells.CreateModern(SpellIllustration,
                 "Horizon Thunder Sphere",
             new[] { Trait.Electricity, Trait.Attack, Trait.Evocation, Trait.Arcane, Trait.Primal, DawnniExpanded.DETrait },
                     "You gather magical energy into your palm, forming a concentrated ball of electricity that crackles and rumbles like impossibly distant thunder.",
@@ -40,7 +38,7 @@ public class SpellHorizonThunderSphere
                     +"\r\n\r\n{icon:TwoActions} This spell has a range of 30 feet."
                     +"\r\n{icon:ThreeActions} This spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target."
                     +"\r\n{b}Two Rounds{/b} If you spend 3 actions Casting the Spell, you can avoid finishing the spell and spend another 3 actions on your next turn to empower the spell even further. If you do, after attacking the target, whether you hit or miss, the ball of lightning explodes, dealing " + S.HeightenedVariable(spellLevel * 2, 2) + "d6 electricity damage to all other creatures in a 10-foot emanation around the target (basic Reflex save). Additionally, you spark with electricity for 1 minute, dealing "+S.HeightenedVariable(spellLevel * 1, 1) + " electricity damage to creatures that Grab you or that hit you with an unarmed Strike or a non-reach melee weapon."
-                    + S.HeightenText(spellLevel > 1, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1.")
+                    + HS.HeightenTextLevels(spellLevel > 1,spellLevel, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1.")
 
                     ,
                      new DependsOnActionsSpentTarget(
@@ -49,14 +47,14 @@ public class SpellHorizonThunderSphere
                     Target.Ranged(12),
                     Target.Self()
                     ),
-                        1,
+                        spellLevel,
                         null
                         ).WithActionCost(-5)
                         .WithCreateVariantDescription((int actionCost, SpellVariant _) => actionCost switch
                     {
-                        2 => "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 30 feet."+ S.HeightenText(spellLevel > 1, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1."),
-                        3 => "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target."+ S.HeightenText(spellLevel > 1, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1."),
-                        6 => "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target. You do not finishing the spell this turn and may spend another 3 actions on your next turn to empower the spell even further. If you do, after attacking the target, whether you hit or miss, the ball of lightning explodes, dealing " + S.HeightenedVariable(spellLevel * 2, 2) + "d6 electricity damage to all other creatures in a 10-foot emanation around the target (basic Reflex save). Additionally, you spark with electricity for 1 minute, dealing "+S.HeightenedVariable(spellLevel * 1, 1) + " electricity damage to creatures that Grab you or that hit you with an unarmed Strike or a non-reach melee weapon." + S.HeightenText(spellLevel > 1, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1."),
+                        2 => "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 30 feet."+ HS.HeightenTextLevels(spellLevel > 1,spellLevel,inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1."),
+                        3 => "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target."+ HS.HeightenTextLevels(spellLevel > 1,spellLevel, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1."),
+                        6 => "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target. You do not finishing the spell this turn and may spend another 3 actions on your next turn to empower the spell even further. If you do, after attacking the target, whether you hit or miss, the ball of lightning explodes, dealing " + S.HeightenedVariable(spellLevel * 2, 2) + "d6 electricity damage to all other creatures in a 10-foot emanation around the target (basic Reflex save). Additionally, you spark with electricity for 1 minute, dealing "+S.HeightenedVariable(spellLevel * 1, 1) + " electricity damage to creatures that Grab you or that hit you with an unarmed Strike or a non-reach melee weapon." + HS.HeightenTextLevels(spellLevel > 1,spellLevel, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1."),
                         _ => null,
                     })
                         .WithSoundEffect(SfxName.ElectricArc)
@@ -68,15 +66,15 @@ public class SpellHorizonThunderSphere
                             string HitDamage = 1+spellLevel * 2 + "d6";
                             string BurstDmage = (spellLevel * 2) + "d6";
 
-                            CombatAction HorizonThunderSphereSixAction = Spells.CreateModern(illustrationHorizonThunderSphere,
+                            CombatAction HorizonThunderSphereSixAction = Spells.CreateModern(SpellIllustration,
                             "Fully Charged Horizon Thunder Sphere",
                             new[] { Trait.Electricity, Trait.Attack, Trait.Evocation, Trait.Arcane, Trait.Primal, DawnniExpanded.DETrait },
                                 "You gather magical energy into your palm, forming a concentrated ball of electricity that crackles and rumbles like impossibly distant thunder.",
-                                "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target. You do not finishing the spell this turn and may spend another 3 actions on your next turn to empower the spell even further. If you do, after attacking the target, whether you hit or miss, the ball of lightning explodes, dealing " + S.HeightenedVariable(spellLevel * 2, 2) + "d6 electricity damage to all other creatures in a 10-foot emanation around the target (basic Reflex save). Additionally, you spark with electricity for 1 minute, dealing "+S.HeightenedVariable(spellLevel * 1, 1) + " electricity damage to creatures that Grab you or that hit you with an unarmed Strike or a non-reach melee weapon." + S.HeightenText(spellLevel > 1, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1.")
+                                "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target. You do not finishing the spell this turn and may spend another 3 actions on your next turn to empower the spell even further. If you do, after attacking the target, whether you hit or miss, the ball of lightning explodes, dealing " + S.HeightenedVariable(spellLevel * 2, 2) + "d6 electricity damage to all other creatures in a 10-foot emanation around the target (basic Reflex save). Additionally, you spark with electricity for 1 minute, dealing "+S.HeightenedVariable(spellLevel * 1, 1) + " electricity damage to creatures that Grab you or that hit you with an unarmed Strike or a non-reach melee weapon." + HS.HeightenTextLevels(spellLevel > 1,spellLevel, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1.")
                                 ,
                                 Target.Ranged(12)
                                 ,
-                                spell.SpellLevel,
+                                spellLevel,
                                 null
                                 ).WithActionCost(3)
                                 .WithSpellAttackRoll()
@@ -106,7 +104,7 @@ public class SpellHorizonThunderSphere
                               
                                
 
-                                await CommonAnimations.CreateConeAnimation(target1.Battle,target1.Occupies.ToCenterVector(),sphereEffect,25,ProjectileKind.Cone,illustrationHorizonThunderSphere);
+                                await CommonAnimations.CreateConeAnimation(target1.Battle,target1.Occupies.ToCenterVector(),sphereEffect,25,ProjectileKind.Cone,SpellIllustration);
 
 
                                 
@@ -119,7 +117,7 @@ public class SpellHorizonThunderSphere
                                 QEffect HorizonThunderSphereSparks = new QEffect("Horizon Thunder Sphere Sparks",
                                     "Deal " +spell.SpellLevel.ToString() + " electricity to foes grabbing or strking you with unarmed attacks",
                                     ExpirationCondition.Never,
-                                    spellcaster, illustrationHorizonThunderSphere){
+                                    spellcaster, SpellIllustration){
                                          AfterYouTakeDamage = (Delegates.AfterYouTakeDamage) (async (effect, amount, damageKind, combatAction, critical) =>
                                         {       
                                             CombatAction combatAction1 = combatAction;
@@ -150,11 +148,11 @@ public class SpellHorizonThunderSphere
 
                                 HorizonThunderSphereSixAction.Owner = spellcaster;
 
-                                CombatAction HorizonThunderSphereThreeAction = Spells.CreateModern(illustrationHorizonThunderSphere,
+                                CombatAction HorizonThunderSphereThreeAction = Spells.CreateModern(SpellIllustration,
                             "Three Action Horizon Thunder Sphere",
                             new[] { Trait.Electricity, Trait.Attack, Trait.Evocation, Trait.Arcane, Trait.Primal, DawnniExpanded.DETrait },
                                 "You gather magical energy into your palm, forming a concentrated ball of electricity that crackles and rumbles like impossibly distant thunder.",
-                                "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target."+ S.HeightenText(spellLevel > 1, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1.")
+                                "Make a ranged spell attack roll against your target's AC. On a success, you deal " + S.HeightenedVariable(1+spellLevel * 2, 3)  + "d6 electricity damage. On a critical success, the target takes double damage and is dazzled for 1 round."+"\r\n\r\nThis spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target."+ HS.HeightenTextLevels(spellLevel > 1,spellLevel, inCombat, "\n\n{b}Heightened (+1){/b} The initial damage on a hit, as well as the burst damage for two-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1.")
                                 ,
                                 Target.Ranged(12)
                                 ,
@@ -197,7 +195,7 @@ public class SpellHorizonThunderSphere
 
                                         DoNotShowUpOverhead = true,
                                         ProvideContextualAction = qfUserQEffect => {
-                                            SubmenuPossibility submenuPossibility = new SubmenuPossibility(illustrationHorizonThunderSphere,"Horizon Thunder Sphere");
+                                            SubmenuPossibility submenuPossibility = new SubmenuPossibility(SpellIllustration,"Horizon Thunder Sphere");
                                             PossibilitySection possibilitySection = new PossibilitySection("Horizon Thunder Sphere");
                                             possibilitySection.AddPossibility(new ActionPossibility(HorizonThunderSphereThreeAction));
                                             possibilitySection.AddPossibility(new ActionPossibility(HorizonThunderSphereSixAction));
@@ -240,7 +238,16 @@ public class SpellHorizonThunderSphere
                         return HorizonThunderSphereSpell;
 
                 
-        }));   
+        }
+    
+    public static void LoadMod()
+    {
+        
+        
+        
+        Id = ModManager.RegisterNewSpell("Horizon Thunder Sphere", 1, ((spellId, spellcaster, spellLevel, inCombat) => CombatAction(spellcaster,spellLevel,inCombat)
+        
+    ));   
         
 }
 }

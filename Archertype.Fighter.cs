@@ -13,6 +13,9 @@ using System;
 
 using Dawnsbury.Core.CharacterBuilder.FeatsDb;
 
+using System.Collections.Generic;
+
+
 
 
 namespace Dawnsbury.Mods.DawnniExpanded;
@@ -24,7 +27,8 @@ public static class ArchetypeFighter
     public static void LoadMod()
     
     {
- 
+
+  
         FighterArchetypeTrait = ModManager.RegisterTrait(
             "FighterArchetype",
             new TraitProperties("FighterArchetype", false, "", false)
@@ -42,6 +46,8 @@ public static class ArchetypeFighter
                 .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     
         {
+
+          sheet.AdditionalClassTraits.Add(Trait.Fighter);
 
           if (sheet.GetProficiency(Trait.Fighter) == Proficiency.Untrained){
             sheet.SetProficiency(Trait.Fighter,Proficiency.Trained);
@@ -110,9 +116,9 @@ public static class ArchetypeFighter
             ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 
                     4, 
                     "You are able to learn basic fighter maneuvers.", 
-                    "You gain a 1st- or 2nd-level fighter feat.\n\n{b}THIS DOES NOT CURRENTLY WORK.{/b}", 
+                    "You gain a 1st- or 2nd-level fighter feat.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,FighterArchetypeTrait})
-                    .WithCustomName("Basic Maneuver DOES NOT WORK")
+                    .WithCustomName("Basic Maneuver")
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FighterDedicationFeat),"You must have the feat Fighter Dedication feat.")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     
@@ -126,7 +132,10 @@ public static class ArchetypeFighter
                     (Feat ft) => {
                     if (ft.HasTrait(Trait.Fighter) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait)){
                     TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
-   
+                    if (FeatwithLevel == null)
+                    {
+                      return false;
+                    }
                     if (FeatwithLevel.Level <= 2){
                       return true;
                     }}

@@ -49,7 +49,8 @@ public static class ArchetypeDuelist
                         Name = "Dueling Parry Granter",
                         ProvideMainAction =(qfTechnical =>
                         {
-                         return new ActionPossibility
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+                            return new ActionPossibility
                       (new CombatAction(creature, new ModdedIllustration("DawnniburyExpandedAssets/DuelingParry.png"), "Dueling Parry", new Trait[] { Trait.Basic, DawnniExpanded.DETrait },
                                 "{b}Requirements{/b}You are wielding only a single one-handed melee weapon and have your other hand or hands free.\n\nYou gain a +2 circumstance bonus to AC until the start of your next turn as long as you continue to meet the requirements.",
                                     Target.Self()
@@ -108,6 +109,7 @@ public static class ArchetypeDuelist
                               caster.AddQEffect(DuellingParryEffect);
 
                             }));
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
                         }
                         )
 

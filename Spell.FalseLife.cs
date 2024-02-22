@@ -6,14 +6,13 @@ using Dawnsbury.Core.Mechanics.Targeting;
 using Dawnsbury.Display.Illustrations;
 using Dawnsbury.Modding;
 using Dawnsbury.Audio;
-using Dawnsbury.Core;
 using Dawnsbury.Core.Creatures;
 using Dawnsbury.Display.Text;
 using System;
 
 using Dawnsbury.Core.Mechanics.Core;
 using System.Linq;
-using Dawnsbury.Phases;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 
 
 
@@ -21,14 +20,16 @@ using Dawnsbury.Phases;
 namespace Dawnsbury.Mods.DawnniExpanded;
 
 public class SpellFalseLife{
-    
-    public static void LoadMod()
-    {
-        ModdedIllustration illustrationFalseLife= new ModdedIllustration("DawnniburyExpandedAssets/FalseLife.png");
-        
-        QEffect FalseLifeEffect = new QEffect()
+
+    public static ModdedIllustration SpellIllustration = new ModdedIllustration("DawnniburyExpandedAssets/FalseLife.png");
+
+    public static SpellId Id;
+    public static CombatAction CombatAction(Creature spellcaster, int spellLevel, bool inCombat ){
+
+
+         QEffect FalseLifeEffect = new QEffect()
                                 {
-                                    Illustration = illustrationFalseLife,
+                                    Illustration = SpellIllustration,
                                     ExpiresAt = ExpirationCondition.Never,
                                     Description = "You are have temporary Hit Points from False Life.",
                                     Name = "False Life - ",
@@ -53,21 +54,16 @@ public class SpellFalseLife{
                                     },
                                 
                                 };
-
-
-
-        ModManager.RegisterNewSpell("False Life", 1, (spellId, spellcaster, spellLevel, inCombat) =>
-        {
-    
-        CombatAction falseLife =  Spells.CreateModern(illustrationFalseLife, "False Life", new Trait[]
+        
+        CombatAction falseLife =  Spells.CreateModern(SpellIllustration, "False Life", new Trait[]
             {
                 Trait.Necromancy,
                 Trait.Arcane,
                 Trait.Occult
             }, "You ward yourself with shimmering magical energy.",
-                "You gain " + S.HeightenedVariable(6+(spellLevel-1)*3, 6)+ " + " + S.SpellcastingModifier(spellcaster) + " temporary Hit Points.\n\n{b}Special{/b} You can cast this spell as a free action at the beginning of the encounter if not casting from a scroll." + S.HeightenText(spellLevel > 1, inCombat, "{b}Heightened (+1){/b} The temporary Hit Points increase by 3.")
+                "You gain " + S.HeightenedVariable(6+(spellLevel-1)*3, 6)+ " + " + S.SpellcastingModifier(spellcaster) + " temporary Hit Points.\n\n{b}Special{/b} You can cast this spell as a free action at the beginning of the encounter if not casting from a scroll." + HS.HeightenTextLevels(spellLevel > 1,spellLevel, inCombat, "{b}Heightened (+1){/b} The temporary Hit Points increase by 3.")
                 ,Target.Self(),
-                1, 
+                spellLevel, 
                  null)
                 .WithSoundEffect(SfxName.Healing)
                 .WithActionCost(2)
@@ -114,7 +110,7 @@ public class SpellFalseLife{
                             {
                                 StartOfCombat = async delegate
                                 {
-                                    if (await self.Battle.AskForConfirmation(self, illustrationFalseLife, "Do you want to cast {i}false life level "+ falseLife.SpellLevel + " {/i} as a free action?", "Cast {i}false life{/i}"))
+                                    if (await self.Battle.AskForConfirmation(self, SpellIllustration, "Do you want to cast {i}false life level "+ falseLife.SpellLevel + " {/i} as a free action?", "Cast {i}false life{/i}"))
                                     {
                                         await self.Battle.GameLoop.FullCast(falseLife);
                                     }
@@ -126,8 +122,18 @@ public class SpellFalseLife{
                         
 
                     return falseLife;
-                    
-    });
+
+
+    }
+    
+    public static void LoadMod()
+    {
+        
+        
+
+
+
+        Id = ModManager.RegisterNewSpell("False Life", 1, (spellId, spellcaster, spellLevel, inCombat) =>CombatAction(spellcaster, spellLevel, inCombat));
         
     }
 }

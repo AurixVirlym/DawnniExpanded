@@ -39,9 +39,10 @@ public static class FeatArchetype
                     2, 
                     "Instead of a class feat, you gain an archetype dedication feat of your choice. You may have only one archetype.", 
                     "You gain an archetype dedication feat.", 
-                    new Trait[] { ArchetypeTrait, DedicationTrait, Trait.ClassFeat,Trait.Sorcerer,Trait.Rogue,Trait.Fighter,Trait.Wizard,Trait.Monk,Trait.Investigator,Trait.Cleric,Trait.Kineticist,Trait.Psychic,Trait.Barbarian,Trait.Magus,Trait.Rogue,Trait.Ranger,DawnniExpanded.DETrait})
+                    new Trait[] { ArchetypeTrait, DedicationTrait ,Trait.ClassFeat,Trait.Sorcerer,Trait.Rogue,Trait.Fighter,Trait.Wizard,Trait.Monk,Trait.Investigator,Trait.Cleric,Trait.Kineticist,Trait.Psychic,Trait.Barbarian,Trait.Magus,Trait.Rogue,Trait.Ranger,DawnniExpanded.DETrait})
                     .WithCustomName("Archetype Dedication")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+                    
                     
         {
             sheet.AddSelectionOption(

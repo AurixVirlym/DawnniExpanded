@@ -18,27 +18,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dawnsbury.Core.Intelligence;
-
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Display.Text;
+using System;
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 public class SpellAnimatedAssualt
 {
-    public static void LoadMod()
-    {
-        ModManager.RegisterNewSpell("AnimatedAssualt", 2, (spellId, spellcaster, spellLevel, inCombat) =>
-        {
-            return Spells.CreateModern(new ModdedIllustration("DawnniburyExpandedAssets/AnimatedAssault.png"), 
+     public static ModdedIllustration SpellIllustration = new ModdedIllustration("DawnniburyExpandedAssets/AnimatedAssault.png");
+    public static SpellId Id;
+    public static CombatAction CombatAction(Creature spellcaster, int spellLevel, bool inCombat ){
+
+        return Spells.CreateModern(SpellIllustration, 
                 "Animated Assualt",
             new[] { Trait.Evocation, Trait.Arcane, Trait.Occult, DawnniExpanded.DETrait }, 
                     "You use your mind to manipulate unattended objects in the area, temporarily animating them to attack.",
-                    "The objects hover in the air, then hurl themselves at nearby creatures in a chaotic flurry of debris. \n\nThis assault deals 2d10 bludgeoning damage to each creature in the area.\n\nOn subsequent rounds, the first time each round you Sustain this Spell, it deals 1d10 bludgeoning damage to each creature in the area.",
+                    "The objects hover in the air, then hurl themselves at nearby creatures in a chaotic flurry of debris. \n\nThis assault deals "+S.HeightenedVariable(spellLevel,2)+"d10 bludgeoning damage to each creature in the area.\n\nOn subsequent rounds, the first time each round you Sustain this Spell, it deals "+ S.HeightenedVariable((int) Math.Floor (spellLevel/2.0),1)+"d10 bludgeoning damage to each creature in the area."
+                    + HS.HeightenTextLevels(spellLevel > 2,spellLevel,inCombat,"{b}Heightened (+2){/b} The initial damage increases by 2d10 and the subsequent damage increases by 1d10."),
                     Target.Burst(24, 2),
-                        2, 
+                        spellLevel, 
                         SpellSavingThrow.Basic(Defense.Reflex)
                         ).WithActionCost(2).WithSoundEffect(SfxName.ElementalBlastWood)
                         .WithEffectOnEachTarget(async (spell, caster, target, result) =>
                         {
-                            await CommonSpellEffects.DealBasicDamage(spell, caster, target, result, ((spellLevel-1)*2)+"d10", DamageKind.Bludgeoning);
+                            await CommonSpellEffects.DealBasicDamage(spell, caster, target, result, (spellLevel)+"d10", DamageKind.Bludgeoning);
 
 
                         }).WithEffectOnChosenTargets(async (CombatAction spell, Creature creature, ChosenTargets chosenTargets) =>
@@ -79,12 +82,13 @@ public class SpellAnimatedAssualt
                 Trait.Concentrate,
                 Trait.SustainASpell,
                 Trait.Basic
-                  }, "The duration of " + spell.Name + " continues until the end of your next turn.", Target.Self((Creature self, AI ai) => 1.0737418E+09f)).WithEffectOnSelf(delegate
+                  }, "The duration of " + spell.Name + " continues until the end of your next turn.", Target.Self((Creature self, AI ai) => 1.0737418E+09f))
+                  .WithEffectOnSelf(async delegate (Creature creature)
                   {
                       qeffect.CannotExpireThisTurn = true;
                       foreach (TileQEffect tileQeffect in listOfDependentEffects.ToList<TileQEffect>())
                       {
-                          PerformSustainedAssaultAttack(tileQeffect.Owner.PrimaryOccupant);
+                          await PerformSustainedAssaultAttack(tileQeffect.Owner.PrimaryOccupant);
                       }
 
                   })) : null,
@@ -103,15 +107,23 @@ public class SpellAnimatedAssualt
 
               async Task PerformSustainedAssaultAttack(Creature defender)
               {
+                if (defender == null){return;}
+                int dmgdice = (int) Math.Floor (spell.SpellLevel/2.0);
                   CheckResult checkResult = CommonSpellEffects.RollSpellSavingThrow(defender, spell, Defense.Reflex);
-                  DiceFormula damage = Checks.ModifyDamageFromBasicSave(DiceFormula.FromText((spell.SpellLevel-1)+"d10", spell.Name), checkResult);
+                  DiceFormula damage = Checks.ModifyDamageFromBasicSave(DiceFormula.FromText(dmgdice +"d10", spell.Name), checkResult);
                   await creature.DealDirectDamage(spell, damage, defender, checkResult, DamageKind.Bludgeoning);
               }
           });
                     
-            });
             
+
     }
-}
-                
+
+    public static void LoadMod()
+    {
+      Id = ModManager.RegisterNewSpell("AnimatedAssualt", 2, (spellId, spellcaster, spellLevel, inCombat) => CombatAction(spellcaster, spellLevel, inCombat));
+       
+    }
+
+}      
                 

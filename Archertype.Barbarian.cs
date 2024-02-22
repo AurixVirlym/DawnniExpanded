@@ -112,6 +112,8 @@ public static class ArchetypeBarbarian
                     
         {
 
+          sheet.AdditionalClassTraits.Add(Trait.Barbarian);
+
           if (sheet.GetProficiency(Trait.Barbarian) == Proficiency.Untrained){
             sheet.SetProficiency(Trait.Barbarian,Proficiency.Trained);
           }
@@ -187,9 +189,9 @@ public static class ArchetypeBarbarian
             ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 
                     4, 
                     "You are able to learn basic furies.", 
-                    "You gain a 1st- or 2nd-level barbarian feat. \n\n{b}THIS DOES NOT CURRENTLY WORK.{/b}", 
+                    "You gain a 1st- or 2nd-level barbarian feat.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,BarbarianArchetypeTrait})
-                    .WithCustomName("Basic Fury DOES NOT WORK")
+                    .WithCustomName("Basic Fury")
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BarbarianDedicationFeat),"You must have the feat Barbarian Dedication feat.")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     

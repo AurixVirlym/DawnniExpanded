@@ -32,8 +32,11 @@ public class DawnniExpanded
         ItemStaffofSpellPotency.LoadMod();
         TraitMutagens.LoadMod();
         ItemMutagens.LoadMod();
-        GenerateHeightenedScrolls.LoadMod();
+        //FeatDuelingParry.LoadMod();
         FeatArchetype.LoadMod();
-        FeatDuelingParry.LoadMod();
+        SpellInspireCourage.LoadMod();
+        MonsterBadger.LoadMod();
+        SpellHeightenedFear.LoadMod();
+        GenerateHeightenedScrolls.LoadMod();
     }
 }

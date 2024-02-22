@@ -9,6 +9,7 @@ using Dawnsbury.Core;
 using Dawnsbury.Modding;
 using System.Collections.Generic;
 using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.Mechanics.Core;
 
 
 namespace Dawnsbury.Mods.DawnniExpanded;
@@ -44,10 +45,26 @@ public class GenerateHeightenedScrolls
     }
 
     
-    public static void MakeScrollAtLevel(Spell spell1, int scrolllevel){
+    public static void MakeScrollAtLevel(Spell spell1, int scrolllevel, bool ModdedSpell = false){
 
-        Spell spell2 = spell1.Duplicate(null, scrolllevel, inCombat: true);
-        spell2.CombatActionSpell.Description = spell2.CombatActionSpell.Description.Replace("Heightened to spell level 2.","Heightened to spell level "+scrolllevel+".");
+     
+
+      Spell spell2;
+      if (ModdedSpell == true){
+        spell2 = spell1;
+      } else {
+      spell2 = spell1.Duplicate(null, scrolllevel, inCombat: true);
+      }
+        
+        
+        if(scrolllevel == 3 && spell2.SpellId == SpellId.Fear){
+        CombatAction fearaction = SpellHeightenedFear.NewFear(null,3,false);
+        spell2.CombatActionSpell.Description = fearaction.Description;
+
+            } else if(ModdedSpell == false){
+            spell2 = spell1.Duplicate(null, scrolllevel, inCombat: true);
+            spell2.CombatActionSpell.Description = spell2.CombatActionSpell.Description.Replace("Heightened to spell level 2.","Heightened to spell level "+scrolllevel+".");
+            }
             string text = "";
                     
                     if (spell2.HasTrait(Trait.Arcane))
@@ -76,16 +93,20 @@ public class GenerateHeightenedScrolls
                     }
             
             String ScrollDescription = "Casts the spell {i}" + spell2.Name.ToLower() + "{/i} once, then disintegrates into dust. Only heroes capable of casting {b}" + text + "{/b} spells can activate this scroll.\n\n" + spell2.CombatActionSpell.Description;
-                
+            
+
+
             List<Trait> scrolltraits = new List<Trait>();
 
            
             scrolltraits.AddRange(spell2.Traits);
             scrolltraits.Add(Trait.Scroll);
             scrolltraits.Add(Trait.Consumable);
+            if (!scrolltraits.Contains(DawnniExpanded.DETrait)){
             scrolltraits.Add(DawnniExpanded.DETrait);
+            }
 
-            ModManager.RegisterNewItemIntoTheShop(spell2.Name.ToLower()+"H"+scrolllevel,itemName =>
+            ModManager.RegisterNewItemIntoTheShop(spell2.Name.ToLower()+"H"+spell2.SpellLevel,itemName =>
             new Item(
                 itemName,
                 (Illustration) IllustrationName.None,
@@ -122,6 +143,59 @@ public class GenerateHeightenedScrolls
         MakeScrollAtLevel(spell, 4);
         }
 
+        MakeScrollAtLevel(AllSpells.All.First(x => x.SpellId == SpellId.Fear),3);
+
+        CombatAction ModdedSpell = SpellScorchingRay.MakeScorchingRaySpell(null,3,true);
+        ModdedSpell.SpellId = SpellScorchingRay.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),3,true);
+
+        ModdedSpell = SpellScorchingRay.MakeScorchingRaySpell(null,4,true);
+        ModdedSpell.SpellId = SpellScorchingRay.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),4,true);
+
+        //thundersphere
+        ModdedSpell = SpellHorizonThunderSphere.CombatAction(null,2,true);
+        ModdedSpell.SpellId = SpellHorizonThunderSphere.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),2,true);
+
+        ModdedSpell = SpellHorizonThunderSphere.CombatAction(null,3,true);
+        ModdedSpell.SpellId = SpellHorizonThunderSphere.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),3,true);
+
+        ModdedSpell = SpellHorizonThunderSphere.CombatAction(null,4,true);
+        ModdedSpell.SpellId = SpellHorizonThunderSphere.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),4,true);
+
+        //False Life
+        ModdedSpell = SpellFalseLife.CombatAction(null,2,true);
+        ModdedSpell.SpellId = SpellFalseLife.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),2,true);
+
+        ModdedSpell = SpellFalseLife.CombatAction(null,3,true);
+        ModdedSpell.SpellId = SpellFalseLife.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),3,true);
+
+        ModdedSpell = SpellFalseLife.CombatAction(null,4,true);
+        ModdedSpell.SpellId = SpellFalseLife.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),4,true);
+        
+        //Endure
+        ModdedSpell = SpellEndure.CombatAction(null,2,true);
+        ModdedSpell.SpellId = SpellEndure.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),2,true);
+
+        ModdedSpell = SpellEndure.CombatAction(null,3,true);
+        ModdedSpell.SpellId = SpellEndure.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),3,true);
+
+        ModdedSpell = SpellEndure.CombatAction(null,4,true);
+        ModdedSpell.SpellId = SpellEndure.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),4,true);
+
+        //Animated Assult
+        ModdedSpell = SpellAnimatedAssualt.CombatAction(null,4,true);
+        ModdedSpell.SpellId = SpellAnimatedAssualt.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),4,true);
 
 }
 }

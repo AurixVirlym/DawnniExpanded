@@ -41,6 +41,8 @@ public static class ArchetypeMonk
                     
         {
           
+          sheet.AdditionalClassTraits.Add(Trait.Monk);
+
           if (sheet.GetProficiency(Trait.Monk) == Proficiency.Untrained){
             sheet.SetProficiency(Trait.Monk,Proficiency.Trained);
           }
@@ -102,9 +104,9 @@ public static class ArchetypeMonk
             ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 
                     4, 
                     "You are able to learn basic monk katas.", 
-                    "You gain a 1st- or 2nd-level monk feat. \n\n{b}THIS DOES NOT CURRENTLY WORK.{/b}", 
+                    "You gain a 1st- or 2nd-level monk feat.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,MonkArchetypeTrait})
-                    .WithCustomName("Basic Kata DOES NOT WORK")
+                    .WithCustomName("Basic Kata")
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MonkDedicationFeat),"You must have the feat Monk Dedication feat.")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     
