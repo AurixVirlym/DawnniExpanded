@@ -164,6 +164,5 @@ public static class ItemMutagenDrakeheart
             });
        
 
-        #pragma warning restore CS0618 // Type or member is obsolete
     }
 }
