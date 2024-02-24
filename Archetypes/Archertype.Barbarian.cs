@@ -204,7 +204,7 @@ public static class ArchetypeBarbarian
                     -1, 
                     (Feat ft) => {
                     if (ft.HasTrait(Trait.Barbarian) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait)){
-                    TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+                    TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName || feat.CustomName == ft.CustomName);
    
                     if (FeatwithLevel.Level <= 2){
                       return true;

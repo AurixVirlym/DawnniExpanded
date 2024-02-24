@@ -120,8 +120,5 @@ public static class ItemMutagenJuggernaut
             
             );
           
-       
-
-        #pragma warning restore CS0618 // Type or member is obsolete
     }
 }

@@ -37,7 +37,7 @@ public static class ArchetypeDuelist
                 .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.LightArmor) >= Proficiency.Trained && values.GetProficiency(Trait.Simple) >= Proficiency.Trained,"You must be rained in light armor and simple weapons.")
                 .WithOnSheet(sheet => sheet.GrantFeat(FeatName.QuickDraw));
 
-        Feat DuelingParryFeat = new TrueFeat(FeatName.CustomFeat, 
+        DuelingParryFeat = new TrueFeat(FeatName.CustomFeat, 
                 4, 
                 "You can parry attacks against you with your one-handed weapon", 
                 "{b}Requirements{/b}You are wielding only a single one-handed melee weapon and have your other hand or hands free.\n\nYou gain a +2 circumstance bonus to AC until the start of your next turn as long as you continue to meet the requirements.", 

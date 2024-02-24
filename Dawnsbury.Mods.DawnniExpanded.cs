@@ -51,7 +51,7 @@ public class DawnniExpanded
 
         //ArchetypeBard.LoadMod();
         GenerateHeightenedScrolls.LoadMod();
-        CombatSpecialEffects.LoadMod();
+        //CombatSpecialEffects.LoadMod();
         Bard.LoadMod();
     }
 }

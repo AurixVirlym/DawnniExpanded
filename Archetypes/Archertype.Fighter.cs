@@ -130,12 +130,11 @@ public static class ArchetypeFighter
                     "Basic Maneuver feat", 
                     -1, 
                     (Feat ft) => {
-                    if (ft.HasTrait(Trait.Fighter) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait)){
-                    TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
-                    if (FeatwithLevel == null)
-                    {
-                      return false;
-                    }
+
+
+                    if (ft.HasTrait(Trait.Fighter) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait) && ft is TrueFeat){
+                    TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName || feat.CustomName == ft.CustomName);
+
                     if (FeatwithLevel.Level <= 2){
                       return true;
                     }}

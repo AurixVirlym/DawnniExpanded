@@ -22,11 +22,11 @@ public static class FeatDuelingParry
     public static void LoadMod()
     
     {
-    Feat FeatDuelingParryFighter = new TrueFeat(FeatName.CustomFeat, 
+    FeatDuelingParryFighter = new TrueFeat(FeatName.CustomFeat, 
                 2, 
                 "You can parry attacks against you with your one-handed weapon", 
                 "{b}Requirements{/b}You are wielding only a single one-handed melee weapon and have your other hand or hands free.\n\nYou gain a +2 circumstance bonus to AC until the start of your next turn as long as you continue to meet the requirements.", 
-                new Trait[] {Trait.Fighter,Trait.ClassFeat,DawnniExpanded.DETrait})
+                new Trait[] {Trait.Fighter,DawnniExpanded.DETrait})
                 .WithOnCreature((sheet, creature) =>
       {
 

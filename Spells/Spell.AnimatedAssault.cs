@@ -112,14 +112,6 @@ public class SpellAnimatedAssualt
               creature.AddQEffect(qeffect);
               creature.AddQEffect(qEffect);
 
-              async Task PerformSustainedAssaultAttack(Creature defender)
-              {
-                if (defender == null){return;}
-                int dmgdice = (int) Math.Floor (spell.SpellLevel/2.0);
-                  CheckResult checkResult = CommonSpellEffects.RollSpellSavingThrow(defender, spell, Defense.Reflex);
-                  DiceFormula damage = Checks.ModifyDamageFromBasicSave(DiceFormula.FromText(dmgdice +"d10", spell.Name), checkResult);
-                  await CommonSpellEffects.DealBasicDamage(spell, spell.Owner, defender, checkResult, DiceFormula.FromText(dmgdice +"d10", spell.Name), DamageKind.Bludgeoning);
-              }
           });
                     
             
