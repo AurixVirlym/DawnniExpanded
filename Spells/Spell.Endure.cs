@@ -16,12 +16,12 @@ namespace Dawnsbury.Mods.DawnniExpanded;
 public class SpellEndure{
 
 
-    public static ModdedIllustration SpellIllustration = new ModdedIllustration("DawnniburyExpandedAssets/FalseLife.png");
+    public static ModdedIllustration SpellIllustration = new ModdedIllustration("DawnniburyExpandedAssets/Endure.png");
 
     public static SpellId Id;
     public static CombatAction CombatAction(Creature spellcaster, int spellLevel, bool inCombat ){
 
-    return  Spells.CreateModern(new ModdedIllustration("DawnniburyExpandedAssets/Endure.png"), 
+    return  Spells.CreateModern(SpellIllustration, 
                 "Endure",
             new[] { Trait.Arcane, Trait.Occult, Trait.Enchantment, Trait.Mental, Trait.DoesNotProvoke, DawnniExpanded.DETrait }, 
                     "You invigorate the touched creature's mind and urge it to press on.",

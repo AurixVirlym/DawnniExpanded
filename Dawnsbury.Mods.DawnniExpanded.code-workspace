@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Decomplie"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "Dawnsbury.Mods.DawnniExpanded"
+	}
+}

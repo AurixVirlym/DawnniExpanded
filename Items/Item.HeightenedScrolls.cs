@@ -197,5 +197,14 @@ public class GenerateHeightenedScrolls
         ModdedSpell.SpellId = SpellAnimatedAssualt.Id;
         MakeScrollAtLevel(new Spell(ModdedSpell),4,true);
 
+        //sudden bolt
+        ModdedSpell = SpellSuddenBolt.CombatAction(null,3,true);
+        ModdedSpell.SpellId = SpellSuddenBolt.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),3,true);
+
+        ModdedSpell = SpellSuddenBolt.CombatAction(null,4,true);
+        ModdedSpell.SpellId = SpellSuddenBolt.Id;
+        MakeScrollAtLevel(new Spell(ModdedSpell),4,true);
+
 }
 }

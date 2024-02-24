@@ -101,9 +101,6 @@ public class SpellHorizonThunderSphere
                                 {
                                 sphereEffect.Add(item.Tile);
                                 }
-                              
-                               
-
                                 await CommonAnimations.CreateConeAnimation(target1.Battle,target1.Occupies.ToCenterVector(),sphereEffect,25,ProjectileKind.Cone,SpellIllustration);
 
 

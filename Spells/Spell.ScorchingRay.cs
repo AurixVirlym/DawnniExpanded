@@ -12,6 +12,7 @@ using Dawnsbury.Core.CombatActions;
 using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.Mechanics.Treasure;
 using Dawnsbury.Core.Creatures;
+using System.Runtime.Serialization.Formatters;
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 
@@ -38,6 +39,7 @@ public class SpellScorchingRay
                         spellLevel,
                         null
                         ).WithActionCost(-1)
+                        .WithGoodnessAgainstEnemy(((Target t, Creature a, Creature d) => (float) t.OwnerAction.ActionCost >= 2 ? t.OwnerAction.SpellLevel * 2 * 3.5f : t.OwnerAction.SpellLevel * 3.5f ))
                         .WithSpellAttackRoll()
                         .WithSoundEffect(SfxName.FireRay)
                         .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>

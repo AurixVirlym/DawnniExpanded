@@ -88,7 +88,14 @@ public class SpellAnimatedAssualt
                       qeffect.CannotExpireThisTurn = true;
                       foreach (TileQEffect tileQeffect in listOfDependentEffects.ToList<TileQEffect>())
                       {
-                          await PerformSustainedAssaultAttack(tileQeffect.Owner.PrimaryOccupant);
+                        
+                           if (tileQeffect.Owner.PrimaryOccupant != null){
+                            Creature defender = tileQeffect.Owner.PrimaryOccupant;
+                        int dmgdice = (int) Math.Floor (spell.SpellLevel/2.0);
+                        CheckResult checkResult = CommonSpellEffects.RollSpellSavingThrow(defender, spell, Defense.Reflex);
+                        DiceFormula damage = Checks.ModifyDamageFromBasicSave(DiceFormula.FromText(dmgdice +"d10", spell.Name), checkResult);
+                        await creature.DealDirectDamage(spell, damage, defender, checkResult, DamageKind.Bludgeoning);
+                           }
                       }
 
                   })) : null,
@@ -111,7 +118,7 @@ public class SpellAnimatedAssualt
                 int dmgdice = (int) Math.Floor (spell.SpellLevel/2.0);
                   CheckResult checkResult = CommonSpellEffects.RollSpellSavingThrow(defender, spell, Defense.Reflex);
                   DiceFormula damage = Checks.ModifyDamageFromBasicSave(DiceFormula.FromText(dmgdice +"d10", spell.Name), checkResult);
-                  await creature.DealDirectDamage(spell, damage, defender, checkResult, DamageKind.Bludgeoning);
+                  await CommonSpellEffects.DealBasicDamage(spell, spell.Owner, defender, checkResult, DiceFormula.FromText(dmgdice +"d10", spell.Name), DamageKind.Bludgeoning);
               }
           });
                     

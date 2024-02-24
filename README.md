@@ -5,16 +5,22 @@ If there's any problem with the mod, feel free to contact on Discord. @comradeda
 
 ## It currently includes:
 - A universal Leap action for characters.
+<<<<<<< HEAD
 - 6 New Spells (Horizon Thunder Sphere, Animated Assault, Scorching Ray, False Life, Rousing Splash and Endure)
 - 3 New Feats (Dueling Parry, Battle Medicine and Powerful Leap)
 - 8 Archetype Dedication (Fighter, Ranger, Rogue, Barbarian, Monk, Medic, Sentinel and Duelist)
 - 13 Archetype Feats, including Basic feats to take feat from other classes.
 - 5 Mutagens (Energy, Drakeheart, Serene, Juggarnaut and Bestial) in both lesser and moderate versions.
+=======
+- 5 New Spells (Animated Assault, Scorching Ray, False Life, Rousing Splash and Endure)
+- 2 New Feats (Battle Medicine and Powerful Leap)
+- 5 Mutagens (Energy, Drakeheart, Serene, Juggernaut and Bestial) in both lesser and moderate versions.
+>>>>>>> main
 - Homebrew Staves of Spell Potency, 1 handed weapons which grant a bonus to spell attack rolls and DCs.
 - Heightened Scrolls up to 4th for any base game scroll which had a built in Heightened +1 effect (And 3rd level Fear).
 - Heightened Scrolls up to 4th for any spell from this mod.
 
-Every new feature has been given the **DawnniEx** Trait and any feature that is not in the standard Pathfinder 2e rules has addtionally been marked with the **Homebrew** Trait.
+Every new feature has been given the **DawnniEx** Trait and any feature that is not in the standard Pathfinder 2e rules has additionally been marked with the **Homebrew** Trait.
 
 ## Installation
 To install DawnniExpanded:

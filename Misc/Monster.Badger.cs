@@ -31,6 +31,7 @@ using Dawnsbury.Core.Mechanics.Targeting.Targets;
 using Dawnsbury.Core.Mechanics.Treasure;
 using Dawnsbury.Core.Tiles;
 using Dawnsbury.Display.Text;
+
 using Dawnsbury.IO;
 using Microsoft.Xna.Framework;
 using System.Reflection;
@@ -41,6 +42,49 @@ namespace Dawnsbury.Mods.DawnniExpanded
 {
     public class MonsterBadger
     {
+
+      public static Trait PushTrait = ModManager.RegisterTrait(
+            "Push",
+            new TraitProperties("Push", false, "", true)
+            {
+            });
+
+      public static QEffect MonsterPush()
+    {
+        return new QEffect("Push", "When your Strike hits, you can spend an action to push a target 5ft without making a check.", ExpirationCondition.Never, null, IllustrationName.None)
+        {
+            Innate = true,
+            ProvideMainAction = delegate (QEffect qfPush)
+            {
+                Creature zombie = qfPush.Owner;
+                IEnumerable<Creature> source = from cr in zombie.Battle.AllCreatures.Where(delegate (Creature cr)
+                    {
+                        CombatAction combatAction = zombie.Actions.ActionHistoryThisTurn.LastOrDefault();
+                        return combatAction != null && combatAction.CheckResult >= CheckResult.Success && combatAction.HasTrait(PushTrait) && combatAction.ChosenTargets.ChosenCreature == cr;
+                    })
+                                               select cr;
+                return new SubmenuPossibility(IllustrationName.GenericCombatManeuver, "Push")
+                {
+                    Subsections =
+                    {
+                        new PossibilitySection("Push")
+                        {
+                            Possibilities = source.Select((Func<Creature, Possibility>)((Creature lt) => 
+                            new ActionPossibility(new CombatAction(zombie, IllustrationName.GenericCombatManeuver, "Push " + lt.Name,
+                             new Trait[1] { Trait.Melee },
+                              "Push the target.", Target.Melee((Target t, Creature a, Creature d) => (!d.HasEffect(QEffectId.Unconscious)) && !d.IsFlatFootedTo(a,t.OwnerAction) && a.Actions.ActionsLeft == 1 ? 1.0737418E+09f : (-2.1474836E+09f))
+                              .WithAdditionalConditionOnTargetCreature((Creature a, Creature d) => (d != lt) ? Usability.CommonReasons.TargetIsNotPossibleForComplexReason : Usability.Usable)).
+                              WithEffectOnEachTarget(async delegate(CombatAction ca, Creature a, Creature d, CheckResult cr)
+                            {
+                              
+                              await a.PushCreature(d,1);
+                            })))).ToList()
+                        }
+                    }
+                };
+            }
+        };
+    }
         
     public static Creature CreateSmallBadger(){
     Creature SmallBadger =  new Creature(new ModdedIllustration("DawnniburyExpandedAssets/SmallBadger.png"),
@@ -67,6 +111,96 @@ namespace Dawnsbury.Mods.DawnniExpanded
            return CreateSmallBadger();
                 
         });
+
+          ModManager.RegisterNewCreature("Mountain Goat", (encounter) => {
+
+         Creature MountainGoat = new Creature(new ModdedIllustration("DawnniburyExpandedAssets/MountainGoat.png"),
+                    "Mountain Goat",
+                    new List<Trait> { Trait.Animal, Trait.Neutral },
+                    0, 6, 4,
+                    new Defenses(14, 7, 4, 4),
+                    16,
+                    new Abilities(3, 2, 3, -4, 2, 0),
+                    new Skills(athletics: 7, acrobatics: 4))
+                .WithProficiency(Trait.Unarmed, Proficiency.Trained)
+                .WithUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.Jaws, "horn", "1d4", DamageKind.Bludgeoning, PushTrait))
+                .AddQEffect(MonsterPush())
+                .WithTactics(Tactic.Mindless);
+
+            return MountainGoat;
+
+            });
+
+            ModManager.RegisterNewCreature("Guard Dog", (encounter) => {
+
+         Creature GuardDog = new Creature(IllustrationName.Wolf256,
+                    "Guard Dog",
+                    new List<Trait> { Trait.Animal, Trait.Neutral, Trait.Small },
+                    -1, 6, 6,
+                    new Defenses(15, 5, 7, 4),
+                    8,
+                    new Abilities(1, 2, 2, -4, 1, -1),
+                    new Skills(athletics: 5, acrobatics: 4, stealth:5, survival:4))
+                .WithProficiency(Trait.Unarmed, Proficiency.Master)
+                .WithUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.Jaws, "jaws", "1d4", DamageKind.Piercing))
+                .WithTactics(Tactic.PackAttack)
+                .AddQEffect( new QEffect("Pack Attack", "This dog deals " + "1d4" + " extra damage to creatures within reach of at least two of the dogs's alies.")
+      {
+        YouDealDamageWithStrike =  ((QEffect qEffect, CombatAction yourStrike, DiceFormula diceFormula, Creature target) => target.Occupies.Neighbours.Creatures.Count<Creature>((Func<Creature, bool>) (cr => cr.FriendOf(qEffect.Owner))) >= 3 ? diceFormula.Add(DiceFormula.FromText("1d4", "Pack Attack")) : diceFormula)
+      });
+                
+
+            return GuardDog;
+
+            });
+
+        ModManager.RegisterNewCreature("Ball Python", (encounter) => {
+
+         Creature BallPython = new Creature(new ModdedIllustration("DawnniburyExpandedAssets/HugSnake.png"),
+                    "Ball Python",
+                    new List<Trait> { Trait.Animal, Trait.Neutral },
+                    1, 4, 7,
+                    new Defenses(16, 8, 10, 4),
+                    20,
+                    new Abilities(3, 3, 3, -4, 1, -2),
+                    new Skills(athletics: 6, acrobatics: 6, stealth:6, survival:4))
+                .WithProficiency(Trait.Unarmed, Proficiency.Expert)
+                 .WithUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.Jaws, "jaws", "1d8", DamageKind.Piercing, Trait.Grab))
+                .AddQEffect(QEffect.MonsterGrab())
+                .AddQEffect(QEffect.Constrict("1d8", 17))
+                .WithTactics(Tactic.Mindless);
+
+            return BallPython;
+
+            });
+        
+        ModManager.RegisterNewCreature("Commoner", (encounter) => {
+
+         Creature Commoner = new Creature(new ModdedIllustration("DawnniburyExpandedAssets/Commoner.png"),
+                    "Commoner",
+                    new List<Trait> { Trait.Human, Trait.Good, Trait.Humanoid },
+                    -1, 3, 5,
+                    new Defenses(13, 6, 3, 3),
+                    10,
+                    new Abilities(3, 1, 2, 0, 1, 0),
+                    new Skills(athletics: 5)){
+                      SpawnAsFriends = true
+                    }
+                .WithProficiency(Trait.Unarmed, (Proficiency) 3)
+                .WithUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.Jaws, "fist", "1d4", DamageKind.Bludgeoning, Trait.Agile))
+                .AddHeldItem(Items.CreateNew(ItemName.Sickle))
+                .AddQEffect(QEffect.Civilian())
+                .WithTactics(Tactic.Standard)
+                .WithProficiency(Trait.Weapon, (Proficiency) 3)
+                .WithEntersInitiativeOrder(true);
+                
+                
+
+            return Commoner;
+
+            });
+              
+    
 
          ModManager.RegisterNewCreature("Giant Badger", (encounter) =>
         {
@@ -185,7 +319,7 @@ public static Creature GenerateSatyr()
         SpellId.TouchOfIdiocy,
         SpellId.Fear,
         SpellId.HideousLaughter,
-        SpellInspireCourage.spellId,
+        SpellInspireCourage.Id,
       },
       0,new SpellId[0],
       1,new SpellId[1]{SpellId.Fear}

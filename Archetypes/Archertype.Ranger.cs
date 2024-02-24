@@ -35,7 +35,7 @@ public static class ArchetypeRanger
         RangerDedicationFeat = new TrueFeat(FeatName.CustomFeat, 
                 2, 
                 "You have studied hunting, tracking, and wilderness survival, adding a ranger’s tools to your skill set.", 
-                "You become trained in Survival. (Not implemented in Dawnsbury Days)\n\nif you were already trained in Survival, you instead become trained in another skill of your choice.\n\nYou become trained in Ranger class DC.\n\nYou can use the Hunt Prey action.", 
+                "You become trained in Survival.\n\nif you were already trained in Survival, you instead become trained in another skill of your choice.\n\nYou become trained in Ranger class DC.\n\nYou can use the Hunt Prey action.", 
                 new Trait[] {FeatArchetype.DedicationTrait,FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,RangerArchetypeTrait})
                 .WithCustomName("Ranger Dedication")
                 .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Dexterity) >=14, "You must have at least 14 Dexterity.")
@@ -49,6 +49,9 @@ public static class ArchetypeRanger
             sheet.SetProficiency(Trait.Ranger,Proficiency.Trained);
           }
 
+          if (sheet.GetProficiency(Trait.Survival) == Proficiency.Untrained){
+            sheet.AddFeat(NewSkills.Survival,null);
+          } else {
           
             sheet.AddSelectionOption(
                 new SingleFeatSelectionOption(
@@ -58,6 +61,7 @@ public static class ArchetypeRanger
                     (ft) => ft is SkillSelectionFeat)
                     
                     );
+          }
           
 
 

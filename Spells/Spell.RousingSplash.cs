@@ -48,7 +48,7 @@ public class SpellRousingSplash{
         ActionId RousingSplashActionID = ModManager.RegisterEnumMember<ActionId>("RousingSplashActionID");
         QEffectId RousingSplashEffectID = ModManager.RegisterEnumMember<QEffectId>("RousingSplashQEffectID");
 
-        ModManager.RegisterNewSpell("Rousing Splash", 1, (spellId, spellcaster, spellLevel, inCombat) =>
+        ModManager.RegisterNewSpell("Rousing Splash", 0, (spellId, spellcaster, spellLevel, inCombat) =>
         {
             return Spells.CreateModern(SpellIllustration, 
                 "Rousing Splash",
@@ -57,7 +57,7 @@ public class SpellRousingSplash{
                     "The target gains "+ S.HeightenedVariable(spellLevel * 1, 1) + "d4 temporary Hit Points. The target is then temporarily immune to the temporary Hit Points from rousing splash for rest of the encounter.\n\nThe target can also attempt an immediate flat check to recover from a single source of persistent acid or fire damage, with the DC reduction to DC10 from appropriate assistance." + S.HeightenText(spellLevel > 1, inCombat, "\n\n{b}Heightened (+1){/b} The negative damage to living creatures increases by 1d4."),
     
                     Target.RangedFriend(12),
-                        1, 
+                        spellLevel, 
                         null
                         ).WithActionCost(2)
                         .WithActionId(RousingSplashActionID)

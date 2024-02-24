@@ -19,24 +19,39 @@ public class DawnniExpanded
             new TraitProperties("Homebrew", true)
             );
 
+            
 
+        NewSkills.LoadMod();
+        
         SpellHorizonThunderSphere.LoadMod();
         SpellAnimatedAssualt.LoadMod();
         SpellScorchingRay.LoadMod();
         SpellEndure.LoadMod();
         SpellFalseLife.LoadMod();
         SpellRousingSplash.LoadMod();
+        SpellSuddenBolt.LoadMod();
+        SpellCounterPerformance.LoadMod();
+        SpellHymnOfHealing.LoadMod();
+        SpellTripleTime.LoadMod();
+        SpellInspireCourage.LoadMod();
+        SpellHeightenedFear.LoadMod();
+
         FeatBattleMedicine.LoadMod();
         FeatPowerfulLeap.LoadMod();
+
         ActionLeap.LoadMod();
+
         ItemStaffofSpellPotency.LoadMod();
         TraitMutagens.LoadMod();
         ItemMutagens.LoadMod();
         //FeatDuelingParry.LoadMod();
+
         FeatArchetype.LoadMod();
-        SpellInspireCourage.LoadMod();
         MonsterBadger.LoadMod();
-        SpellHeightenedFear.LoadMod();
+
+        //ArchetypeBard.LoadMod();
         GenerateHeightenedScrolls.LoadMod();
+        CombatSpecialEffects.LoadMod();
+        Bard.LoadMod();
     }
 }

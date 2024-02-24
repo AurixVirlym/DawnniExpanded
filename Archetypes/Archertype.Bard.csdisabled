@@ -1,0 +1,161 @@
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Modding;
+using Dawnsbury.Core.CharacterBuilder.Feats;
+using Dawnsbury.Core.CharacterBuilder;
+using Dawnsbury.Core.Creatures;
+using Dawnsbury.Core.CharacterBuilder.Selections.Options;
+using System.Linq;
+using Dawnsbury.Core.Mechanics;
+using System;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.Creatures.Parts;
+using Dawnsbury.Core.CharacterBuilder.AbilityScores;
+using Dawnsbury.Core.CharacterBuilder.Feats;
+using Dawnsbury.Core.CharacterBuilder.Selections.Options;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.Mechanics;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Display.Text;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Dawnsbury.Modding;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Core.Mechanics.Targeting.TargetingRequirements;
+using Dawnsbury.Core.Mechanics.Targeting.Targets;
+
+
+
+
+
+namespace Dawnsbury.Mods.DawnniExpanded;
+public static class ArchetypeBard
+{
+
+    public static Feat BardDedicationFeat;
+    public static Trait BardArchetypeTrait;
+    public static void LoadMod()
+    
+    {
+ 
+        BardArchetypeTrait = ModManager.RegisterTrait(
+            "BardArchetype",
+            new TraitProperties("BardArchetype", false, "", false)
+            {
+            });
+
+        BardDedicationFeat = new TrueFeat(FeatName.CustomFeat, 
+                2, 
+                "A muse has called you to dabble in occult lore, allowing you to cast a few spells. The deeper you delve, the more powerful your performances become.", 
+                "You become trained in unarmed attacks and gain the powerful fist class feature.\n\nIf you are already trained in both of these skills, you instead become trained in a skill of your choice.\n\nYou become trained in bard class DC.", 
+                new Trait[] {FeatArchetype.DedicationTrait,FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,BardArchetypeTrait})
+                .WithCustomName("Bard Dedication")
+                .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Charisma) >=14 , "You must have at least 14 Charizzma")
+                .WithPrerequisite(values => values.Sheet.Class.ClassTrait != Trait.Bard, "You already have this archetype as a main class.")
+                .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+                    
+        {
+
+        Trait spellList = Trait.Occult;
+        sheet.SpellTraditionsKnown.Add(spellList);
+        sheet.SpellRepertoires.Add(Trait.Bard, new SpellRepertoire(Ability.Charisma, spellList));
+        sheet.AddSelectionOption((SelectionOption) new AddToSpellRepertoireOption("BardCantrips", "Cantrips", 2, Trait.Bard, spellList, 0, 2));
+          
+          sheet.AdditionalClassTraits.Add(Trait.Bard);
+
+          if (sheet.GetProficiency(Trait.Bard) == Proficiency.Untrained){
+            sheet.SetProficiency(Trait.Bard,Proficiency.Trained);
+          }
+
+          if (sheet.GetProficiency(Trait.Spell) == Proficiency.Untrained){
+            sheet.SetProficiency(Trait.Spell,Proficiency.Trained);
+          }
+
+           if (sheet.GetProficiency(Trait.Occultism) == Proficiency.Untrained && sheet.GetProficiency(Trait.Performance) == Proficiency.Untrained )
+            {
+            sheet.AddSelectionOption(
+                new MultipleFeatSelectionOption(
+                    "Bard Dedication Skill", 
+                    "Bard Dedication skill", 
+                    -1, 
+                    (ft) => ft.FeatName == FeatName.Occultism || ft.CustomName == "Performance"
+                    ,2)
+                    );
+          } else if (sheet.GetProficiency(Trait.Occultism) == Proficiency.Untrained || sheet.GetProficiency(Trait.Performance) == Proficiency.Untrained ){
+            sheet.AddSelectionOption(
+                new SingleFeatSelectionOption(
+                    "Bard Dedication Skill", 
+                    "Bard Dedication skill", 
+                    -1, 
+                    (ft) => ft.FeatName == FeatName.Occultism || ft.CustomName == "Performance")
+                    
+                    );
+                sheet.AddSelectionOption(
+                new SingleFeatSelectionOption(
+                    "Bard Dedication Skill2", 
+                    "Bard Dedication skill", 
+                    -1, 
+                    (ft) => ft is SkillSelectionFeat)
+                    
+                    );
+          } else  {
+            sheet.AddSelectionOption(
+                new MultipleFeatSelectionOption(
+                    "Bard Dedication Skill", 
+                    "Bard Dedication skill", 
+                    -1, 
+                    (ft) => ft is SkillSelectionFeat
+                    ,2)
+                    );
+          }
+      
+          
+        });
+        
+
+          
+            
+            ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 
+                    4, 
+                    "You are able to hear basic Muse's Whispers.", 
+                    "You gain a 1st- or 2nd-level bard feat.", 
+                    new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,BardArchetypeTrait})
+                    .WithCustomName("Basic Muse's Whispers.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BardDedicationFeat),"You must have the feat Bard Dedication feat.")
+                    .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+                    
+        {
+          
+            sheet.AddSelectionOption(
+                new SingleFeatSelectionOption(
+                    "Basic Muse's Whispers", 
+                    "Basic Muse's Whispers feat", 
+                    -1, 
+                    (Feat ft) => {
+                    if (ft.HasTrait(Trait.Bard) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait)){
+                    TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName || feat.CustomName == ft.CustomName);
+   
+                    if (FeatwithLevel.Level <= 2){
+                      return true;
+                    }}
+                    return false;
+                    })
+                    );
+              })
+            
+            );
+                    
+        
+          
+       
+        
+        
+        
+        ModManager.AddFeat(BardDedicationFeat);
+    }
+}
