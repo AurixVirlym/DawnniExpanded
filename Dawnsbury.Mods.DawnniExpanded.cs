@@ -44,7 +44,7 @@ public class DawnniExpanded
         ItemStaffofSpellPotency.LoadMod();
         TraitMutagens.LoadMod();
         ItemMutagens.LoadMod();
-        //FeatDuelingParry.LoadMod();
+        FeatDuelingParry.LoadMod();
 
         FeatArchetype.LoadMod();
         MonsterBadger.LoadMod();
