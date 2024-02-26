@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../Decomplie"
+		},
+		{
+			"path": "../Dawnsbury.Mods.FreeArchetype"
 		}
 	],
 	"settings": {

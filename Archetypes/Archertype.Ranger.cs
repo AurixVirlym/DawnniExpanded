@@ -77,7 +77,7 @@ public static class ArchetypeRanger
                     "You gain a 1st- or 2nd-level ranger feat.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,RangerArchetypeTrait})
                     .WithCustomName("Basic Hunter's Trick")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RangerDedicationFeat),"You must have the feat Ranger Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RangerDedicationFeat),"You must have the Ranger Dedication feat.")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     
         {
@@ -119,7 +119,7 @@ public static class ArchetypeRanger
                     "You gain 3 additional Hit Points for each ranger archetype class feat you have.\n\nAs you continue selecting ranger archetype class feats, you continue to gain additional Hit Points in this way.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,RangerArchetypeTrait})
                     .WithCustomName("Ranger Resiliency")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RangerDedicationFeat),"You must have the feat Ranger Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RangerDedicationFeat),"You must have the Ranger Dedication feat.")
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => 
                     values.Sheet.Class.ClassTrait != Trait.Monk &&
                     values.Sheet.Class.ClassTrait != Trait.Barbarian &&

@@ -99,7 +99,7 @@ public static class ArchetypeFighter
                     "You gain 3 additional Hit Points for each fighter archetype class feat you have.\n\nAs you continue selecting fighter archetype class feats, you continue to gain additional Hit Points in this way.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,FighterArchetypeTrait})
                     .WithCustomName("Fighter Resiliency")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FighterDedicationFeat),"You must have the feat Fighter Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FighterDedicationFeat),"You must have the Fighter Dedication feat.")
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => 
                     values.Sheet.Class.ClassTrait != Trait.Ranger &&
                     values.Sheet.Class.ClassTrait != Trait.Barbarian &&

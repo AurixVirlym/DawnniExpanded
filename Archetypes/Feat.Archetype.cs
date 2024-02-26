@@ -17,6 +17,11 @@ public static class FeatArchetype
 {
     public static Trait DedicationTrait;
     public static Trait ArchetypeTrait;
+
+    public static Feat DedicationFeat;
+    public static Feat ArchetypeFeat;
+
+    public static Feat NoneFeat;
     public static void LoadMod()
 
     
@@ -35,7 +40,7 @@ public static class FeatArchetype
         
     
         {
-            Feat DedicationFeat =new TrueFeat(FeatName.CustomFeat, 
+            DedicationFeat =new TrueFeat(FeatName.CustomFeat, 
                     2, 
                     "Instead of a class feat, you gain an archetype dedication feat of your choice. You may have only one archetype.", 
                     "You gain an archetype dedication feat.", 
@@ -58,7 +63,9 @@ public static class FeatArchetype
             
             
         
-        ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 
+        
+            
+        ArchetypeFeat = new TrueFeat(FeatName.CustomFeat, 
                     4, 
                     "Instead of a class feat, you gain an archetype feat of your choice for your dedication.", 
                     "You gain an archetype feat.", 
@@ -74,10 +81,23 @@ public static class FeatArchetype
                     "Archetype", 
                     "Archetype feat", 
                     -1, 
-                    (Feat ft) => ft.HasTrait(ArchetypeTrait) && !ft.HasTrait(DedicationTrait) && ft.CustomName != "Archetype Feat"));
-        })
+                    (Feat ft) => (ft.HasTrait(ArchetypeTrait) && !ft.HasTrait(DedicationTrait) && ft.CustomName != "Archetype Feat") || ft.CustomName == "None")
+                    );
+                    
+        });
             
-            );
+        ModManager.AddFeat(ArchetypeFeat);
+
+        NoneFeat = new TrueFeat(FeatName.CustomFeat, 
+                    1, 
+                    "", 
+                    "This feat exists as a option when you don't want to take a real option or can't.", 
+                    new Trait[] {DawnniExpanded.DETrait})
+                    .WithMultipleSelection()
+                    .WithCustomName("None");
+                    
+        ModManager.AddFeat(NoneFeat);
+          
 
 
     };
@@ -90,5 +110,7 @@ public static class FeatArchetype
         ArchetypeBarbarian.LoadMod();
         ArchetypeSentinel.LoadMod();
         ArchetypeDuelist.LoadMod();
+        ArchetypeBeastmaster.LoadMod();
+        ArchetypeAlchemist.LoadMod();
     }
 }

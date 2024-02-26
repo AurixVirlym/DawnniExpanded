@@ -172,7 +172,7 @@ public static class ArchetypeBarbarian
                     "You gain 3 additional Hit Points for each barbarian archetype class feat you have.\n\nAs you continue selecting barbarian archetype class feats, you continue to gain additional Hit Points in this way.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,BarbarianArchetypeTrait})
                     .WithCustomName("Barbarian Resiliency")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BarbarianDedicationFeat),"You must have the feat Barbarian Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BarbarianDedicationFeat),"You must have the Barbarian Dedication feat.")
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => 
 
                     values.Sheet.Class.ClassTrait != Trait.Barbarian
@@ -192,7 +192,7 @@ public static class ArchetypeBarbarian
                     "You gain a 1st- or 2nd-level barbarian feat.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,BarbarianArchetypeTrait})
                     .WithCustomName("Basic Fury")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BarbarianDedicationFeat),"You must have the feat Barbarian Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BarbarianDedicationFeat),"You must have the Barbarian Dedication feat.")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     
         {

@@ -157,7 +157,7 @@ public class FeatBattleMedicine
                 new[] { Trait.General, Trait.Skill, Trait.Healing, Trait.Manipulate, DawnniExpanded.DETrait}
                 )
             .WithActionCost(1)
-            .WithCustomName("Battle Medicine")
+            .WithCustomName("Battle Medicine{icon:Action}")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) >= Proficiency.Trained, "You must be trained in Medicine.")
             .WithOnCreature((sheet, creature) =>
             {

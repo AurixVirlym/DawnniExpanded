@@ -11,7 +11,8 @@ using Dawnsbury.Core.Mechanics.Targeting;
 using Dawnsbury.Display.Illustrations;
 using Dawnsbury.Core.Mechanics.Core;
 using Dawnsbury.Core.Possibilities;
-
+using Dawnsbury.Core.Creatures;
+using System;
 
 
 
@@ -24,6 +25,8 @@ public static class ArchetypeDuelist
     public static Feat DuelistDedicationFeat;
 
     public static Feat DuelingParryFeat;
+
+    public static Feat DuelistsChallengeFeat;
     public static void LoadMod()
     
     {
@@ -109,7 +112,7 @@ public static class ArchetypeDuelist
                               caster.AddQEffect(DuellingParryEffect);
 
                             }));
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+
                         }
                         )
 
@@ -117,12 +120,99 @@ public static class ArchetypeDuelist
 
         creature.AddQEffect(DuellingParryHolder);
       })
-                .WithCustomName("Dueling Parry (Duelist)")
+                .WithCustomName("Dueling Parry (Duelist){icon:Action}")
                 .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DuelistDedicationFeat) || values.Sheet.Class.ClassTrait == Trait.Fighter,"You must have the Duelist Dedidcation feat.")
                 .WithEquivalent(values => values.AllFeats.Contains(FeatDuelingParry.FeatDuelingParryFighter));
+
+      
+      DuelistsChallengeFeat = new TrueFeat(FeatName.CustomFeat, 
+                4, 
+                "You can parry attacks against you with your one-handed weapon", 
+                "Select one foe that you can see and proclaim a challenge.\n\nThat foe is your dueling opponent until they are defeated, flee, or the encounter ends. \n\nAny time you hit that enemy using a single one-handed melee weapon while your other hand or hands are free, you gain a circumstance bonus to the Strike's damage equal to the number of damage dice your weapon deals.\n\nIf you attack a creature other than your dueling opponent, you take a circumstance penalty to damage equal to the number of damage dice your weapon deals.", 
+                new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,Trait.Open})
+                .WithOnCreature((sheet, creature) =>
+      {
+
+                        QEffect DuelistsChallengeHolder = new QEffect(){
+                        Name = "Duelist's Challenge",
+                        ProvideMainAction =(qfTechnical =>
+                        {
+
+                            return new ActionPossibility
+                      (new CombatAction(creature, new ModdedIllustration("DawnniburyExpandedAssets/DuelingParry.png"), "Duelist's Challenge", new Trait[] { Trait.Basic, DawnniExpanded.DETrait, Trait.Open },
+                                "Select one foe that you can see and proclaim a challenge.\n\nThat foe is your dueling opponent until they are defeated or the encounter ends.\n\nAny time you hit that enemy using a single one-handed melee weapon while your other hand or hands are free, you gain a circumstance bonus to the Strike's damage equal to the number of damage dice your weapon deals.\n\nIf you attack a creature other than your dueling opponent, you take a circumstance penalty to damage equal to the number of damage dice your weapon deals.",
+                                    Target.Ranged(999)
+                              
+                                )
+                                .WithSoundEffect(SfxName.Intimidate)
+                                .WithActionCost(1)                 
+                                .WithEffectOnChosenTargets(async (spell, caster,Targets) =>
+                            {
+                              Creature target = Targets.ChosenCreature;
+
+                              QEffect DuellingParryEffect = new QEffect()
+                              {
+                                Name = "Duelist's Challenge",
+                                Owner = caster,
+                                DoNotShowUpOverhead = true,
+                                Description = "Challenging " + target.Name + ".\nYou gain a bonus to damage when targeting your challenged foe and a penalty when targeting anyone else.",
+                                Illustration = new ModdedIllustration("DawnniburyExpandedAssets/DuelingParry.png"),
+                                PreventTakingAction =  newAttack => newAttack.Name != "Duelist's Challenge" ? null : "You are already challenging a foe.",
+                                BonusToDamage =  ((effect, action, defender) =>
+                                {
+                                  if (!action.HasTrait(Trait.Strike) 
+                                  || !action.HasTrait(Trait.Weapon) 
+                                  
+                                  || action.HasTrait(Trait.Unarmed))
+                                  {
+                                    return null;
+                                  }
+                                  String count = action.TrueDamageFormula.ToString();
+                                  if(count.Length >= 3)
+                                  {
+                                  int DmgDiceNumber = Int32.Parse(count.Substring(0,1));
+                                  
+                                  if (defender == target)
+                                  {
+                                    if (!effect.Owner.HasFreeHand || !action.HasTrait(Trait.Melee))
+                                    {
+                                      return null;
+                                    }
+
+                                    return new Bonus(DmgDiceNumber, BonusType.Circumstance, "Duelist's Challenge");
+                                  } else {
+                                    return new Bonus(-DmgDiceNumber, BonusType.Circumstance, "Duelist's Challenge");
+                                  }
+                                  } else return null;
+                                  
+                                }),
+                                ExpiresAt = ExpirationCondition.Never,
+                                StateCheck = Qfduel => {
+
+                                  if(target.Alive == false){
+                                  Qfduel.ExpiresAt = ExpirationCondition.Immediately;
+                                  } 
+                                  
+
+                                }
+                              };
+                              caster.AddQEffect(DuellingParryEffect);
+
+                            }));
+
+                        }
+                        )
+
+        };
+
+        creature.AddQEffect(DuelistsChallengeHolder);
+      })
+                .WithCustomName("Duelist's Challenge{icon:Action}")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DuelistDedicationFeat) || values.Sheet.Class.ClassTrait == Trait.Fighter,"You must have the Duelist Dedidcation feat.");
                 
                
         ModManager.AddFeat(DuelingParryFeat);
         ModManager.AddFeat(DuelistDedicationFeat);
+        ModManager.AddFeat(DuelistsChallengeFeat);
     }
 }

@@ -100,7 +100,7 @@ public static class FeatDuelingParry
         };
           creature.AddQEffect(DuellingParryHolder);
       })
-                .WithCustomName("Dueling Parry")
+                .WithCustomName("Dueling Parry{icon:Action}")
                 .WithEquivalent(values => values.AllFeats.Contains(ArchetypeDuelist.DuelingParryFeat));
                 
                 

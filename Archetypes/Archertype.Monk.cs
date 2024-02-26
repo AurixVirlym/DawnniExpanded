@@ -87,7 +87,7 @@ public static class ArchetypeMonk
                     "You gain 3 additional Hit Points for each monk archetype class feat you have.\n\nAs you continue selecting monk archetype class feats, you continue to gain additional Hit Points in this way.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,MonkArchetypeTrait})
                     .WithCustomName("Monk Resiliency")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MonkDedicationFeat),"You must have the feat Monk Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MonkDedicationFeat),"You must have the Monk Dedication feat.")
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => 
                     values.Sheet.Class.ClassTrait != Trait.Ranger &&
                     values.Sheet.Class.ClassTrait != Trait.Barbarian  &&
@@ -107,7 +107,7 @@ public static class ArchetypeMonk
                     "You gain a 1st- or 2nd-level monk feat.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,MonkArchetypeTrait})
                     .WithCustomName("Basic Kata")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MonkDedicationFeat),"You must have the feat Monk Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MonkDedicationFeat),"You must have the Monk Dedication feat.")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     
         {

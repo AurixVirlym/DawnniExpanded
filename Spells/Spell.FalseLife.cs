@@ -59,7 +59,8 @@ public class SpellFalseLife{
             {
                 Trait.Necromancy,
                 Trait.Arcane,
-                Trait.Occult
+                Trait.Occult,
+                DawnniExpanded.DETrait
             }, "You ward yourself with shimmering magical energy.",
                 "You gain " + S.HeightenedVariable(6+(spellLevel-1)*3, 6)+ " + " + S.SpellcastingModifier(spellcaster) + " temporary Hit Points.\n\n{b}Special{/b} You can cast this spell as a free action at the beginning of the encounter if not casting from a scroll." + HS.HeightenTextLevels(spellLevel > 1,spellLevel, inCombat, "{b}Heightened (+1){/b} The temporary Hit Points increase by 3.")
                 ,Target.Self(),

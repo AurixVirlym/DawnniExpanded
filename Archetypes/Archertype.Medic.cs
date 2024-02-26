@@ -34,8 +34,8 @@ public static class ArchetypeMedic
                 "You become an expert in Medicine. (Retrain if you perviously had Expert Medicine)\r\n\r\nWhen you succeed with Battle Medicine, the target regains 5 additional HP at DC 20.\r\n\r\nOnce per day, you can use Battle Medicine on a creature that's temporarily immune.", 
                 new Trait[] {FeatArchetype.DedicationTrait,FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait})
                 .WithCustomName("Medic Dedication")
-                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) >= Proficiency.Trained, "You must be trained in Medicine.")
-                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FeatBattleMedicine.BattleMedicineTrueFeat),"You must have the feat Battle Medicine.")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) <= Proficiency.Trained, "You must be trained in Medicine.")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FeatBattleMedicine.BattleMedicineTrueFeat),"You must have the Battle Medicine feat.")
                 .WithOnSheet(sheet => sheet.GrantFeat(FeatName.ExpertMedicine));
         
         Illustration IllustrationDocVisit = new ModdedIllustration("DawnniburyExpandedAssets/DoctorsVisitation.png");
@@ -45,8 +45,8 @@ public static class ArchetypeMedic
                 "You've studied countless techniques for providing medical aid, making you a peerless doctor and healer.", 
                 "You become an expert in Medicine.\r\n\r\nWhen you succeed with Battle Medicine, the target regains 5 additional HP at DC 20.\r\n\r\nOnce per day, you can use Battle Medicine on a creature that's temporarily immune.", 
                 new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,Trait.Flourish,})
-                .WithCustomName("Doctor's Visitation")
-                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MedicDedicationFeat),"You must have the feat Battle Medicine.")
+                .WithCustomName("Doctor's Visitation{icon:Action}")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MedicDedicationFeat),"You must have the Battle Medicine feat.")
                 .WithPermanentQEffect("Stride, then use Battle Medicine.", (Action<QEffect>) (qf => qf.ProvideMainAction = (Func<QEffect, Possibility>) (qfSelf => (Possibility) new ActionPossibility(new CombatAction(qfSelf.Owner, (Illustration) IllustrationDocVisit, "Doctor's Visitation", new Trait[3]
       {
         Trait.Flourish,

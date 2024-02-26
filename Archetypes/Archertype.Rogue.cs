@@ -90,7 +90,7 @@ public static class ArchetypeRogue
                     "Except it deals 1d4 damage. You don't increase the number of dice as you gain levels.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,RogueArchetypeTrait})
                     .WithCustomName("Sneak Attacker")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RogueDedicationFeat),"You must have the feat Rogue Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RogueDedicationFeat),"You must have the Rogue Dedication feat.")
                     .WithOnCreature((CalculatedCharacterSheetValues sheet, Creature cr) => cr.AddQEffect(QEffect.SneakAttack("1d4")) )
             
             );
@@ -103,7 +103,7 @@ public static class ArchetypeRogue
                     "You gain a 1st- or 2nd-level rogue feat.", 
                     new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,RogueArchetypeTrait})
                     .WithCustomName("Basic Trickery")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RogueDedicationFeat),"You must have the feat Rogue Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RogueDedicationFeat),"You must have the Rogue Dedication feat.")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                     
         {
