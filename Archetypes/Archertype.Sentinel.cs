@@ -39,7 +39,7 @@ public static class ArchetypeSentinel
                 if (sheet.GetProficiency(Trait.LightArmor) == Proficiency.Trained 
                 && sheet.GetProficiency(Trait.MediumArmor) == Proficiency.Trained
                 && sheet.GetProficiency(Trait.HeavyArmor) == Proficiency.Untrained ){
-                  sheet.SetProficiency(Trait.HeavyArmor,Proficiency.Expert);
+                  sheet.SetProficiency(Trait.HeavyArmor,Proficiency.Trained);
                 }
 
                 if (sheet.GetProficiency(Trait.LightArmor) == Proficiency.Untrained){

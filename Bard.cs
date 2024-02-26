@@ -216,7 +216,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
       .WithIllustration(SpellHymnOfHealing.SpellIllustration)
       .WithRulesBlockForSpell(SpellHymnOfHealing.Id);
 
-      public static Feat TripleTime = new TrueFeat(FeatName.CustomFeat, 1, "You imbue your music with rich melodies that help your allies recover from harm.", 
+      public static Feat TripleTime = new TrueFeat(FeatName.CustomFeat, 4, "You imbue your music with melodies which speed up you and your allies.", 
       "You learn the {i}triple time{/i} composition cantrip.", new Trait[2]
       {
         Trait.Bard,

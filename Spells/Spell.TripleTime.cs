@@ -35,7 +35,7 @@ public class SpellTripleTime{
             Trait.Enchantment,
             Trait.Mental,
             Trait.Composition
-          }, "You dance at a lively tempo, speeding your allies' movement.","You and all allies in the area gain a +10-foot status bonus to all Speeds for 1 round.", (Target) Target.Emanation(12), spellLevel, null)
+          }, "You dance at a lively tempo, speeding your allies' movement.","You and all allies in the area gain a +10-foot status bonus to all Speeds for 1 round.", (Target) Target.Emanation(12).WithIncludeOnlyIf ((target, creature) => creature.FriendOf(spellcaster)), spellLevel, null)
           .WithSoundEffect(SfxName.PositiveMelody)
           .WithActionCost(1)
           .WithGoodness((Func<Target, Creature, Creature, float>) ((t, a, d) => !d.EnemyOf(a) && !a.QEffects.Any(qf => qf.Name == "Inspire Courage") ? (float) 4: 0.0f))

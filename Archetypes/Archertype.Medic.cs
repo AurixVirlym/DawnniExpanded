@@ -34,7 +34,7 @@ public static class ArchetypeMedic
                 "You become an expert in Medicine. (Retrain if you perviously had Expert Medicine)\r\n\r\nWhen you succeed with Battle Medicine, the target regains 5 additional HP at DC 20.\r\n\r\nOnce per day, you can use Battle Medicine on a creature that's temporarily immune.", 
                 new Trait[] {FeatArchetype.DedicationTrait,FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait})
                 .WithCustomName("Medic Dedication")
-                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) <= Proficiency.Trained, "You must be trained in Medicine.")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) >= Proficiency.Trained, "You must be trained in Medicine.")
                 .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FeatBattleMedicine.BattleMedicineTrueFeat),"You must have the Battle Medicine feat.")
                 .WithOnSheet(sheet => sheet.GrantFeat(FeatName.ExpertMedicine));
         

@@ -35,7 +35,7 @@ public class SpellInspireCourage{
             Trait.Enchantment,
             Trait.Mental,
             Trait.Composition
-          }, "You inspire your allies with words or tunes of encouragement.","You and all allies in the area gain a +1 status bonus to attack rolls, damage rolls, and saves against fear effects for 1 round.", (Target) Target.Emanation(12), spellLevel, null)
+          }, "You inspire your allies with words or tunes of encouragement.","You and all allies in the area gain a +1 status bonus to attack rolls, damage rolls, and saves against fear effects for 1 round.", (Target) Target.Emanation(12).WithIncludeOnlyIf ((target, creature) => creature.FriendOf(spellcaster)), spellLevel, null)
           .WithSoundEffect(SfxName.PositiveMelody)
           .WithActionCost(1)
           .WithGoodness((Func<Target, Creature, Creature, float>) ((t, a, d) => !d.EnemyOf(a) && !a.QEffects.Any(qf => qf.Name == "Inspire Courage") ? (float) AICalcs.AttackBonusGoodnessForNPCs(a.Level,1,1)*2: 0.0f))

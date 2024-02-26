@@ -37,7 +37,7 @@ public static class ArchetypeDuelist
                 "You are always ready to draw your weapon and begin a duel, no matter the circumstances.\n\nYou gain the Quick Draw feat.", 
                 new Trait[] {FeatArchetype.DedicationTrait,FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait})
                 .WithCustomName("Duelist Dedication")
-                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.LightArmor) >= Proficiency.Trained && values.GetProficiency(Trait.Simple) >= Proficiency.Trained,"You must be rained in light armor and simple weapons.")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.LightArmor) >= Proficiency.Trained && values.GetProficiency(Trait.Simple) >= Proficiency.Trained,"You must be trained in light armor and simple weapons.")
                 .WithOnSheet(sheet => sheet.GrantFeat(FeatName.QuickDraw));
 
         DuelingParryFeat = new TrueFeat(FeatName.CustomFeat, 

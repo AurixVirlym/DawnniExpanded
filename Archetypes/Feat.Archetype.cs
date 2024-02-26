@@ -112,5 +112,7 @@ public static class FeatArchetype
         ArchetypeDuelist.LoadMod();
         ArchetypeBeastmaster.LoadMod();
         ArchetypeAlchemist.LoadMod();
+        ArchetypeBard.LoadMod();
+        ArchetypePsychic.LoadMod();
     }
 }
