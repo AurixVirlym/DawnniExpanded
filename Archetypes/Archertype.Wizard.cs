@@ -63,7 +63,7 @@ public static class ArchetypeWizard
                 .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Intelligence) >=14 , "You must have at least 14 inteligence")
                 .WithPrerequisite(values => values.Sheet.Class.ClassTrait != Trait.Wizard, "You already have this archetype as a main class.")
                 .WithPrerequisite(values => 
-                values.Sheet.Class.ClassTrait != Trait.Wizard &&
+                values.Sheet.Class.ClassTrait != Trait.Bard &&
                 values.Sheet.Class.ClassTrait != Trait.Wizard &&
                 values.Sheet.Class.ClassTrait != Trait.Magus &&
                 values.Sheet.Class.ClassTrait != Trait.Sorcerer &&

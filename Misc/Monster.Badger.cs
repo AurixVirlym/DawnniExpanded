@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Dawnsbury.Core;
 using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
 using Dawnsbury.Core.CombatActions;
@@ -16,38 +15,127 @@ using Dawnsbury.Core.Possibilities;
 using Dawnsbury.Core.Roller;
 using Dawnsbury.Display.Illustrations;
 using Dawnsbury.Modding;
-using Dawnsbury.Audio;
-using Dawnsbury.Auxiliary;
-using Dawnsbury.Campaign.Encounters;
-using Dawnsbury.Campaign.Encounters.Elements_of_a_Crime;
-using Dawnsbury.Core.Animations;
-using Dawnsbury.Core.CharacterBuilder.Feats;
-using Dawnsbury.Core.CharacterBuilder.FeatsDb.TrueFeatDb;
 using Dawnsbury.Core.CharacterBuilder.Spellcasting;
-using Dawnsbury.Core.Mechanics.Damage;
-using Dawnsbury.Core.Mechanics.Rules;
-using Dawnsbury.Core.Mechanics.Targeting.TargetingRequirements;
-using Dawnsbury.Core.Mechanics.Targeting.Targets;
 using Dawnsbury.Core.Mechanics.Treasure;
-using Dawnsbury.Core.Tiles;
-using Dawnsbury.Display.Text;
 
-using Dawnsbury.IO;
 using Microsoft.Xna.Framework;
-using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
 
 
 namespace Dawnsbury.Mods.DawnniExpanded
 {
     public class MonsterBadger
     {
+      
+      public static QEffectId CivieQFId = ModManager.RegisterEnumMember<QEffectId>("CivieId");
+      
+      public static QEffectId CommandCivieQFId = ModManager.RegisterEnumMember<QEffectId>("CommandCivieId");
 
       public static Trait PushTrait = ModManager.RegisterTrait(
             "Push",
             new TraitProperties("Push", false, "", true)
             {
             });
+
+      public static QEffect NewCivilain()
+        {
+         QEffect QFCivie = new QEffect("Civilian", "You can command the civilian to take certain actions with a skill check."){
+            Id = CivieQFId,
+            EndOfYourTurn = async delegate (QEffect qfCivilian, Creature civilian)
+            {
+                civilian.AI.Tactic = Tactic.DoNothing;
+                civilian.OwningFaction = civilian.Battle.GaiaFriends;
+            },
+            StateCheck = async delegate (QEffect qf)
+            {
+              Creature leshy = qf.Owner;
+
+                foreach (Creature item in qf.Owner.Battle.AllCreatures.Where((Creature cr) => cr.OwningFaction.IsHumanControlled && cr != leshy && !cr.HasEffect(CommandCivieQFId)))
+                {
+                    QEffect PlayerActionsQF = new QEffect(ExpirationCondition.Ephemeral)
+                    {
+                        Id = CommandCivieQFId,
+                        ProvideActionIntoPossibilitySection = delegate (QEffect qfAlly, PossibilitySection section)
+                        {
+                            if (section.PossibilitySectionId != PossibilitySectionId.ContextualActions)
+                            {
+                                return null;
+                            }
+
+                            Creature actionowner = item;
+                            
+                            return new SubmenuPossibility(leshy.Illustration, "Direct a Civilian")
+                            {
+                                Subsections =
+                                {
+                                    new PossibilitySection("Direct a Civilian")
+                                    {
+                                        Possibilities =
+                                        {
+                                            (Possibility)new ActionPossibility(new CombatAction(actionowner, leshy.Illustration, "Flee!", new Trait[2]
+                                            {
+                                                Trait.Auditory,
+                                                Trait.Basic
+                                            }, "Make a Nature, Diplomacy or Intimidation check against DC 5.\n\n{b}Success{/b} The civilian will flee the nearest enemy as best it can during its next turn.", 
+                                            Target.RangedFriend(30)
+                                            .WithAdditionalConditionOnTargetCreature((Func<Creature, Creature, Usability>) ((self, target) => !target.HasEffect(CivieQFId) || target.HasEffect(QEffectId.Unconscious) 
+                                            ? Usability.NotUsableOnThisCreature("Not a civilian or unconscious") : Usability.Usable)))
+                                            .WithActionCost(1)
+                                            .WithActiveRollSpecification(new ActiveRollSpecification(Checks.SkillCheck(Skill.Nature, Skill.Diplomacy, Skill.Intimidation), Checks.FlatDC(5)))
+                                            .WithEffectOnEachTarget(async delegate(CombatAction spell, Creature caster, Creature target, CheckResult result)
+
+                                            {
+                                                if (result >= CheckResult.Success)
+                                                {
+                                                  
+                                                    target.AddQEffect(new QEffect("Fleeing", "You must spend all actions to move away from the nearest enemy as best possible.", ExpirationCondition.ExpiresAtEndOfYourTurn, null, IllustrationName.Fleeing)
+                                                    {
+                                                        Id = QEffectId.FleeingAllDanger,
+                                                    });
+                                                    target.Occupies.Overhead("I will flee!", Color.Black, target?.ToString() + " will spend its next turn fleeing the nearest enemy.");
+                                                }
+                                            })),
+                                            (Possibility)new ActionPossibility(new CombatAction(actionowner, leshy.Illustration, "Attack!", new Trait[2]
+                                            {
+                                                Trait.Auditory,
+                                                Trait.Basic
+                                            }, "Make a Nature, Diplomacy or Intimidation check against DC 10.\n\n{b}Success{/b} The civilian will attack your enemies as best it can during its next turn.", Target.RangedFriend(30).WithAdditionalConditionOnTargetCreature((Func<Creature, Creature, Usability>) ((self, target) => !target.HasEffect(CivieQFId) || target.HasEffect(QEffectId.Unconscious) ? Usability.NotUsableOnThisCreature("Not a civilian or unconscious") : Usability.Usable))).WithActionCost(1).WithActiveRollSpecification(new ActiveRollSpecification(Checks.SkillCheck(Skill.Nature, Skill.Diplomacy, Skill.Intimidation), Checks.FlatDC(10))).WithEffectOnEachTarget(async delegate(CombatAction spell, Creature caster, Creature target, CheckResult result)
+                                            {
+                                                if (result >= CheckResult.Success)
+                                                {
+                                                    target.WithTactics(Tactic.Standard);
+                                                    target.RemoveAllQEffects((QEffect qf) => qf.Id == QEffectId.Fleeing);
+                                                    target.Occupies.Overhead("I will fight!", Color.Black, target?.ToString() + " will spend its next turn taking actions as normal.");
+                                                }
+                                            })),
+                                            (Possibility)new ActionPossibility(new CombatAction(actionowner, leshy.Illustration, "Do exactly as I say!", new Trait[2]
+                                            {
+                                                Trait.Auditory,
+                                                Trait.Basic
+                                            }, "Make a Nature, Diplomacy or Intimidation check against DC 13.\n\n{b}Success{/b} You will assume direct control of the civilian during their next turn, choosing how the civilians spends its three actions.", Target.RangedFriend(30).WithAdditionalConditionOnTargetCreature((Func<Creature, Creature, Usability>) ((self, target) => !target.HasEffect(CivieQFId) || target.HasEffect(QEffectId.Unconscious) ? Usability.NotUsableOnThisCreature("Not a civilian or unconscious") : Usability.Usable))).WithActionCost(1).WithActiveRollSpecification(new ActiveRollSpecification(Checks.SkillCheck(Skill.Nature, Skill.Diplomacy, Skill.Intimidation), Checks.FlatDC(13))).WithEffectOnEachTarget(async delegate(CombatAction spell, Creature caster, Creature target, CheckResult result)
+                                            {
+                                                if (result >= CheckResult.Success)
+                                                {
+                                                    target.OwningFaction = target.Battle.You;
+                                                    target.RemoveAllQEffects((QEffect qf) => qf.Id == QEffectId.Fleeing);
+                                                    target.Occupies.Overhead("I will do as you say!", Color.Black, "You will control " + target?.ToString() + " during her next turn.");
+                                                }
+                                            }))
+                                        }
+                                    }
+                                },
+                                PossibilityGroup = "Interactions"
+                            };
+                        }
+                    };
+
+                    item.AddQEffect(PlayerActionsQF);
+                }
+            }
+        };
+
+        return QFCivie;
+
+        }
 
       public static QEffect MonsterPush()
     {
@@ -189,7 +277,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
                 .WithProficiency(Trait.Unarmed, (Proficiency) 3)
                 .WithUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.Jaws, "fist", "1d4", DamageKind.Bludgeoning, Trait.Agile))
                 .AddHeldItem(Items.CreateNew(ItemName.Sickle))
-                .AddQEffect(QEffect.Civilian())
+                .AddQEffect(NewCivilain())
                 .WithTactics(Tactic.Standard)
                 .WithProficiency(Trait.Weapon, (Proficiency) 3)
                 .WithEntersInitiativeOrder(true);
@@ -325,13 +413,15 @@ public static Creature GenerateSatyr()
       1,new SpellId[1]{SpellId.Fear}
       )
       .AddQEffect(new QEffect(){
-
+        
         StartOfCombat = (async (QEffect qf) =>{
           qf.Owner.Battle.Cinematics.EnterCutscene();
-          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner,"I am stinky");
-          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner,"Like really f'ing stinky.");
+          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner,"The filthy rats of the city have finally clawed their way into my garden, the so called civilized animals do not dance to beautiful tunes.");
+          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner,"You rats protect the unnatural and unholy, those who destory the world brick by brick. I will not allow it.");
+          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner,"Nor will the friends of the wilds. Comrades, dance with these intruders!");
           qf.Owner.Battle.Cinematics.ExitCutscene();
         }),
+        
 
         YouBeginAction = (async (qf, hostileAction) =>
                 {

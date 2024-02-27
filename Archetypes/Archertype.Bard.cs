@@ -2,32 +2,11 @@ using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
 using Dawnsbury.Core.CharacterBuilder.Feats;
 using Dawnsbury.Core.CharacterBuilder;
-using Dawnsbury.Core.Creatures;
 using Dawnsbury.Core.CharacterBuilder.Selections.Options;
 using System.Linq;
-using Dawnsbury.Core.Mechanics;
 using System;
 using Dawnsbury.Core.CharacterBuilder.FeatsDb;
-using Dawnsbury.Core.Mechanics.Treasure;
-using Dawnsbury.Core.Creatures.Parts;
-using Dawnsbury.Core.CharacterBuilder.AbilityScores;
-using Dawnsbury.Core.CharacterBuilder.Feats;
-using Dawnsbury.Core.CharacterBuilder.Selections.Options;
-using Dawnsbury.Core.CombatActions;
-using Dawnsbury.Core.Mechanics;
-using Dawnsbury.Core.Mechanics.Enumerations;
-using Dawnsbury.Core.Mechanics.Targeting;
-using Dawnsbury.Display.Text;
-using Dawnsbury.Core.CharacterBuilder.FeatsDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using Dawnsbury.Modding;
 using Dawnsbury.Core.CharacterBuilder.Spellcasting;
-using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
-using Dawnsbury.Core.Mechanics.Targeting.TargetingRequirements;
-using Dawnsbury.Core.Mechanics.Targeting.Targets;
 
 
 
