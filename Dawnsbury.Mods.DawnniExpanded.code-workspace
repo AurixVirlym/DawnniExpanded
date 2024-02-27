@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Decomplie"
+		},
+		{
+			"path": "../Dawnsbury.Mods.FreeArchetype"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "Dawnsbury.Mods.DawnniExpanded"
+	}
+}

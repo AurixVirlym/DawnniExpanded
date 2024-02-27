@@ -29,12 +29,8 @@ public static class ItemMutagenEnergy
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Acid)","You are benefitng from a Energy Mutagen (Acid)",ExpirationCondition.Never,self,MutagenAcid){
+                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Acid)","You are benefiting from a Energy Mutagen (Acid)",ExpirationCondition.Never,self,MutagenAcid){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
-
                     AddExtraStrikeDamage = ( action, target) => {
                         if (!action.HasTrait(Trait.Melee) || !action.HasTrait(Trait.Weapon) || action.HasTrait(Trait.Unarmed)){
                             return null;
@@ -51,6 +47,7 @@ public static class ItemMutagenEnergy
 
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                     self.AddQEffect(EnergyMutagenEffect);
                 
                 }
@@ -63,11 +60,9 @@ public static class ItemMutagenEnergy
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Cold)","You are benefitng from a Energy Mutagen (Cold)",ExpirationCondition.Never,self,MutagenCold){
+                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Cold)","You are benefiting from a Energy Mutagen (Cold)",ExpirationCondition.Never,self,MutagenCold){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     AddExtraStrikeDamage = ( action, target) => {
                         if (!action.HasTrait(Trait.Melee) || !action.HasTrait(Trait.Weapon) || action.HasTrait(Trait.Unarmed)){
@@ -85,6 +80,7 @@ public static class ItemMutagenEnergy
 
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                     self.AddQEffect(EnergyMutagenEffect);
                 
                 }
@@ -97,11 +93,9 @@ public static class ItemMutagenEnergy
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Electricity)","You are benefitng from a Energy Mutagen (Electricity)",ExpirationCondition.Never,self,MutagenElectricity){
+                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Electricity)","You are benefiting from a Energy Mutagen (Electricity)",ExpirationCondition.Never,self,MutagenElectricity){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     AddExtraStrikeDamage = ( action, target) => {
                         if (!action.HasTrait(Trait.Melee) || !action.HasTrait(Trait.Weapon) || action.HasTrait(Trait.Unarmed)){
@@ -119,6 +113,7 @@ public static class ItemMutagenEnergy
 
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                     self.AddQEffect(EnergyMutagenEffect);
                 
                 }
@@ -131,11 +126,9 @@ public static class ItemMutagenEnergy
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Fire)","You are benefitng from a Energy Mutagen (Fire)",ExpirationCondition.Never,self,MutagenFire){
+                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Fire)","You are benefiting from a Energy Mutagen (Fire)",ExpirationCondition.Never,self,MutagenFire){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     AddExtraStrikeDamage = ( action, target) => {
                         if (!action.HasTrait(Trait.Melee) || !action.HasTrait(Trait.Weapon) || action.HasTrait(Trait.Unarmed)){
@@ -153,6 +146,7 @@ public static class ItemMutagenEnergy
 
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                     self.AddQEffect(EnergyMutagenEffect);
                 
                 }
@@ -166,11 +160,9 @@ public static class ItemMutagenEnergy
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Acid)","You are benefitng from a Energy Mutagen (Acid)",ExpirationCondition.Never,self,MutagenAcid){
+                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Acid)","You are benefiting from a Energy Mutagen (Acid)",ExpirationCondition.Never,self,MutagenAcid){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     AddExtraStrikeDamage = ( action, target) => {
                         if (!action.HasTrait(Trait.Melee) || !action.HasTrait(Trait.Weapon) || action.HasTrait(Trait.Unarmed)){
@@ -187,7 +179,8 @@ public static class ItemMutagenEnergy
                         }),
 
                     };
-
+                    
+                    TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                     self.AddQEffect(EnergyMutagenEffect);
                 
                 }
@@ -200,11 +193,9 @@ public static class ItemMutagenEnergy
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Cold)","You are benefitng from a Energy Mutagen (Cold)",ExpirationCondition.Never,self,MutagenCold){
+                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Cold)","You are benefiting from a Energy Mutagen (Cold)",ExpirationCondition.Never,self,MutagenCold){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     AddExtraStrikeDamage = ( action, target) => {
                         if (!action.HasTrait(Trait.Melee) || !action.HasTrait(Trait.Weapon) || action.HasTrait(Trait.Unarmed)){
@@ -222,6 +213,7 @@ public static class ItemMutagenEnergy
 
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                     self.AddQEffect(EnergyMutagenEffect);
                 
                 }
@@ -234,11 +226,9 @@ public static class ItemMutagenEnergy
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Electricity)","You are benefitng from a Energy Mutagen (Electricity)",ExpirationCondition.Never,self,MutagenElectricity){
+                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Electricity)","You are benefiting from a Energy Mutagen (Electricity)",ExpirationCondition.Never,self,MutagenElectricity){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     AddExtraStrikeDamage = ( action, target) => {
                         if (!action.HasTrait(Trait.Melee) || !action.HasTrait(Trait.Weapon) || action.HasTrait(Trait.Unarmed)){
@@ -256,6 +246,7 @@ public static class ItemMutagenEnergy
 
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                     self.AddQEffect(EnergyMutagenEffect);
                 
                 }
@@ -268,11 +259,9 @@ public static class ItemMutagenEnergy
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Fire)","You are benefitng from a Energy Mutagen (Fire)",ExpirationCondition.Never,self,MutagenFire){
+                    QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Fire)","You are benefiting from a Energy Mutagen (Fire)",ExpirationCondition.Never,self,MutagenFire){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     AddExtraStrikeDamage = ( action, target) => {
                         if (!action.HasTrait(Trait.Melee) || !action.HasTrait(Trait.Weapon) || action.HasTrait(Trait.Unarmed)){
@@ -290,14 +279,13 @@ public static class ItemMutagenEnergy
 
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                     self.AddQEffect(EnergyMutagenEffect);
                 
                 }
             }
             );
           
-       
-
-        #pragma warning restore CS0618 // Type or member is obsolete
+    
     }
 }

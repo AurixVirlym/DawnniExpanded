@@ -26,11 +26,7 @@ public static class ItemMutagenBestial
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect BestialMutagenEffect = new QEffect("Bestial Mutagen","You are benefitng from a Bestial Mutagen",ExpirationCondition.Never,self,illustrationBestial){
-                    
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    QEffect BestialMutagenEffect = new QEffect("Bestial Mutagen","You are benefiting from a Bestial Mutagen",ExpirationCondition.Never,self,illustrationBestial){
 
                     BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) => 
                     {
@@ -58,11 +54,13 @@ public static class ItemMutagenBestial
                     AdditionalUnarmedStrike = CommonItems.CreateNaturalWeapon(IllustrationName.DragonClaws, "claw", "1d4", DamageKind.Slashing, Trait.Agile,DawnniExpanded.DETrait),
                     };
 
-                    QEffect BestialMutagenEffectbite = new QEffect("Bestial Mutagen","You are benefitng from a Bestial Mutagen",ExpirationCondition.Never,self,IllustrationName.None){
+                    QEffect BestialMutagenEffectbite = new QEffect("Bestial Mutagen","You are benefiting from a Bestial Mutagen",ExpirationCondition.Never,self,IllustrationName.None){
                     AdditionalUnarmedStrike = CommonItems.CreateNaturalWeapon(IllustrationName.DragonClaws, "jaw", "1d6", DamageKind.Bludgeoning,DawnniExpanded.DETrait),
                     DoNotShowUpOverhead = true,
 
                     };
+
+                    TraitMutagens.PreventMutagenDrinking(BestialMutagenEffect);
 
                     self.AddQEffect(BestialMutagenEffect);
                     self.AddQEffect(BestialMutagenEffectbite);
@@ -82,12 +80,8 @@ public static class ItemMutagenBestial
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect BestialMutagenEffect = new QEffect("Bestial Mutagen","You are benefitng from a Bestial Mutagen",ExpirationCondition.Never,self,illustrationBestial){
+                    QEffect BestialMutagenEffect = new QEffect("Bestial Mutagen","You are benefiting from a Bestial Mutagen",ExpirationCondition.Never,self,illustrationBestial){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
-
                     BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) => 
                     {
                          if (defense == Defense.AC)
@@ -114,12 +108,13 @@ public static class ItemMutagenBestial
                     AdditionalUnarmedStrike = CommonItems.CreateNaturalWeapon(IllustrationName.DragonClaws, "claw", "1d6", DamageKind.Slashing, Trait.Agile,DawnniExpanded.DETrait),
                     };
 
-                    QEffect BestialMutagenEffectbite = new QEffect("Bestial Mutagen","You are benefitng from a Bestial Mutagen",ExpirationCondition.Never,self,IllustrationName.None){
+                    QEffect BestialMutagenEffectbite = new QEffect("Bestial Mutagen","You are benefiting from a Bestial Mutagen",ExpirationCondition.Never,self,IllustrationName.None){
                     AdditionalUnarmedStrike = CommonItems.CreateNaturalWeapon(IllustrationName.DragonClaws, "jaw", "1d8", DamageKind.Bludgeoning,DawnniExpanded.DETrait),
                     DoNotShowUpOverhead = true,
 
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(BestialMutagenEffect);
                     self.AddQEffect(BestialMutagenEffect);
                     self.AddQEffect(BestialMutagenEffectbite);
                 }
@@ -131,6 +126,6 @@ public static class ItemMutagenBestial
           
        
 
-        #pragma warning restore CS0618 // Type or member is obsolete
+        
     }
 }

@@ -24,11 +24,9 @@ public static class ItemMutagenSerene
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect SereneMutagenEffect = new QEffect("Serene Mutagen","You are benefitng from a Serene Mutagen",ExpirationCondition.Never,self,illustrationSerene){
+                    QEffect SereneMutagenEffect = new QEffect("Serene Mutagen","You are benefiting from a Serene Mutagen",ExpirationCondition.Never,self,illustrationSerene){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) => 
                     {
@@ -68,6 +66,8 @@ public static class ItemMutagenSerene
                     },
                     };
 
+                    
+                    TraitMutagens.PreventMutagenDrinking(SereneMutagenEffect);
                     self.AddQEffect(SereneMutagenEffect);
                 
                 }
@@ -84,11 +84,9 @@ public static class ItemMutagenSerene
                 
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
-                    QEffect SereneMutagenEffect = new QEffect("Serene Mutagen","You are benefitng from a Serene Mutagen",ExpirationCondition.Never,self,illustrationSerene){
+                    QEffect SereneMutagenEffect = new QEffect("Serene Mutagen","You are benefiting from a Serene Mutagen",ExpirationCondition.Never,self,illustrationSerene){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) => 
                     {
@@ -128,6 +126,7 @@ public static class ItemMutagenSerene
                     },
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(SereneMutagenEffect);
                     self.AddQEffect(SereneMutagenEffect);
                 
                 }
@@ -137,8 +136,5 @@ public static class ItemMutagenSerene
             
             );
           
-       
-
-        #pragma warning restore CS0618 // Type or member is obsolete
     }
 }
