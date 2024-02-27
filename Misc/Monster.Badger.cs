@@ -325,6 +325,14 @@ public static Creature GenerateSatyr()
       1,new SpellId[1]{SpellId.Fear}
       )
       .AddQEffect(new QEffect(){
+
+        StartOfCombat = (async (QEffect qf) =>{
+          qf.Owner.Battle.Cinematics.EnterCutscene();
+          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner,"I am stinky");
+          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner,"Like really f'ing stinky.");
+          qf.Owner.Battle.Cinematics.ExitCutscene();
+        }),
+
         YouBeginAction = (async (qf, hostileAction) =>
                 {
                   if (hostileAction.ActionCost <= 1 || !hostileAction.HasTrait(Trait.Spell))

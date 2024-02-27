@@ -40,11 +40,8 @@ public static class ItemMutagenDrakeheart
                     DawnniExpanded.DETrait
                     }).WithArmorProperties(new ArmorProperties(4, 2, 0, 0, 0));
 
-                    QEffect DrakeHeartEffect = new QEffect("Drakeheart Mutagen","You are benefitng from a Drakeheart Mutagen.",ExpirationCondition.Never,self,illustrationDrakeheart){
+                    QEffect DrakeHeartEffect = new QEffect("Drakeheart Mutagen","You are benefiting from a Drakeheart Mutagen.",ExpirationCondition.Never,self,illustrationDrakeheart){
                         
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
                     
                     BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) => 
                     {
@@ -85,6 +82,7 @@ public static class ItemMutagenDrakeheart
                     )
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(DrakeHeartEffect);
                     self.AddQEffect(DrakeHeartEffect);
                     Sfxs.Play(SfxName.PotionUse2);   
                     }
@@ -112,12 +110,8 @@ public static class ItemMutagenDrakeheart
                     DawnniExpanded.DETrait
                     }).WithArmorProperties(new ArmorProperties(5, 2, 0, 0, 0));
 
-                    QEffect DrakeHeartEffect = new QEffect("Drakeheart Mutagen","You are benefitng from a Drakeheart Mutagen",ExpirationCondition.Never,self,illustrationDrakeheart){
+                    QEffect DrakeHeartEffect = new QEffect("Drakeheart Mutagen","You are benefiting from a Drakeheart Mutagen",ExpirationCondition.Never,self,illustrationDrakeheart){
                         
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
-
                     BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) => 
                     {
                          if (defense == Defense.Will || defense == Defense.Reflex)
@@ -156,6 +150,7 @@ public static class ItemMutagenDrakeheart
                     )
                     };
 
+                    TraitMutagens.PreventMutagenDrinking(DrakeHeartEffect);
                     self.AddQEffect(DrakeHeartEffect);
                     
                 }

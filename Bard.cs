@@ -110,7 +110,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
       ,MakeString()
       ,new List<Feat>()
       {
-        (Feat) new Feat(FeatName.CustomFeat, "Your muse is a virtuoso, inspiring you to greater heights. If it's a creature, it might be a performance-loving creature such as a choral angel or lillend azata. As a bard with a maestro muse, you are an inspiration to your allies and confident of your musical and oratorical abilities.", "You gain the Lingering Composition feat and add "+AllSpells.CreateModernSpellTemplate(SpellId.Soothe).ToSpellLink()+" to your spell repertoire. ", new List<Trait>(), null).WithCustomName("Mastero").WithOnSheet( sheet => 
+        (Feat) new Feat(FeatName.CustomFeat, "Your muse is a virtuoso, inspiring you to greater heights. If it's a creature, it might be a performance-loving creature such as a choral angel or lillend azata. As a bard with a maestro muse, you are an inspiration to your allies and confident of your musical and oratorical abilities.", "You gain the Lingering Composition feat and add "+AllSpells.CreateModernSpellTemplate(SpellId.Soothe).ToSpellLink()+" to your spell repertoire. ", new List<Trait>(), null).WithCustomName("Maestro").WithOnSheet( sheet => 
         {
         sheet.AddFeat(LingeringComposition,null);
         sheet.FocusPointCount += 1;

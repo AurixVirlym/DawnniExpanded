@@ -174,9 +174,14 @@ public class SpellHorizonThunderSphere
                                 if(result == CheckResult.CriticalSuccess){
                                 target1.AddQEffect(QEffect.Dazzled().WithExpirationAtStartOfSourcesTurn(spellcaster,1));
                                 }
-                                caster.QEffects.First((QEffect qf) => qf.Name == "Two Round Horizon Thunder Sphere").ExpiresAt = ExpirationCondition.Immediately;
+                                
+                               
 
-                                }));
+                                }))
+                                .WithEffectOnSelf(async (spell1, caster) =>
+                                {
+                                    caster.QEffects.First((QEffect qf) => qf.Name == "Two Round Horizon Thunder Sphere").ExpiresAt = ExpirationCondition.Immediately;
+                                });
 
                                 HorizonThunderSphereThreeAction.Owner = spellcaster;
 

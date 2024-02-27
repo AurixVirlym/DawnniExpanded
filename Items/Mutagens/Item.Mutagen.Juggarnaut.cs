@@ -27,11 +27,9 @@ public static class ItemMutagenJuggernaut
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
                     self.GainTemporaryHP(5);
-                    QEffect JuggernautMutagenEffect = new QEffect("Juggernaut Mutagen","You are benefitng from a Juggernaut Mutagen",ExpirationCondition.Never,self,illustrationJuggernaut){
+                    QEffect JuggernautMutagenEffect = new QEffect("Juggernaut Mutagen","You are benefiting from a Juggernaut Mutagen",ExpirationCondition.Never,self,illustrationJuggernaut){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
                     
                     BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) => 
                     {
@@ -61,7 +59,7 @@ public static class ItemMutagenJuggernaut
                     };
 
                     
-
+                    TraitMutagens.PreventMutagenDrinking(JuggernautMutagenEffect);
                     self.AddQEffect(JuggernautMutagenEffect);
                 
                 }
@@ -81,11 +79,9 @@ public static class ItemMutagenJuggernaut
                 DrinkableEffect = (CombatAction ca, Creature self) => {
 
                     self.GainTemporaryHP(10);
-                    QEffect JuggernautMutagenEffect = new QEffect("Juggernaut Mutagen","You are benefitng from a Juggernaut Mutagen",ExpirationCondition.Never,self,illustrationJuggernaut){
+                    QEffect JuggernautMutagenEffect = new QEffect("Juggernaut Mutagen","You are benefiting from a Juggernaut Mutagen",ExpirationCondition.Never,self,illustrationJuggernaut){
                     
-                    PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false ? null : "Target is already under a Polymorph effect",
-                    PreventTakingAction = newAttack => (newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == false) && newAttack.ActionId != ActionId.Drink ? null : "Target is already under a Polymorph effect",
-                    CountsAsABuff = true,
+                    
 
                     BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) => 
                     {
@@ -111,6 +107,8 @@ public static class ItemMutagenJuggernaut
                     },
                     };
 
+                    
+                    TraitMutagens.PreventMutagenDrinking(JuggernautMutagenEffect);
                     self.AddQEffect(JuggernautMutagenEffect);
                 
                 }

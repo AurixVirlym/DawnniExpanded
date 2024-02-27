@@ -1,15 +1,28 @@
+using Dawnsbury.Core.Mechanics;
 using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
+using Dawnsbury.Core.CombatActions;
+
 
 
 
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 
+
+
 public static class TraitMutagens
 {
     public static Trait MutagenTrait;
     public static Trait PolymorphTrait;
+
+    public static void PreventMutagenDrinking(QEffect qf){
+        qf.PreventTargetingBy = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == true && newAttack.ActionId == ActionId.Administer ? "Target is already under a Polymorph effect" : null;
+        qf.PreventTakingAction = newAttack => newAttack.Traits.Contains(TraitMutagens.PolymorphTrait) == true && newAttack.ActionId == ActionId.Drink ? "Target is already under a Polymorph effect" : null;
+        qf.CountsAsABuff = true;
+    }
+
+    
     public static void LoadMod()
     {
         MutagenTrait = ModManager.RegisterTrait(
