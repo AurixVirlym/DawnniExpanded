@@ -19,166 +19,178 @@ namespace Dawnsbury.Mods.DawnniExpanded;
 public static class ArchetypeWizard
 {
 
-    public static Feat WizardDedicationFeat;
-    public static Trait WizardArchetypeTrait;
+  public static Feat WizardDedicationFeat;
+  public static Trait WizardArchetypeTrait;
 
-    public static Feat WizardBasicSpellcasting; 
-    public static Feat WizardArcaneSchoolSpell; 
+  public static Feat WizardBasicSpellcasting;
+  public static Feat WizardArcaneSchoolSpell;
 
-    private static Feat CreateArchetypeFocusSpell(String name, Trait schoolTrait, string flavorText, SpellId FocusSpell)
+  private static Feat CreateArchetypeFocusSpell(String name, Trait schoolTrait, string flavorText, SpellId FocusSpell)
+  {
+    Spell modernSpellTemplate = AllSpells.CreateModernSpellTemplate(FocusSpell);
+    return new Feat(FeatName.CustomFeat, flavorText, "You learn the focus spell " + AllSpells.CreateModernSpellTemplate(FocusSpell).ToSpellLink() + ".",
+     new List<Trait> { DawnniExpanded.DETrait }, null)
+    .WithOnSheet(delegate (CalculatedCharacterSheetValues values)
     {
-        Spell modernSpellTemplate = AllSpells.CreateModernSpellTemplate(FocusSpell);
-        return new Feat(FeatName.CustomFeat, flavorText, "You learn the focus spell " + AllSpells.CreateModernSpellTemplate(FocusSpell).ToSpellLink()+".",
-         new List<Trait> { DawnniExpanded.DETrait }, null)
-        .WithOnSheet(delegate (CalculatedCharacterSheetValues values)
+      values.WizardSchool = schoolTrait;
+      ++values.FocusPointCount;
+      values.FocusSpellsKnown.Add(AllSpells.CreateModernSpell(FocusSpell, (Creature)null, values.MaximumSpellLevel, false));
+    })
+  .WithCustomName(name)
+  .WithRulesBlockForSpell(FocusSpell)
+  .WithIllustration(modernSpellTemplate.Illustration);
+    //. modernSpellTemplate.Name.ToLower() 
+
+  }
+
+
+  public static void LoadMod()
+
+  {
+
+    WizardArchetypeTrait = ModManager.RegisterTrait(
+        "WizardArchetype",
+        new TraitProperties("WizardArchetype", false, "", false)
         {
-        values.WizardSchool = schoolTrait;
-        ++values.FocusPointCount;
-        values.FocusSpellsKnown.Add(AllSpells.CreateModernSpell(FocusSpell, (Creature) null, values.MaximumSpellLevel, false));
-      })
-      .WithCustomName(name)
-      .WithRulesBlockForSpell(FocusSpell)
-      .WithIllustration(modernSpellTemplate.Illustration);
-        //. modernSpellTemplate.Name.ToLower() 
-
-    }
-
-   
-    public static void LoadMod()
-    
-    {
- 
-        WizardArchetypeTrait = ModManager.RegisterTrait(
-            "WizardArchetype",
-            new TraitProperties("WizardArchetype", false, "", false)
-            {
-            });
-
-        WizardDedicationFeat = new TrueFeat(FeatName.CustomFeat, 
-                2, 
-                "You have dabbled in the arcane arts and, through discipline and academic study, learned how to cast a few spells.", 
-                "You cast spells like a wizard and gain the Cast a Spell activity.\n\nYou can prepare two cantrips each day from the arcane spell list \n\nYou're trained in spell attack rolls and spell DCs for arcane spells. \n\nYour key spellcasting ability for wizard archetype spells is inteligence, and they are arcane wizard spells.\n\nYou become trained in Arcana; if you were already trained in Arcana, you instead become trained in a skill of your choice."+"\n\n{b}Focus Spells granted by classes such as ranger and monk break archetype spellcasting{/b}", 
-                new Trait[] {FeatArchetype.DedicationTrait,FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,WizardArchetypeTrait})
-                .WithCustomName("Wizard Dedication")
-                .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Intelligence) >=14 , "You must have at least 14 inteligence")
-                .WithPrerequisite(values => values.Sheet.Class.ClassTrait != Trait.Wizard, "You already have this archetype as a main class.")
-                .WithPrerequisite(values => 
-                values.Sheet.Class.ClassTrait != Trait.Bard &&
-                values.Sheet.Class.ClassTrait != Trait.Wizard &&
-                values.Sheet.Class.ClassTrait != Trait.Magus &&
-                values.Sheet.Class.ClassTrait != Trait.Sorcerer &&
-                values.Sheet.Class.ClassTrait != Trait.Psychic &&
-                values.Sheet.Class.ClassTrait != Trait.Cleric
-                , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
-                .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
-                    
-        {
-
-        sheet.AdditionalClassTraits.Add(Trait.Wizard);
-        sheet.PreparedSpellcastingTradition = Trait.Arcane;
-        sheet.WizardSpells = new PreparedSpellSlots();
-        sheet.WizardSpells.Slots.Add((PreparedSpellSlot) new FreePreparedSpellSlot(0, "Wizard:Cantrip1"));
-        sheet.WizardSpells.Slots.Add((PreparedSpellSlot) new FreePreparedSpellSlot(0, "Wizard:Cantrip2"));
-
-
-          if (sheet.GetProficiency(Trait.Wizard) == Proficiency.Untrained){
-            sheet.SetProficiency(Trait.Wizard,Proficiency.Trained);
-          }
-
-          if (sheet.GetProficiency(Trait.Spell) == Proficiency.Untrained){
-            sheet.SetProficiency(Trait.Spell,Proficiency.Trained);
-          }
-
-           if (sheet.GetProficiency(Trait.Arcana) == Proficiency.Untrained)
-            {
-            sheet.AddSelectionOption(
-                new SingleFeatSelectionOption(
-                    "Wizard Dedication Skill", 
-                    "Wizard Dedication skill", 
-                    -1, 
-                    (ft) => ft.FeatName == FeatName.Arcana
-                    )
-                    );
-          } else  {
-            sheet.AddSelectionOption(
-                new SingleFeatSelectionOption(
-                    "Wizard Dedication Skill", 
-                    "Wizard Dedication skill", 
-                    -1, 
-                    (ft) => ft is SkillSelectionFeat
-                    )
-                    );
-          }
-      
-          
-        });
-        
-
-          
-            
-            ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 
-                    4, 
-                    "You are have learnt a basic arcana.", 
-                    "You gain a 1st- or 2nd-level wizard feat.", 
-                    new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,WizardArchetypeTrait})
-                    .WithCustomName("Basic Arcana")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(WizardDedicationFeat),"You must have the Wizard Dedication feat.")
-                    .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
-                    
-        {
-          
-            sheet.AddSelectionOption(
-                new SingleFeatSelectionOption(
-                    "Basic Arcana", 
-                    "Basic Arcana feat", 
-                    -1, 
-                    (Feat ft) => {
-                     if (ft.HasTrait(Trait.Wizard) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait)){
-                    
-                    if (ft.CustomName == null){
-                    TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
-                      
-                    if (FeatwithLevel.Level <= 2){
-                      return true;
-                    } else return false;
-
-                    } else {
-                    TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
-                      
-                    if (FeatwithLevel.Level <= 2){
-                      return true;
-                    }
-                    return false;
-                    } 
-                    }
-                    return false;
-                    })
-                    );
-              })
-            
-            );
-
-            WizardBasicSpellcasting =  new TrueFeat(FeatName.CustomFeat, 
-                    4, 
-                    "You gain the basic spellcasting benefits for Wizard.", 
-                    "You may prepare one 1st level spell slot per day.", 
-                    new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,WizardArchetypeTrait})
-                    .WithCustomName("Basic Wizard Spellcasting")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(WizardDedicationFeat),"You must have the Wizard Dedication feat.")
-                    .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
-                    
-        {
-          sheet.WizardSpells.Slots.Add((PreparedSpellSlot) new FreePreparedSpellSlot(1, "Wizard:Spell1-1"));   
         });
 
-            ModManager.AddFeat(WizardBasicSpellcasting);
+    WizardDedicationFeat = new TrueFeat(FeatName.CustomFeat,
+            2,
+            "You have dabbled in the arcane arts and, through discipline and academic study, learned how to cast a few spells.",
+            "You cast spells like a wizard and gain the Cast a Spell activity.\n\nYou can prepare two cantrips each day from the arcane spell list \n\nYou're trained in spell attack rolls and spell DCs for arcane spells. \n\nYour key spellcasting ability for wizard archetype spells is inteligence, and they are arcane wizard spells.\n\nYou become trained in Arcana; if you were already trained in Arcana, you instead become trained in a skill of your choice." + "\n\n{b}Focus Spells granted by classes such as ranger and monk break archetype spellcasting{/b}",
+            new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait })
+            .WithCustomName("Wizard Dedication")
+            .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Intelligence) >= 14, "You must have at least 14 inteligence")
+            .WithPrerequisite(values => values.Sheet.Class.ClassTrait != Trait.Wizard, "You already have this archetype as a main class.")
+            .WithPrerequisite(values =>
+            values.Sheet.Class.ClassTrait != Trait.Bard &&
+            values.Sheet.Class.ClassTrait != Trait.Wizard &&
+            values.Sheet.Class.ClassTrait != Trait.Magus &&
+            values.Sheet.Class.ClassTrait != Trait.Sorcerer &&
+            values.Sheet.Class.ClassTrait != Trait.Psychic &&
+            values.Sheet.Class.ClassTrait != Trait.Cleric
+            , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
+            .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
-        WizardArcaneSchoolSpell =  new TrueFeat(FeatName.CustomFeat, 
-                    4, 
-                    "You specialize your studies into one school of magic.", 
-                    "You may pick an arcane school and gain it's initial school spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.", 
-                    new Trait[] {FeatArchetype.ArchetypeTrait,DawnniExpanded.DETrait,WizardArchetypeTrait},new List<Feat>()
+    {
+
+      sheet.AdditionalClassTraits.Add(Trait.Wizard);
+      sheet.PreparedSpellcastingTradition = Trait.Arcane;
+      sheet.WizardSpells = new PreparedSpellSlots();
+      sheet.WizardSpells.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Wizard:Cantrip1"));
+      sheet.WizardSpells.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Wizard:Cantrip2"));
+
+
+      if (sheet.GetProficiency(Trait.Wizard) == Proficiency.Untrained)
       {
+        sheet.SetProficiency(Trait.Wizard, Proficiency.Trained);
+      }
+
+      if (sheet.GetProficiency(Trait.Spell) == Proficiency.Untrained)
+      {
+        sheet.SetProficiency(Trait.Spell, Proficiency.Trained);
+      }
+
+      if (sheet.GetProficiency(Trait.Arcana) == Proficiency.Untrained)
+      {
+        sheet.AddSelectionOption(
+            new SingleFeatSelectionOption(
+                "Wizard Dedication Skill",
+                "Wizard Dedication skill",
+                -1,
+                (ft) => ft.FeatName == FeatName.Arcana
+                )
+                );
+      }
+      else
+      {
+        sheet.AddSelectionOption(
+            new SingleFeatSelectionOption(
+                "Wizard Dedication Skill",
+                "Wizard Dedication skill",
+                -1,
+                (ft) => ft is SkillSelectionFeat
+                )
+                );
+      }
+
+
+    });
+
+
+
+
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+            4,
+            "You are have learnt a basic arcana.",
+            "You gain a 1st- or 2nd-level wizard feat.",
+            new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait })
+            .WithCustomName("Basic Arcana")
+            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(WizardDedicationFeat), "You must have the Wizard Dedication feat.")
+            .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+{
+
+  sheet.AddSelectionOption(
+              new SingleFeatSelectionOption(
+                  "Basic Arcana",
+                  "Basic Arcana feat",
+                  -1,
+                  (Feat ft) =>
+            {
+              if (ft.HasTrait(Trait.Wizard) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+              {
+
+                if (ft.CustomName == null)
+                {
+                  TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                  if (FeatwithLevel.Level <= 2)
+                  {
+                    return true;
+                  }
+                  else return false;
+
+                }
+                else
+                {
+                  TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                  if (FeatwithLevel.Level <= 2)
+                  {
+                    return true;
+                  }
+                  return false;
+                }
+              }
+              return false;
+            })
+                  );
+})
+
+    );
+
+    WizardBasicSpellcasting = new TrueFeat(FeatName.CustomFeat,
+            4,
+            "You gain the basic spellcasting benefits for Wizard.",
+            "You may prepare one 1st level spell slot per day.",
+            new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait })
+            .WithCustomName("Basic Wizard Spellcasting")
+            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(WizardDedicationFeat), "You must have the Wizard Dedication feat.")
+            .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+{
+  sheet.WizardSpells.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Wizard:Spell1-1"));
+});
+
+    ModManager.AddFeat(WizardBasicSpellcasting);
+
+    WizardArcaneSchoolSpell = new TrueFeat(FeatName.CustomFeat,
+                4,
+                "You specialize your studies into one school of magic.",
+                "You may pick an arcane school and gain it's initial school spell. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by studying.",
+                new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait }, new List<Feat>()
+  {
               CreateArchetypeFocusSpell("Abjuration School (Archetype)", Trait.Abjuration, "As an abjurer, you master the art of protection, strengthening defenses, preventing attacks, and even turning magic against itself. You understand that an ounce of prevention is worth a pound of cure.", SpellId.ProtectiveWard),
         CreateArchetypeFocusSpell("Conjuration School (Archetype)", Trait.Conjuration, "As a conjurer, you summon creatures and objects from places beyond, and use magic to transport to distant locales. You understand that the true key to victory is strength in numbers.", SpellId.AugmentSummoning),
         CreateArchetypeFocusSpell("Divination School (Archetype)", Trait.Divination, "As a diviner, you master remote viewing and prescience, learning information that can transform investigations, research, and battle strategies. You understand that knowledge is power.", SpellId.DivinersSight),
@@ -187,20 +199,20 @@ public static class ArchetypeWizard
         CreateArchetypeFocusSpell("Illusion School (Archetype)", Trait.Illusion, "As an illusionist, you use magic to create images, figments, and phantasms to baffle your enemies. You understand that perception is reality.", SpellId.WarpedTerrain),
         CreateArchetypeFocusSpell("Necromancy School (Archetype)", Trait.Necromancy, "As a necromancer, you call upon the powers of life and death. While your school is often vilified for its association with raising the undead, you understand that control over life also means control over healing.", SpellId.CallOfTheGrave),
         CreateArchetypeFocusSpell("Transmutation School (Archetype)", Trait.Transmutation, "As a transmuter, you alter the physical properties of things, transforming creatures, objects, the natural world, and even yourself at your whim. You understand that change is inevitable.", SpellId.PhysicalBoost),
-      })
-                    .WithCustomName("Arcane School Spell")
-                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(WizardDedicationFeat),"You must have the Wizard Dedication feat.");
-                    
+  })
+                .WithCustomName("Arcane School Spell")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(WizardDedicationFeat), "You must have the Wizard Dedication feat.");
 
-            ModManager.AddFeat(WizardArcaneSchoolSpell);
-                    
-                    
-        
-          
-       
-        
-        
-        
-        ModManager.AddFeat(WizardDedicationFeat);
-    }
+
+    ModManager.AddFeat(WizardArcaneSchoolSpell);
+
+
+
+
+
+
+
+
+    ModManager.AddFeat(WizardDedicationFeat);
+  }
 }

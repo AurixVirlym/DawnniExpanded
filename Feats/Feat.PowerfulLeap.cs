@@ -19,22 +19,22 @@ public static class FeatPowerfulLeap
 
     public static void LoadMod()
     {
-    
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 2,
-                "You can leap even greater distances.",
-                "When you Leap, you increase the distance you can jump horizontally by 5 feet.",
-                new[] { Trait.General, Trait.Skill,DawnniExpanded.DETrait}
-                )
-            .WithCustomName("Powerful Leap")
-            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Athletics) >= Proficiency.Expert, "You must be Expert in Athletics.")
-            .WithOnCreature((CalculatedCharacterSheetValues sheet, Creature creature) =>
-            {
-                QEffect PowerfulLeap = new QEffect("Powerful Leap", "You can leap horizontally by additional 5 feet", ExpirationCondition.Never, null, IllustrationName.None)
+
+        ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 2,
+                    "You can leap even greater distances.",
+                    "When you Leap, you increase the distance you can jump horizontally by 5 feet.",
+                    new[] { Trait.General, Trait.Skill, DawnniExpanded.DETrait }
+                    )
+                .WithCustomName("Powerful Leap")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Athletics) >= Proficiency.Expert, "You must be Expert in Athletics.")
+                .WithOnCreature((CalculatedCharacterSheetValues sheet, Creature creature) =>
                 {
-                    
-                    Innate = true
-                };
-                creature.AddQEffect(PowerfulLeap);
-            }));
+                    QEffect PowerfulLeap = new QEffect("Powerful Leap", "You can leap horizontally by additional 5 feet", ExpirationCondition.Never, null, IllustrationName.None)
+                    {
+
+                        Innate = true
+                    };
+                    creature.AddQEffect(PowerfulLeap);
+                }));
     }
 }
