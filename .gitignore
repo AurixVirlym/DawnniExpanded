@@ -110,3 +110,5 @@ DawnniburyExpandedAssets/FalseLife.png
 DawnniburyExpandedAssets/RousingSplash.png
 Decomplie.code-workspace
 .editorconfig
+/obj/x86/Debug
+/.vs/Dawnsbury.Mods.DawnniExpanded/FileContentIndex
