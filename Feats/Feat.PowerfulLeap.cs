@@ -23,7 +23,7 @@ public static class FeatPowerfulLeap
         PowerfulLeapTrueFeat = new TrueFeat(FeatName.CustomFeat, 2,
                 "You can leap even greater distances.",
                 "When you Leap, you increase the distance you can jump horizontally by 5 feet.",
-                new[] { Trait.General, Trait.Skill,DawnniExpanded.DETrait}
+                new[] { Trait.General, Trait.Skill, DawnniExpanded.DETrait}
                 )
             .WithCustomName("Powerful Leap")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Athletics) >= Proficiency.Expert, "You must be Expert in Athletics.")
