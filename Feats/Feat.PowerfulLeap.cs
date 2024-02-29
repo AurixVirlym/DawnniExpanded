@@ -16,11 +16,11 @@ namespace Dawnsbury.Mods.DawnniExpanded;
 
 public static class FeatPowerfulLeap
 {
-
+    public static Feat PowerfulLeapTrueFeat;
     public static void LoadMod()
     {
-    
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 2,
+
+        PowerfulLeapTrueFeat = new TrueFeat(FeatName.CustomFeat, 2,
                 "You can leap even greater distances.",
                 "When you Leap, you increase the distance you can jump horizontally by 5 feet.",
                 new[] { Trait.General, Trait.Skill,DawnniExpanded.DETrait}
@@ -35,6 +35,8 @@ public static class FeatPowerfulLeap
                     Innate = true
                 };
                 creature.AddQEffect(PowerfulLeap);
-            }));
+            });
+
+        ModManager.AddFeat(PowerfulLeapTrueFeat);
     }
 }
