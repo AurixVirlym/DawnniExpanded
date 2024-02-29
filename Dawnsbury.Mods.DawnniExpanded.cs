@@ -1,5 +1,6 @@
 using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
+using Dawnsbury.Mods.DawnniExpanded.Backgrounds;
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 public class DawnniExpanded
@@ -38,6 +39,11 @@ public class DawnniExpanded
 
         FeatBattleMedicine.LoadMod();
         FeatPowerfulLeap.LoadMod();
+
+        BackgroundFieldMedic.LoadMod();
+        BackgroundMartialDisciple.LoadMod();
+        BackgroundWarrior.LoadMod();
+        BackgroundDancer.LoadMod();
 
         ActionLeap.LoadMod();
 
