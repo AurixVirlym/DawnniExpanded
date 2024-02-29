@@ -110,12 +110,3 @@ DawnniburyExpandedAssets/FalseLife.png
 DawnniburyExpandedAssets/RousingSplash.png
 Decomplie.code-workspace
 .editorconfig
-/obj/x86/Debug
-/.vs/Dawnsbury.Mods.DawnniExpanded/FileContentIndex
-/Dawnsbury.Mod.targets
-/.vs/Dawnsbury.Mods.DawnniExpanded/v17
-/obj/Debug
-*.user
-/.vs/ProjectEvaluation
-/.vs/Dawnsbury.Mods.DawnniExpanded/DesignTimeBuild
-/bin/Debug/net6.0-windows
