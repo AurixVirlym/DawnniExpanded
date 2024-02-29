@@ -33,7 +33,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Backgrounds
                 }).WithCustomName("Dancer")
                 as BackgroundSelectionFeat;
             DancerBackground.Traits.Add(DawnniExpanded.DETrait);
-            DancerBackground.Traits.Add(Trait.Homebrew);
+            DancerBackground.Traits.Add(DawnniExpanded.HomebrewTrait);
             ModManager.AddFeat(DancerBackground);
         }
     }
