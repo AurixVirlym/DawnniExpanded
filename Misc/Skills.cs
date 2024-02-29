@@ -4,7 +4,7 @@ using Dawnsbury.Modding;
 
 namespace Dawnsbury.Mods.DawnniExpanded
 {
-    
+
     public class NewSkills
     {
         public static Feat Performance = new SkillSelectionFeat(FeatName.CustomFeat, Skill.Performance, Trait.Performance).WithCustomName("Performance");
@@ -14,14 +14,15 @@ namespace Dawnsbury.Mods.DawnniExpanded
         public static Feat ExpertCrafting = new SkillIncreaseFeat(FeatName.CustomFeat, Skill.Crafting, Trait.Crafting).WithCustomName("Expert in Crafting");
         public static Feat ExpertSurvival = new SkillIncreaseFeat(FeatName.CustomFeat, Skill.Survival, Trait.Survival).WithCustomName("Expert in Survival");
 
-        
-        public static void LoadMod(){
-        ModManager.AddFeat(Performance);
-        ModManager.AddFeat(Crafting);
-        ModManager.AddFeat(Survival);
-        ModManager.AddFeat(ExpertPerformance);
-        ModManager.AddFeat(ExpertCrafting);
-        ModManager.AddFeat(ExpertSurvival);
+
+        public static void LoadMod()
+        {
+            ModManager.AddFeat(Performance);
+            ModManager.AddFeat(Crafting);
+            ModManager.AddFeat(Survival);
+            ModManager.AddFeat(ExpertPerformance);
+            ModManager.AddFeat(ExpertCrafting);
+            ModManager.AddFeat(ExpertSurvival);
         }
     }
 }

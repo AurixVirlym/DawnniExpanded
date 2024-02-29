@@ -38,5 +38,6 @@ public static class FeatPowerfulLeap
             });
 
         ModManager.AddFeat(PowerfulLeapTrueFeat);
+       
     }
 }

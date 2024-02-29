@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<adventurePath
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="adventurePath.xsd">
+    <id>Animal Wilds</id>
+    <name>Animal Wilds</name>
+    <description>
+       This is a short and simple, three encounter adventure path included in the DawnniExpanded Mod.
+
+       It is intended for level 2 characters and takes place within city where you will be dealing with rampaging animals. 
+
+       This AP is mainly a test of how modding creatures, adventure path and encounters work.
+    </description>
+    <mediumRestFlavorText>Your heroes take a little rest to regain health.</mediumRestFlavorText>
+    <startingLevel>2</startingLevel>
+    <startingShopLevel>3</startingShopLevel>
+    <encounters>
+        <beginChapter>Chapter 1</beginChapter>
+        <dawnsbury name = "The City" flavorText="It all began on a day like any other..." shopLevel="3" />
+        <encounter filename="AnimalPanicttheMarket.tmx">
+            <rewards gold="0">
+                <item>LesserHealingPotion</item>
+                <item>SpellScroll:spell_SummonAnimal</item>
+                <item>HealersGloves</item>
+            </rewards>
+        </encounter>
+        <encounter filename="Dogpile.tmx">
+            <rewards gold="0">
+                <item>LesserHealingPotion</item>
+                <item>LesserHealingPotion</item>
+            </rewards>
+        </encounter>
+        <encounter filename="DancingMad.tmx" />
+        <dawnsbury name = "END" flavorText="More Content Coming, Maybe Eventually TM"  shopLevel="3"  />
+    </encounters>
+</adventurePath>
