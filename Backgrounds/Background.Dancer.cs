@@ -24,7 +24,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Backgrounds
         {
 
             DancerBackground = new BackgroundSelectionFeat(FeatName.CustomFeat, "In your younger days, you would dance, perhaps professionally, perhaps in private. Either way, this experience has proved valuable to your career as an adventurer."
-                , "Choose two ability boosts. One must be to {b}Dexterity{/b} or {b}Charisma{/b}, and one is a free ability boost.\r\nYou're trained in the{b}Acrobatics{/b} skill. You gain the {b}Feather Step{/b} feat."
+                , "Choose two ability boosts. One must be to {b}Dexterity{/b} or {b}Charisma{/b}, and one is a free ability boost.\r\n\r\nYou're trained in the {b}Acrobatics{/b} skill. You gain the {b}Feather Step{/b} feat."
                 , new List<AbilityBoost> { new LimitedAbilityBoost(Ability.Dexterity, Ability.Charisma), new FreeAbilityBoost() })
                 .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                 {

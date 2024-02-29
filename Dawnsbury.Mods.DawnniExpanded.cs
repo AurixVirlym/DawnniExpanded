@@ -20,10 +20,10 @@ public class DawnniExpanded
             new TraitProperties("Homebrew", true)
             );
 
-            
+
 
         NewSkills.LoadMod();
-        
+
         SpellHorizonThunderSphere.LoadMod();
         SpellAnimatedAssualt.LoadMod();
         SpellScorchingRay.LoadMod();

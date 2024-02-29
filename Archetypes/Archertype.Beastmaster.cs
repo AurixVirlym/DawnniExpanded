@@ -119,59 +119,59 @@ public static class ArchetypeBeastmaster
                 {
                   sheet.RangerBenefitsToCompanion += (Action<Creature, Creature>)((companion, ranger) =>
                       {
-                      companion.MaxHP += companion.Level;
-                      companion.Abilities.Strength += 1;
-                      companion.Abilities.Dexterity += 1;
-                      companion.Abilities.Constitution += 1;
-                      companion.Abilities.Wisdom += 1;
-                      if (companion.UnarmedStrike.WeaponProperties.DamageDieCount == 1)
-                      {
-                        companion.UnarmedStrike.WeaponProperties.DamageDieCount += 1;
-                      }
-
-
-                      foreach (QEffect qf in companion.QEffects.Where<QEffect>(qf => qf.AdditionalUnarmedStrike != null))
-                      {
-                        if (qf.AdditionalUnarmedStrike.WeaponProperties.DamageDieCount == 1)
+                        companion.MaxHP += companion.Level;
+                        companion.Abilities.Strength += 1;
+                        companion.Abilities.Dexterity += 1;
+                        companion.Abilities.Constitution += 1;
+                        companion.Abilities.Wisdom += 1;
+                        if (companion.UnarmedStrike.WeaponProperties.DamageDieCount == 1)
                         {
-                          qf.AdditionalUnarmedStrike.WeaponProperties.DamageDieCount += 1;
+                          companion.UnarmedStrike.WeaponProperties.DamageDieCount += 1;
                         }
-                      }
 
-                      companion.Perception += 2;
-                      companion.Proficiencies.Set(Trait.Perception, Proficiency.Expert);
-                      companion.Proficiencies.Set(Trait.Fortitude, Proficiency.Expert);
-                      companion.Proficiencies.Set(Trait.Will, Proficiency.Expert);
-                      companion.Proficiencies.Set(Trait.Reflex, Proficiency.Expert);
 
-                      if (companion.Proficiencies.Get(Trait.Survival) == Proficiency.Trained)
-                      {
-                        sheet.SetProficiency(Trait.Survival, Proficiency.Expert);
-                      }
-                      else if (companion.Proficiencies.Get(Trait.Survival) == Proficiency.Untrained)
-                      {
-                        sheet.SetProficiency(Trait.Survival, Proficiency.Trained);
-                      }
+                        foreach (QEffect qf in companion.QEffects.Where<QEffect>(qf => qf.AdditionalUnarmedStrike != null))
+                        {
+                          if (qf.AdditionalUnarmedStrike.WeaponProperties.DamageDieCount == 1)
+                          {
+                            qf.AdditionalUnarmedStrike.WeaponProperties.DamageDieCount += 1;
+                          }
+                        }
 
-                      if (companion.Proficiencies.Get(Trait.Intimidation) == Proficiency.Trained)
-                      {
-                        sheet.SetProficiency(Trait.Survival, Proficiency.Expert);
-                      }
-                      else if (companion.Proficiencies.Get(Trait.Intimidation) == Proficiency.Untrained)
-                      {
-                        sheet.SetProficiency(Trait.Intimidation, Proficiency.Trained);
-                      }
+                        companion.Perception += 2;
+                        companion.Proficiencies.Set(Trait.Perception, Proficiency.Expert);
+                        companion.Proficiencies.Set(Trait.Fortitude, Proficiency.Expert);
+                        companion.Proficiencies.Set(Trait.Will, Proficiency.Expert);
+                        companion.Proficiencies.Set(Trait.Reflex, Proficiency.Expert);
 
-                      if (companion.Proficiencies.Get(Trait.Stealth) == Proficiency.Trained)
-                      {
-                        sheet.SetProficiency(Trait.Stealth, Proficiency.Expert);
-                      }
-                      else if (companion.Proficiencies.Get(Trait.Stealth) == Proficiency.Untrained)
-                      {
-                        sheet.SetProficiency(Trait.Stealth, Proficiency.Trained);
-                      }
+                        if (companion.Proficiencies.Get(Trait.Survival) == Proficiency.Trained)
+                        {
+                          sheet.SetProficiency(Trait.Survival, Proficiency.Expert);
+                        }
+                        else if (companion.Proficiencies.Get(Trait.Survival) == Proficiency.Untrained)
+                        {
+                          sheet.SetProficiency(Trait.Survival, Proficiency.Trained);
+                        }
 
-                    });
+                        if (companion.Proficiencies.Get(Trait.Intimidation) == Proficiency.Trained)
+                        {
+                          sheet.SetProficiency(Trait.Survival, Proficiency.Expert);
+                        }
+                        else if (companion.Proficiencies.Get(Trait.Intimidation) == Proficiency.Untrained)
+                        {
+                          sheet.SetProficiency(Trait.Intimidation, Proficiency.Trained);
+                        }
+
+                        if (companion.Proficiencies.Get(Trait.Stealth) == Proficiency.Trained)
+                        {
+                          sheet.SetProficiency(Trait.Stealth, Proficiency.Expert);
+                        }
+                        else if (companion.Proficiencies.Get(Trait.Stealth) == Proficiency.Untrained)
+                        {
+                          sheet.SetProficiency(Trait.Stealth, Proficiency.Trained);
+                        }
+
+                      });
 
                 }
 
@@ -195,9 +195,9 @@ public static class ArchetypeBeastmaster
                           ExpiresAt = ExpirationCondition.ExpiresAtEndOfYourTurn,
                           StartOfYourTurn = (Func<QEffect, Creature, Task>)(async (effect, creature) =>
                                 {
-                            creature.Actions.UseUpActions(1, ActionDisplayStyle.Summoned);
-                            return;
-                          })
+                                  creature.Actions.UseUpActions(1, ActionDisplayStyle.Summoned);
+                                  return;
+                                })
                         });
                         await CommonSpellEffects.YourMinionActs(animalCompanion);
 
