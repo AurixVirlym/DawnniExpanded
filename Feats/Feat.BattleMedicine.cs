@@ -150,9 +150,10 @@ public class FeatBattleMedicine
         {
             BattleMedAction.Name = "Battle Medicine (Expert)";
             BattleMedAction.Description = "Attempt a {b}DC 20 Medicine check{/b} targeting an adjacent ally or yourself. The target is then temporarily immune to your Battle Medicine until long rest.\n\n{b}Critical Success{/b} The target regains 4d8+10 Hit Points.\n{b}Success{/b} The target regains 2d8+10 Hit Points.\n{b}Critical Failure{/b} The target takes 1d8 daamge.";
+            BattleMedAction.WithActiveRollSpecification(
+                       new ActiveRollSpecification(Checks.SkillCheck(Skill.Medicine), Checks.FlatDC(20)));
         }
-        BattleMedAction.WithActiveRollSpecification(
-                        new ActiveRollSpecification(Checks.SkillCheck(Skill.Medicine), Checks.FlatDC(20)));
+
         return BattleMedAction;
     }
 
