@@ -57,16 +57,16 @@ namespace Dawnsbury.Mods.DawnniExpanded
               Id = CommandCivieQFId,
               ProvideActionIntoPossibilitySection = delegate (QEffect qfAlly, PossibilitySection section)
                   {
-                      if (section.PossibilitySectionId != PossibilitySectionId.ContextualActions)
-                      {
-                        return null;
-                      }
+                    if (section.PossibilitySectionId != PossibilitySectionId.ContextualActions)
+                    {
+                      return null;
+                    }
 
-                      Creature actionowner = item;
+                    Creature actionowner = item;
 
-                      return new SubmenuPossibility(leshy.Illustration, "Direct a Civilian")
-                      {
-                        Subsections =
+                    return new SubmenuPossibility(leshy.Illustration, "Direct a Civilian")
+                    {
+                      Subsections =
                             {
                                     new PossibilitySection("Direct a Civilian")
                                     {
@@ -124,9 +124,9 @@ namespace Dawnsbury.Mods.DawnniExpanded
                                         }
                                     }
                             },
-                        PossibilityGroup = "Interactions"
-                      };
-                    }
+                      PossibilityGroup = "Interactions"
+                    };
+                  }
             };
 
             item.AddQEffect(PlayerActionsQF);
@@ -148,9 +148,9 @@ namespace Dawnsbury.Mods.DawnniExpanded
           Creature zombie = qfPush.Owner;
           IEnumerable<Creature> source = from cr in zombie.Battle.AllCreatures.Where(delegate (Creature cr)
                   {
-                  CombatAction combatAction = zombie.Actions.ActionHistoryThisTurn.LastOrDefault();
-                  return combatAction != null && combatAction.CheckResult >= CheckResult.Success && combatAction.HasTrait(PushTrait) && combatAction.ChosenTargets.ChosenCreature == cr;
-                })
+                    CombatAction combatAction = zombie.Actions.ActionHistoryThisTurn.LastOrDefault();
+                    return combatAction != null && combatAction.CheckResult >= CheckResult.Success && combatAction.HasTrait(PushTrait) && combatAction.ChosenTargets.ChosenCreature == cr;
+                  })
                                          select cr;
           return new SubmenuPossibility(IllustrationName.GenericCombatManeuver, "Push")
           {
@@ -308,85 +308,85 @@ namespace Dawnsbury.Mods.DawnniExpanded
                   new Abilities(4, 1, 3, -4, 3, -1),
                   new Skills(athletics: 8, stealth: 7))
               .AddQEffect(QEffect.Ferocity())
-              .WithProficiency(Trait.Unarmed, (Proficiency)7)
+              .WithProficiency(Trait.Unarmed, (Proficiency)5)
               .WithUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.Jaws, "jaws", "1d8", DamageKind.Piercing))
               .WithAdditionalUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.DragonClaws, "claw", "1d6", DamageKind.Slashing, Trait.Agile))
               .AddQEffect(new QEffect()
-             {
+              {
 
-               Innate = true,
-               Name = "Enter Badger Rage",
-               DoNotShowUpOverhead = true,
-               Description = "Badger gains +4 to damage and reduces their AC by 1. Evil.",
-               ProvideMainAction = (qfBadgerRage => (Possibility)(ActionPossibility)
-                  new CombatAction(qfBadgerRage.Owner, (Illustration)IllustrationName.Rage, "Enter Badger Rage", new Trait[4]
-                  {
+                Innate = true,
+                Name = "Enter Badger Rage",
+                DoNotShowUpOverhead = true,
+                Description = "Badger gains +4 to damage and reduces their AC by 1. Evil.",
+                ProvideMainAction = (qfBadgerRage => (Possibility)(ActionPossibility)
+                   new CombatAction(qfBadgerRage.Owner, (Illustration)IllustrationName.Rage, "Enter Badger Rage", new Trait[4]
+                   {
           Trait.Concentrate,
           Trait.Emotion,
           Trait.Mental,
           Trait.Basic
-     }, "Badger gains +4 to damage and reduces their AC by 1. Evil.", Target.Self((Func<Creature, AI, float>)((cr, ai) =>
-     {
-       if (cr.Actions.ActionsLeft >= 2 &&
-         cr.Battle.AllCreatures.Any<Creature>(enemy =>
-         enemy.EnemyOf(cr)
-         && cr.IsAdjacentTo(enemy))
-         && cr.HP != cr.MaxHP && cr.QEffects.All(qf => qf.Name != "Badger Rage")
-         )
-       {
-         return (float)int.MaxValue;
-       }
-       else return int.MinValue;
+      }, "Badger gains +4 to damage and reduces their AC by 1. Evil.", Target.Self((Func<Creature, AI, float>)((cr, ai) =>
+      {
+        if (cr.Actions.ActionsLeft >= 2 &&
+          cr.Battle.AllCreatures.Any<Creature>(enemy =>
+          enemy.EnemyOf(cr)
+          && cr.IsAdjacentTo(enemy))
+          && cr.HP != cr.MaxHP && cr.QEffects.All(qf => qf.Name != "Badger Rage")
+          )
+        {
+          return (float)int.MaxValue;
+        }
+        else return int.MinValue;
 
-     })))
-                  .WithActionCost(1)
-                  .WithEffectOnSelf(async (spell, caster) =>
-                                      {
-                           QEffect BadgerRage = new QEffect()
-                           {
-                             Name = "Badger Rage",
-                             DoNotShowUpOverhead = true,
-                             Description = "Badger gains +4 to damage and reduces their AC by 1. Evil.",
-                             Illustration = IllustrationName.Rage,
-                             BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) =>
-                               {
-                                 if (defense == Defense.AC)
-                                 {
-                                   return new Bonus(-1, BonusType.Untyped, "Badger Rage");
-                                 }
-                                 else return null;
-                               },
+      })))
+                   .WithActionCost(1)
+                   .WithEffectOnSelf(async (spell, caster) =>
+                                       {
+                                         QEffect BadgerRage = new QEffect()
+                                         {
+                                           Name = "Badger Rage",
+                                           DoNotShowUpOverhead = true,
+                                           Description = "Badger gains +4 to damage and reduces their AC by 1. Evil.",
+                                           Illustration = IllustrationName.Rage,
+                                           BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) =>
+                                            {
+                                              if (defense == Defense.AC)
+                                              {
+                                                return new Bonus(-1, BonusType.Untyped, "Badger Rage");
+                                              }
+                                              else return null;
+                                            },
 
-                             BonusToDamage = (QEffect qf, CombatAction attack, Creature target) =>
-                             {
-                               return new Bonus(4, BonusType.Untyped, "Badger Rage");
-                             },
+                                           BonusToDamage = (QEffect qf, CombatAction attack, Creature target) =>
+                                          {
+                                            return new Bonus(4, BonusType.Untyped, "Badger Rage");
+                                          },
 
-                             ExpiresAt = ExpirationCondition.Never,
-                             StateCheck = Qfrage =>
-                             {
-                               Qfrage.Owner.Illustration = JojoBadger;
-                               if (Qfrage.Owner.HasEffect(QEffectId.CalmEmotions))
-                               {
-                                 Qfrage.ExpiresAt = ExpirationCondition.Immediately;
+                                           ExpiresAt = ExpirationCondition.Never,
+                                           StateCheck = Qfrage =>
+                                          {
+                                            Qfrage.Owner.Illustration = JojoBadger;
+                                            if (Qfrage.Owner.HasEffect(QEffectId.CalmEmotions))
+                                            {
+                                              Qfrage.ExpiresAt = ExpirationCondition.Immediately;
 
-                               }
+                                            }
 
-                             }
-                           };
-                           caster.AddQEffect(BadgerRage);
-                           caster.WithTactics(Tactic.Mindless);
-                           caster.AddQEffect(new QEffect("Immunity to Badger Rage", "[this condition has no description]", ExpirationCondition.Never, caster, IllustrationName.None)
-                           {
-                             PreventTargetingBy = (CombatAction action) => (action.Name != spell.Name) ? null : "immunity"
-                           }
-                              );
-                         })
+                                          }
+                                         };
+                                         caster.AddQEffect(BadgerRage);
+                                         caster.WithTactics(Tactic.Mindless);
+                                         caster.AddQEffect(new QEffect("Immunity to Badger Rage", "[this condition has no description]", ExpirationCondition.Never, caster, IllustrationName.None)
+                                         {
+                                           PreventTargetingBy = (CombatAction action) => (action.Name != spell.Name) ? null : "immunity"
+                                         }
+                                           );
+                                       })
 
       ),
 
 
-             });
+              });
 
        return GiantBadger;
      });

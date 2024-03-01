@@ -77,7 +77,7 @@ public static class ArchetypeBard
                 "Bard Dedication Skill",
                 "Bard Dedication skill",
                 -1,
-                (ft) => ft.FeatName == FeatName.Occultism || ft.CustomName == "Performance"
+                (ft) => ft.FeatName == FeatName.Occultism || ft == NewSkills.Performance
                 , 2)
                 );
       }
@@ -88,7 +88,7 @@ public static class ArchetypeBard
                 "Bard Dedication Skill",
                 "Bard Dedication skill",
                 -1,
-                (ft) => ft.FeatName == FeatName.Occultism || ft.CustomName == "Performance")
+                (ft) => ft.FeatName == FeatName.Occultism || ft == NewSkills.Performance)
 
                 );
         sheet.AddSelectionOption(

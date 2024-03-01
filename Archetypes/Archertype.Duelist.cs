@@ -131,7 +131,7 @@ public static class ArchetypeDuelist
     creature.AddQEffect(DuellingParryHolder);
   })
             .WithCustomName("Dueling Parry (Duelist){icon:Action}")
-            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DuelistDedicationFeat) || values.Sheet.Class.ClassTrait == Trait.Fighter, "You must have the Duelist Dedidcation feat.")
+            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DuelistDedicationFeat), "You must have the Duelist Dedidcation feat.")
             .WithEquivalent(values => values.AllFeats.Contains(FeatDuelingParry.FeatDuelingParryFighter));
 
 
@@ -224,7 +224,7 @@ public static class ArchetypeDuelist
       creature.AddQEffect(DuelistsChallengeHolder);
     })
               .WithCustomName("Duelist's Challenge{icon:Action}")
-              .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DuelistDedicationFeat) || values.Sheet.Class.ClassTrait == Trait.Fighter, "You must have the Duelist Dedidcation feat.");
+              .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DuelistDedicationFeat), "You must have the Duelist Dedidcation feat.");
 
 
     ModManager.AddFeat(DuelingParryFeat);
