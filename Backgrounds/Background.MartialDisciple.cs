@@ -23,7 +23,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Backgrounds
         {
 
             MartialDiscipleBackground = new BackgroundSelectionFeat(FeatName.CustomFeat, "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization."
-                , "Choose two ability boosts. One must be to {b}Strength{/b} or {b}Dexterity{/b}, and one is a free ability boost.\r\n\r\nYou're trained in the {b}Athletics{/b} skill. You gain the {b}Powerful Leap{/b} feat."
+                , "You're trained in the {b}Athletics{/b} skill. You gain the {b}Powerful Leap{/b} feat."
                 , new List<AbilityBoost> { new LimitedAbilityBoost(Ability.Strength, Ability.Dexterity), new FreeAbilityBoost() })
                 .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                 {

@@ -61,14 +61,14 @@ public static class ArchetypeWizard
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait })
             .WithCustomName("Wizard Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Intelligence) >= 14, "You must have at least 14 inteligence")
-            .WithPrerequisite(values => values.Sheet.Class.ClassTrait != Trait.Wizard, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Wizard, "You already have this archetype as a main class.")
             .WithPrerequisite(values =>
-            values.Sheet.Class.ClassTrait != Trait.Bard &&
-            values.Sheet.Class.ClassTrait != Trait.Wizard &&
-            values.Sheet.Class.ClassTrait != Trait.Magus &&
-            values.Sheet.Class.ClassTrait != Trait.Sorcerer &&
-            values.Sheet.Class.ClassTrait != Trait.Psychic &&
-            values.Sheet.Class.ClassTrait != Trait.Cleric
+            values.Sheet?.Class.ClassTrait != Trait.Bard &&
+            values.Sheet?.Class.ClassTrait != Trait.Wizard &&
+            values.Sheet?.Class.ClassTrait != Trait.Magus &&
+            values.Sheet?.Class.ClassTrait != Trait.Sorcerer &&
+            values.Sheet?.Class.ClassTrait != Trait.Psychic &&
+            values.Sheet?.Class.ClassTrait != Trait.Cleric
             , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 

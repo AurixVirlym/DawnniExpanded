@@ -122,7 +122,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
         }),
         (Feat) new Feat(FeatName.CustomFeat, "The battlefield is your stage, the clang of steel, your song. Your muse engages in countless battles, whether reveling in combat or resigned to its necessity. If your muse is a creature, it might be an otherworldly soldier, such as a planetar, archon, cornugon, or purrodaemon. As a bard with a warrior muse, you train for battle in addition to performance, and you prepare your allies for the dangers of battle. You might even wade into the thick of things with them.", "You gain Martial Weapon Proficiency and add "+AllSpells.CreateModernSpellTemplate(SpellId.Fear).ToSpellLink()+" to your spell repertoire.", new List<Trait>(), null).WithCustomName("Warrior").WithOnSheet( sheet =>
         {
-        sheet.GrantFeat(FeatName.WeaponProficiencyMartial);
+        sheet.GrantFeat(FeatName.WeaponProficiency,FeatName.WeaponProficiencyMartial);
         Spell Spelltoadd = AllSpells.All.FirstOrDefault(spell => spell.SpellId == SpellId.Fear);
         sheet.SpellRepertoires[Trait.Bard].SpellsKnown.Add(Spelltoadd);
         }),

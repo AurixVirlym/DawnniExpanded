@@ -42,7 +42,7 @@ public static class ArchetypeFighter
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, FighterArchetypeTrait })
             .WithCustomName("Fighter Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Strength) >= 14 && values.FinalAbilityScores.TotalScore(Ability.Dexterity) >= 14, "You must have at least 14 Strength and Dexterity.")
-            .WithPrerequisite(values => values.Sheet.Class.ClassTrait != Trait.Fighter, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Fighter, "You already have this archetype as a main class.")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
@@ -106,9 +106,9 @@ public static class ArchetypeFighter
               .WithCustomName("Fighter Resiliency")
               .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FighterDedicationFeat), "You must have the Fighter Dedication feat.")
               .WithPrerequisite((CalculatedCharacterSheetValues values) =>
-              values.Sheet.Class.ClassTrait != Trait.Ranger &&
-              values.Sheet.Class.ClassTrait != Trait.Barbarian &&
-              values.Sheet.Class.ClassTrait != Trait.Monk
+              values.Sheet?.Class.ClassTrait != Trait.Ranger &&
+              values.Sheet?.Class.ClassTrait != Trait.Barbarian &&
+              values.Sheet?.Class.ClassTrait != Trait.Monk
 
               , "You have a class granting more than Hit Points per level than 8 + your Constitution modifier")
               .WithOnCreature((CalculatedCharacterSheetValues sheet, Creature cr) =>

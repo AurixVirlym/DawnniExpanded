@@ -37,14 +37,14 @@ public static class ArchetypeBard
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, BardArchetypeTrait })
             .WithCustomName("Bard Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Charisma) >= 14, "You must have at least 14 Charizzma")
-            .WithPrerequisite(values => values.Sheet.Class.ClassTrait != Trait.Bard, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Bard, "You already have this archetype as a main class.")
             .WithPrerequisite(values =>
-            values.Sheet.Class.ClassTrait != Trait.Bard &&
-            values.Sheet.Class.ClassTrait != Trait.Wizard &&
-            values.Sheet.Class.ClassTrait != Trait.Magus &&
-            values.Sheet.Class.ClassTrait != Trait.Sorcerer &&
-            values.Sheet.Class.ClassTrait != Trait.Psychic &&
-            values.Sheet.Class.ClassTrait != Trait.Cleric
+            values.Sheet?.Class.ClassTrait != Trait.Bard &&
+            values.Sheet?.Class.ClassTrait != Trait.Wizard &&
+            values.Sheet?.Class.ClassTrait != Trait.Magus &&
+            values.Sheet?.Class.ClassTrait != Trait.Sorcerer &&
+            values.Sheet?.Class.ClassTrait != Trait.Psychic &&
+            values.Sheet?.Class.ClassTrait != Trait.Cleric
             , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
@@ -74,7 +74,7 @@ public static class ArchetypeBard
       {
         sheet.AddSelectionOption(
             new MultipleFeatSelectionOption(
-                "Bard Dedication Skill",
+                "Bard Dedication Skill1",
                 "Bard Dedication skill",
                 -1,
                 (ft) => ft.FeatName == FeatName.Occultism || ft == NewSkills.Performance
@@ -85,7 +85,7 @@ public static class ArchetypeBard
       {
         sheet.AddSelectionOption(
             new SingleFeatSelectionOption(
-                "Bard Dedication Skill",
+                "Bard Dedication Skill2",
                 "Bard Dedication skill",
                 -1,
                 (ft) => ft.FeatName == FeatName.Occultism || ft == NewSkills.Performance)
@@ -93,7 +93,7 @@ public static class ArchetypeBard
                 );
         sheet.AddSelectionOption(
             new SingleFeatSelectionOption(
-                "Bard Dedication Skill2",
+                "Bard Dedication Skill3",
                 "Bard Dedication skill",
                 -1,
                 (ft) => ft is SkillSelectionFeat)
@@ -104,7 +104,7 @@ public static class ArchetypeBard
       {
         sheet.AddSelectionOption(
             new MultipleFeatSelectionOption(
-                "Bard Dedication Skill",
+                "Bard Dedication Skill4",
                 "Bard Dedication skill",
                 -1,
                 (ft) => ft is SkillSelectionFeat
@@ -187,15 +187,9 @@ public static class ArchetypeBard
   sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells", "1st level bard spell", 4, Trait.Bard, Trait.Occult, 1, 1));
   repertoire.SpellSlots[1] += 1;
 });
-
+    ModManager.AddFeat(BardDedicationFeat);
     ModManager.AddFeat(BardBasicSpellcasting);
 
 
-
-
-
-
-
-    ModManager.AddFeat(BardDedicationFeat);
   }
 }

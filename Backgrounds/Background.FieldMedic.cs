@@ -23,7 +23,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Backgrounds
         {
 
             FieldMedicBackground = new BackgroundSelectionFeat(FeatName.CustomFeat, "In the chaotic rush of battle, you learned to adapt to rapidly changing conditions as you administered to battle casualties. You patched up soldiers, guards, or other combatants, and learned a fair amount about the logistics of war."
-                , "Choose two ability boosts. One must be to {b}Constitution{/b} or {b}Wisdom{/b}, and one is a free ability boost.\r\n\r\nYou're trained in the {b}Medicine{/b} skill. You gain the {b}Battle Medicine{/b} feat."
+                , "You're trained in the {b}Medicine{/b} skill. You gain the {b}Battle Medicine{/b} feat."
                 , new List<AbilityBoost> { new LimitedAbilityBoost(Ability.Constitution, Ability.Wisdom), new FreeAbilityBoost() })
                 .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                 {

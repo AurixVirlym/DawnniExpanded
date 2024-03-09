@@ -55,14 +55,14 @@ public static class ArchetypePsychic
             )
             .WithCustomName("Psychic Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Charisma) >= 14 || values.FinalAbilityScores.TotalScore(Ability.Intelligence) >= 14, "You must have at least Intelligence 14, or Charisma 14.")
-            .WithPrerequisite(values => values.Sheet.Class.ClassTrait != Trait.Psychic, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Psychic, "You already have this archetype as a main class.")
             .WithPrerequisite(values =>
-            values.Sheet.Class.ClassTrait != Trait.Bard &&
-            values.Sheet.Class.ClassTrait != Trait.Wizard &&
-            values.Sheet.Class.ClassTrait != Trait.Magus &&
-            values.Sheet.Class.ClassTrait != Trait.Sorcerer &&
-            values.Sheet.Class.ClassTrait != Trait.Psychic &&
-            values.Sheet.Class.ClassTrait != Trait.Cleric
+            values.Sheet?.Class.ClassTrait != Trait.Bard &&
+            values.Sheet?.Class.ClassTrait != Trait.Wizard &&
+            values.Sheet?.Class.ClassTrait != Trait.Magus &&
+            values.Sheet?.Class.ClassTrait != Trait.Sorcerer &&
+            values.Sheet?.Class.ClassTrait != Trait.Psychic &&
+            values.Sheet?.Class.ClassTrait != Trait.Cleric
             , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
@@ -119,7 +119,7 @@ public static class ArchetypePsychic
 
     });
 
-
+    ModManager.AddFeat(PsychicDedicationFeat);
 
 
     ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
@@ -198,6 +198,6 @@ public static class ArchetypePsychic
 
 
 
-    ModManager.AddFeat(PsychicDedicationFeat);
+
   }
 }
