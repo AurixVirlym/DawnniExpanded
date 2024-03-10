@@ -58,7 +58,7 @@ public static class ArchetypeWizard
             2,
             "You have dabbled in the arcane arts and, through discipline and academic study, learned how to cast a few spells.",
             "You cast spells like a wizard and gain the Cast a Spell activity.\n\nYou can prepare two cantrips each day from the arcane spell list \n\nYou're trained in spell attack rolls and spell DCs for arcane spells. \n\nYour key spellcasting ability for wizard archetype spells is inteligence, and they are arcane wizard spells.\n\nYou become trained in Arcana; if you were already trained in Arcana, you instead become trained in a skill of your choice." + "\n\n{b}Focus Spells granted by classes such as ranger and monk break archetype spellcasting{/b}",
-            new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait })
+            new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait, FeatArchetype.ArchetypeSpellcastingTrait })
             .WithCustomName("Wizard Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Intelligence) >= 14, "You must have at least 14 inteligence")
             .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Wizard, "You already have this archetype as a main class.")

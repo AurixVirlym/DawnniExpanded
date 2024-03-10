@@ -40,7 +40,7 @@ public class SpellHymnOfHealing
             DawnniExpanded.DETrait },
                         "Your divine singing mends wounds and provides a temporary respite from harm.",
                         "The target heals " + S.HeightenedVariable(spellLevel * 2, 2) + " hit points."
-                        + "\n\nWhen you Cast the Spell and the first time each round you Sustain the Spell, the target gains " + S.HeightenedVariable(spellLevel * 2, 2) + " temporary Hit Points."
+                        + "\n\nWhen you Cast the Spell and the first time each round you Sustain the Spell, the target gains " + S.HeightenedVariable(spellLevel * 2, 2) + " temporary Hit Points and heals the same amount."
                         + HS.HeightenTextLevels(spellLevel > 1, spellLevel, inCombat, "{b}Heightened (+1){/b} The healed hit points and temporary Hit Points each increase by 2."),
                         Target.RangedFriend(6),
                             spellLevel,
@@ -56,7 +56,7 @@ public class SpellHymnOfHealing
                                 target.Heal(EndureTHP.ToString(), spell);
                                 int RoundsLeft = 3;
 
-                                QEffect EffectOnTarget = new QEffect("Hymn of Healing", "When Hymn of Healing is sustained, " + target.Name + " will gain " + spellLevel * 2 + " temporary Hit Points", ExpirationCondition.ExpiresAtEndOfSourcesTurn, caster, SpellIllustration)
+                                QEffect EffectOnTarget = new QEffect("Hymn of Healing", "When Hymn of Healing is sustained, " + target.Name + " will gain " + spellLevel * 2 + " temporary Hit Points and heal " + spellLevel * 2 + " Hit Points.", ExpirationCondition.ExpiresAtEndOfSourcesTurn, caster, SpellIllustration)
                                 {
                                     CannotExpireThisTurn = true,
                                 };
@@ -74,6 +74,7 @@ public class SpellHymnOfHealing
                                     EffectOnTarget.CannotExpireThisTurn = true;
                                     int EndureTHP = spell.SpellLevel * 2;
                                     target.GainTemporaryHP(EndureTHP);
+                                    target.Heal(EndureTHP.ToString(), spell);
                                     --RoundsLeft;
 
                                 })) : null;

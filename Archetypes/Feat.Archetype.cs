@@ -18,6 +18,8 @@ public static class FeatArchetype
     public static Trait DedicationTrait;
     public static Trait ArchetypeTrait;
 
+    public static Trait ArchetypeSpellcastingTrait;
+
     public static Feat DedicationFeat;
     public static Feat ArchetypeFeat;
 
@@ -37,6 +39,14 @@ public static class FeatArchetype
             new TraitProperties("Archetype", true, "", false)
             {
             });
+
+        ArchetypeSpellcastingTrait = ModManager.RegisterTrait(
+            "ArchetypeSpellcasting",
+            new TraitProperties("ArchetypeSpellcasting", false, "", false)
+            {
+            });
+
+
 
 
         {
@@ -72,7 +82,7 @@ public static class FeatArchetype
                         new Trait[] { ArchetypeTrait, Trait.ClassFeat, Trait.Bard, Trait.Sorcerer, Trait.Rogue, Trait.Fighter, Trait.Wizard, Trait.Monk, Trait.Investigator, Trait.Cleric, Trait.Kineticist, Trait.Psychic, Trait.Barbarian, Trait.Magus, Trait.Rogue, Trait.Ranger, DawnniExpanded.DETrait })
                         .WithMultipleSelection()
                         .WithCustomName("Archetype Feat")
-                        .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DedicationFeat), "You must have a Dedication feat.")
+                        .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Any(Ft => Ft.HasTrait(DedicationTrait)), "You must have a Dedication feat.")
                         .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
             {
