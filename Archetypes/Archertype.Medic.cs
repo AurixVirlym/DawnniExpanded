@@ -42,8 +42,8 @@ public static class ArchetypeMedic
 
     MedicDoctorsVisitation = new TrueFeat(FeatName.CustomFeat,
             4,
-            "You've studied countless techniques for providing medical aid, making you a peerless doctor and healer.",
-            "You become an expert in Medicine.\r\n\r\nWhen you succeed with Battle Medicine, the target regains 5 additional HP at DC 20.\r\n\r\nOnce per day, you can use Battle Medicine on a creature that's temporarily immune.",
+            "You move to provide immediate care to those who need it.",
+            "Stride, then use Battle Medicine.",
             new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, Trait.Flourish, })
             .WithCustomName("Doctor's Visitation{icon:Action}")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MedicDedicationFeat), "You must have the Battle Medicine feat.")

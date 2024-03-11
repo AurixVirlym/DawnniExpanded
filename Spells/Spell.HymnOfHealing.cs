@@ -63,7 +63,6 @@ public class SpellHymnOfHealing
 
 
                                 QEffect qEffectSustain = QEffect.Sustaining(spell, EffectOnTarget);
-
                                 qEffectSustain.ProvideContextualAction = (QEffect qf) => (!EffectOnTarget.CannotExpireThisTurn) ? new ActionPossibility(new CombatAction(qf.Owner, spell.Illustration, "Sustain " + spell.Name, new Trait[3]
                                 {
                                 Trait.Concentrate,

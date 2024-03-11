@@ -214,5 +214,19 @@ public class GenerateHeightenedScrolls
     ModdedSpell.SpellId = SpellSuddenBolt.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 4, true);
 
+    //Concordant Choir
+    ModdedSpell = SpellConcordantChoir.MakeConcordantChoirSpell(null, 2, true);
+    ModdedSpell.SpellId = SpellConcordantChoir.Id;
+    MakeScrollAtLevel(new Spell(ModdedSpell), 2, true);
+
+    ModdedSpell = SpellConcordantChoir.MakeConcordantChoirSpell(null, 3, true);
+    ModdedSpell.SpellId = SpellConcordantChoir.Id;
+    MakeScrollAtLevel(new Spell(ModdedSpell), 3, true);
+
+    ModdedSpell = SpellConcordantChoir.MakeConcordantChoirSpell(null, 4, true);
+    ModdedSpell.SpellId = SpellConcordantChoir.Id;
+    MakeScrollAtLevel(new Spell(ModdedSpell), 4, true);
+
+
   }
 }

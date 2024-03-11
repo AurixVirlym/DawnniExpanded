@@ -58,7 +58,7 @@ public class SpellScorchingRay
 
                         })).WithEffectOnChosenTargets(async (spell, caster, targets) =>
                         {
-                            caster.Actions.AttackedThisManyTimesThisTurn += (spell.SpentActions - 1);
+                            caster.Actions.AttackedThisManyTimesThisTurn += spell.SpentActions - 1;
                         }
                          );
 

@@ -31,7 +31,7 @@ public class SpellAnimatedAssualt
     {
 
         return Spells.CreateModern(SpellIllustration,
-                "Animated Assualt",
+                "Animated Assault",
             new[] { Trait.Evocation, Trait.Arcane, Trait.Occult, DawnniExpanded.DETrait },
                     "You use your mind to manipulate unattended objects in the area, temporarily animating them to attack.",
                     "The objects hover in the air, then hurl themselves at nearby creatures in a chaotic flurry of debris. \n\nThis assault deals " + S.HeightenedVariable(spellLevel, 2) + "d10 bludgeoning damage to each creature in the area.\n\nOn subsequent rounds, the first time each round you Sustain this Spell, it deals " + S.HeightenedVariable((int)Math.Floor(spellLevel / 2.0), 1) + "d10 bludgeoning damage to each creature in the area."

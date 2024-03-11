@@ -1,6 +1,8 @@
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
 using Dawnsbury.Mods.DawnniExpanded.Backgrounds;
+
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 public class DawnniExpanded
@@ -36,6 +38,8 @@ public class DawnniExpanded
         SpellTripleTime.LoadMod();
         SpellInspireCourage.LoadMod();
         SpellHeightenedFear.LoadMod();
+        SpellConcordantChoir.LoadMod();
+        SpellRayofEnfeeblement.LoadMod();
 
         FeatBattleMedicine.LoadMod();
         FeatPowerfulLeap.LoadMod();
@@ -59,5 +63,9 @@ public class DawnniExpanded
         GenerateHeightenedScrolls.LoadMod();
         //CombatSpecialEffects.LoadMod();
         Bard.LoadMod();
+
+
     }
+
+
 }

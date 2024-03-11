@@ -67,7 +67,7 @@ public class SpellCounterPerformance
                     BeforeYourSavingThrow = async (QEffect effect, CombatAction hostilespell, Creature owner) =>
                 {
 
-                    if (!hostilespell.HasTrait(Trait.Mental) || spellcaster.Spellcasting.FocusPoints <= 0)
+                    if (!hostilespell.HasTrait(Trait.Mental) || spellcaster.Spellcasting.FocusPoints <= 0 || spellcaster.Actions.CanTakeReaction() == false || spellcaster.Actions.IsReactionUsedUp == true)
                     {
                         return;
                     }
@@ -112,6 +112,8 @@ public class SpellCounterPerformance
                         BonusToDefenses = (Func<QEffect, CombatAction, Defense, Bonus>)((qf, caster, df) => new Bonus(BonusToSave, BonusType.Untyped, "Counter Performance"))
                     }
                     );
+
+                    spellcaster.Actions.UseUpReaction();
                     return;
                 },
 
