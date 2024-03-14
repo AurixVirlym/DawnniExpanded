@@ -87,7 +87,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
     }
 
 
-    public static Feat Class = new ClassSelectionFeat(FeatName.CustomFeat
+    public static Feat BardClass = new ClassSelectionFeat(FeatName.CustomFeat
     , "You are a master of artistry, a scholar of hidden secrets, and a captivating persuader. Using powerful performances, you influence minds and elevate souls to new levels of heroics. You might use your powers to become a charismatic leader, or perhaps you might instead be a counselor, manipulator, scholar, scoundrel, or virtuoso. While your versatility leads some to consider you a beguiling ne'er=do- well and a jack-of-all-trades, it's dangerous to dismiss you as a master of none."
     , Trait.Bard
     , new EnforcedAbilityBoost(Ability.Charisma)
@@ -167,9 +167,11 @@ namespace Dawnsbury.Mods.DawnniExpanded
   */
   }).WithCustomName("Bard");
 
-    public static Feat CantripExpansion = new TrueFeat(FeatName.CustomFeat, 1, "A greater understanding of your magic broadens your range of simple spells.", "Add two additional cantrips from your spell list to your repertoire.", new Trait[1]
+
+    public static Feat CantripExpansion = new TrueFeat(FeatName.CustomFeat, 1, "A greater understanding of your magic broadens your range of simple spells.", "Add two additional cantrips from your spell list to your repertoire.", new Trait[2]
     {
-        Trait.Bard
+        Trait.Bard,
+        DawnniExpanded.DETrait
     }).WithOnSheet((values =>
     {
       if (!values.SpellRepertoires.ContainsKey(Trait.Bard))
@@ -177,10 +179,11 @@ namespace Dawnsbury.Mods.DawnniExpanded
       values.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("CantripExpansionBard", "Cantrip Expansion cantrips", -1, Trait.Bard, values.SpellRepertoires[Trait.Bard].SpellList, 0, 2));
     })).WithCustomName("Bard Cantrip Expansion");
 
-    public static Feat AbundantLevel1 = new TrueFeat(FeatName.CustomFeat, 1, "The wellspring of magic within you coalesces into additional spells.", "You gain an extra level 1 spell slot.", new Trait[2]
+    public static Feat AbundantLevel1 = new TrueFeat(FeatName.CustomFeat, 1, "The wellspring of magic within you coalesces into additional spells.", "You gain an extra level 1 spell slot.", new Trait[3]
     {
         Trait.Bard,
-        Trait.Homebrew
+        DawnniExpanded.DETrait,
+        DawnniExpanded.HomebrewTrait
     }).WithOnSheet((values =>
     {
       if (!values.SpellRepertoires.ContainsKey(Trait.Bard))
@@ -188,10 +191,11 @@ namespace Dawnsbury.Mods.DawnniExpanded
       ++values.SpellRepertoires[Trait.Bard].SpellSlots[1];
     })).WithCustomName("Bard Abundant Spellcasting 1");
 
-    public static Feat AbundantLevel2 = new TrueFeat(FeatName.CustomFeat, 4, "The wellspring of magic within you coalesces into additional spells.", "You gain an extra level 2 spell slot.", new Trait[2]
+    public static Feat AbundantLevel2 = new TrueFeat(FeatName.CustomFeat, 4, "The wellspring of magic within you coalesces into additional spells.", "You gain an extra level 2 spell slot.", new Trait[3]
     {
         Trait.Bard,
-        Trait.Homebrew
+        DawnniExpanded.DETrait,
+        DawnniExpanded.HomebrewTrait
     }).WithOnSheet((values =>
     {
       if (!values.SpellRepertoires.ContainsKey(Trait.Bard))
@@ -203,7 +207,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
     "You learn the {i}hymn of healing{/i} composition spell.", new Trait[2]
     {
         Trait.Bard,
-        Trait.Homebrew
+        DawnniExpanded.DETrait
     })
     .WithOnSheet((values =>
     {
@@ -223,7 +227,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
     "You learn the {i}triple time{/i} composition cantrip.", new Trait[2]
     {
         Trait.Bard,
-        Trait.Homebrew
+        DawnniExpanded.DETrait
     })
     .WithOnSheet((values =>
     {
@@ -266,8 +270,8 @@ namespace Dawnsbury.Mods.DawnniExpanded
 
     public static void LoadMod()
     {
-      Class.Traits.Add(DawnniExpanded.DETrait);
-      ModManager.AddFeat(Class);
+      BardClass.Traits.Add(DawnniExpanded.DETrait);
+      ModManager.AddFeat(BardClass);
       ModManager.AddFeat(CantripExpansion);
       ModManager.AddFeat(AbundantLevel1);
       ModManager.AddFeat(AbundantLevel2);

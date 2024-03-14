@@ -36,7 +36,7 @@ public static class ItemStaffofSpellPotency
                             // it will be lost during the next state-check):
                             StaffofPotencyHolder.AddQEffect(new QEffect(ExpirationCondition.Ephemeral)
                             {
-                                BonusToAttackRolls = ((effect, action, defense) => (action != null && action.HasTrait(Trait.Spell)) ? new Bonus(1, BonusType.Item, "Staff Of Spell Potency") : null)
+                                BonusToAttackRolls = (effect, action, defense) => (action != null && action.HasTrait(Trait.Spell)) ? new Bonus(1, BonusType.Item, "Staff Of Spell Potency") : null
 
                             });
                         }

@@ -122,7 +122,7 @@ public static class ArchetypeWizard
 
     ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
             4,
-            "You are have learnt a basic arcana.",
+            "You have learnt a basic arcana.",
             "You gain a 1st- or 2nd-level wizard feat.",
             new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait })
             .WithCustomName("Basic Arcana")

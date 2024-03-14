@@ -59,9 +59,9 @@ public class DawnniExpanded
         FeatArchetype.LoadMod();
         MonsterBadger.LoadMod();
 
-        //ArchetypeBard.LoadMod();
         GenerateHeightenedScrolls.LoadMod();
-        //CombatSpecialEffects.LoadMod();
+        //KinTest.LoadMod();
+
         Bard.LoadMod();
 
 

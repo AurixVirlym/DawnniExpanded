@@ -187,7 +187,7 @@ public static class ArchetypeBeastmaster
                       }
 
 
-                      if (!you.Actions.ActionHistoryThisTurn.Any<CombatAction>((Func<CombatAction, bool>)(ac => ac.Name == "Command your Animal Companion")))
+                      if (!you.Actions.ActionHistoryThisTurn.Any<CombatAction>((Func<CombatAction, bool>)(ac => ac.Name == "Command your Animal Companion" || ac.ActionId == ActionId.Delay)))
                       {
                         you.Occupies.Overhead("Mature Companion.", Color.Green);
                         animalCompanion.AddQEffect(new QEffect()
