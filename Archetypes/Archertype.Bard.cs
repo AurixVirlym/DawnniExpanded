@@ -33,21 +33,11 @@ public static class ArchetypeBard
     BardDedicationFeat = new TrueFeat(FeatName.CustomFeat,
             2,
             "A muse has called you to dabble in occult lore, allowing you to cast a few spells. The deeper you delve, the more powerful your performances become.",
-            "You cast spells like a bard and gain the Cast a Spell activity.\n\nYou gain a spell repertoire with two common cantrips from the occult spell list. \n\nYou're trained in spell attack rolls and spell DCs for occult spells. \n\nYour key spellcasting ability for bard archetype spells is Charisma, and they are occult bard spells.\n\nYou become trained in Occultism and Performance; for each of these skills in which you were already trained, you instead become trained in a skill of your choice." + "\n\n{b}Focus Spells granted by classes such as ranger and monk break archetype spellcasting{/b}",
+            "You cast spells like a bard and gain the Cast a Spell activity.\n\nYou gain a spell repertoire with two common cantrips from the occult spell list. \n\nYou're trained in spell attack rolls and spell DCs for occult spells. \n\nYour key spellcasting ability for bard archetype spells is Charisma, and they are occult bard spells.\n\nYou become trained in Occultism and Performance; for each of these skills in which you were already trained, you instead become trained in a skill of your choice.",
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, BardArchetypeTrait, FeatArchetype.ArchetypeSpellcastingTrait })
             .WithCustomName("Bard Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Charisma) >= 14, "You must have at least 14 Charizzma")
             .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Bard, "You already have this archetype as a main class.")
-            .WithPrerequisite(values =>
-            values.Sheet?.Class.ClassTrait != Trait.Bard &&
-            values.Sheet?.Class.ClassTrait != Trait.Wizard &&
-            values.Sheet?.Class.ClassTrait != Trait.Magus &&
-            values.Sheet?.Class.ClassTrait != Trait.Sorcerer &&
-            values.Sheet?.Class.ClassTrait != Trait.Psychic &&
-            values.Sheet?.Class.ClassTrait != Trait.Cleric
-            , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
-            //.WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Any(Feat => Feat.HasTrait(FeatArchetype.ArchetypeSpellcastingTrait))
-            //, "You may not take a spellcasting class archetype if you already have an archetype grants you spellcasting. (engine limits, sorry.)")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {

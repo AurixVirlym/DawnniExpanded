@@ -54,21 +54,11 @@ public static class ArchetypeSorcerer
     SorcererDedicationFeat = new TrueFeat(FeatName.CustomFeat,
             2,
            "You coax the magic power in your blood to manifest, accessing magic others don't expect you to have.",
-            "Choose a bloodline. You become trained in a skills of your choice.\n\nYou cast spells like a sorcerer and gain the Cast a Spell activity.\n\nYou gain a spell repertoire with two common cantrips from the spell list associated with your bloodline.\n\nYou're trained in spell attack rolls and spell DCs for your tradition's spells. \n\nYour key spellcasting ability for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline's tradition." + "\n\n{b}Focus Spells granted by classes such as ranger and monk break archetype spellcasting{/b}",
+            "Choose a bloodline. You become trained in a skills of your choice.\n\nYou cast spells like a sorcerer and gain the Cast a Spell activity.\n\nYou gain a spell repertoire with two common cantrips from the spell list associated with your bloodline.\n\nYou're trained in spell attack rolls and spell DCs for your tradition's spells. \n\nYour key spellcasting ability for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline's tradition.",
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, SorcererArchetypeTrait, FeatArchetype.ArchetypeSpellcastingTrait }, bloodlinelist)
             .WithCustomName("Sorcerer Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Charisma) >= 14, "You must have at least 14 Charisma")
             .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Sorcerer, "You already have this archetype as a main class.")
-            .WithPrerequisite(values =>
-            values.Sheet?.Class.ClassTrait != Trait.Sorcerer &&
-            values.Sheet?.Class.ClassTrait != Trait.Wizard &&
-            values.Sheet?.Class.ClassTrait != Trait.Magus &&
-            values.Sheet?.Class.ClassTrait != Trait.Bard &&
-            values.Sheet?.Class.ClassTrait != Trait.Psychic &&
-            values.Sheet?.Class.ClassTrait != Trait.Cleric
-            , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
-            //.WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Any(Feat => Feat.HasTrait(FeatArchetype.ArchetypeSpellcastingTrait))
-            //, "You may not take a spellcasting class archetype if you already have an archetype grants you spellcasting. (engine limits, sorry.)")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
@@ -176,7 +166,7 @@ public static class ArchetypeSorcerer
 });
 
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 4, "You able to cast the magic innate to your bloodline", "SYou gain your bloodline’s initial bloodline spell. If you don’t already have one, you also gain a focus pool of 1 Focus Point, which you can Refocus without any special effort.", new Trait[3]
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 4, "You able to cast the magic innate to your bloodline", "You gain your bloodline's initial bloodline spell. If you don't already have one, you also gain a focus pool of 1 Focus Point, which you can Refocus without any special effort.", new Trait[3]
      {
         FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, SorcererArchetypeTrait
      }).WithOnSheet((Action<CalculatedCharacterSheetValues>)(sheet =>
@@ -187,8 +177,8 @@ public static class ArchetypeSorcerer
 
        if (bloodlineArchetype != null)
        {
-         ++sheet.FocusPointCount;
-         sheet.FocusSpellsKnown.Add(AllSpells.CreateModernSpellTemplate(bloodlineArchetype.focusSpell));
+
+         sheet.AddFocusSpellAndFocusPoint(Trait.Sorcerer, Ability.Charisma, bloodlineArchetype.focusSpell);
        };
 
      })).WithCustomName("Basic Bloodline Spell"));

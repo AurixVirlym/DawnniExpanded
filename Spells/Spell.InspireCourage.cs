@@ -104,7 +104,7 @@ public class SpellInspireCourage
 
 
 
-    Id = ModManager.RegisterNewSpell("Inspire Courage", 0, (spellId, spellcaster, spellLevel, inCombat) =>
+    Id = ModManager.RegisterNewSpell("Inspire Courage", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) =>
 
      CombatAction(spellcaster, spellLevel, inCombat)
 

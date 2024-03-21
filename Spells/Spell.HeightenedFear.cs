@@ -126,7 +126,7 @@ public class SpellHeightenedFear
   {
 
 
-    ModManager.ReplaceExistingSpell(SpellId.Fear, 1, (spellcaster, level, inCombat) => NewFear(spellcaster, level, inCombat));
+    ModManager.ReplaceExistingSpell(SpellId.Fear, 1, (spellcaster, level, inCombat, SpellInformation) => NewFear(spellcaster, level, inCombat));
 
 
   }

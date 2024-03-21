@@ -20,10 +20,14 @@ public static class ArchetypePsychic
 
   public static Feat CreateArchetypeConsciousMind(String name, string flavorText, SpellId cantrip)
   {
-    return new Feat(FeatName.CustomFeat, flavorText, "You know a psi cantrips. Your psi cantrips are more powerful than normal, and you can make them even more powerful by spending a focus point to cast them \"amped\".\n\n{b}Psi cantrip{/b} " + AllSpells.CreateModernSpellTemplate(cantrip).ToSpellLink(), new List<Trait> { DawnniExpanded.DETrait }, null).WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+    return new Feat(FeatName.CustomFeat, flavorText, "You know a psi cantrips. Your psi cantrips are more powerful than normal, and you can make them even more powerful by spending a focus point to cast them \"amped\".\n\n{b}Psi cantrip{/b} " + AllSpells.CreateModernSpellTemplate(cantrip, Trait.Psychic).ToSpellLink(), new List<Trait> { DawnniExpanded.DETrait }, null).WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
     {
       SpellRepertoire spellRepertoire = sheet.SpellRepertoires[Trait.Psychic];
-      spellRepertoire.SpellsKnown.Add(AllSpells.CreateModernSpell(cantrip, null, sheet.MaximumSpellLevel, inCombat: false, new PsychicAmpInformation()));
+      spellRepertoire.SpellsKnown.Add(AllSpells.CreateModernSpell(cantrip, null, sheet.MaximumSpellLevel, inCombat: false, new SpellInformation()
+      {
+        PsychicAmpInformation = new PsychicAmpInformation(),
+        ClassOfOrigin = Trait.Psychic
+      }));
 
     }).WithCustomName(name);
   }
@@ -43,7 +47,7 @@ public static class ArchetypePsychic
     PsychicDedicationFeat = new TrueFeat(FeatName.CustomFeat,
             2,
             "You've awoken the latent abilities of your mind, taking your first steps into wielding psychic magic.",
-            "You become trained in Occultism; if you were already trained in Occultism, you become trained in a skill of your choice.\n\nYou cast spells like a psychic and gain the Cast a Spell activity; as you don't have a subconscious mind, your thought components are simple intentions.\n\nChoose a conscious mind. You gain a spell repertoire with one standard psi cantrip from your conscious mind, which you cast as a psi cantrip.\n\nYou gain the normal benefits and the amp for this psi cantrip, but not any other benefits from the conscious mind.\n\nIf you don't have one, you gain a focus pool of 1 Focus Point, which you can use to amp your psi cantrips, and you can Refocus by meditating on your new powers.\n\nIf you already have a focus pool, increase the number of points in your pool by 1.\n\nYou're trained in occult spell attack rolls and occult spell DCs.\n\nYour key spellcasting ability for psychic archetype spells is the ability you used to qualify for the archetype, and they are occult psychic spells." + "\n\n{b}Focus Spells granted by classes such as ranger and monk break archetype spellcasting{/b}",
+            "You become trained in Occultism; if you were already trained in Occultism, you become trained in a skill of your choice.\n\nYou cast spells like a psychic and gain the Cast a Spell activity; as you don't have a subconscious mind, your thought components are simple intentions.\n\nChoose a conscious mind. You gain a spell repertoire with one standard psi cantrip from your conscious mind, which you cast as a psi cantrip.\n\nYou gain the normal benefits and the amp for this psi cantrip, but not any other benefits from the conscious mind.\n\nIf you don't have one, you gain a focus pool of 1 Focus Point, which you can use to amp your psi cantrips, and you can Refocus by meditating on your new powers.\n\nIf you already have a focus pool, increase the number of points in your pool by 1.\n\nYou're trained in occult spell attack rolls and occult spell DCs.\n\nYour key spellcasting ability for psychic archetype spells is the ability you used to qualify for the archetype, and they are occult psychic spells.",
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, PsychicArchetypeTrait, FeatArchetype.ArchetypeSpellcastingTrait }, new List<Feat>()
   {
       CreateArchetypeConsciousMind("The Distance Grasp (Archetype)", "Motion characterizes the physical—a boulder falls, creatures move, the world turns. You believe the truest form of mind over matter is therefore to move things as well, wielding telekinesis as an arm that can grasp the furthest and finest of objects.", SpellId.TelekineticProjectile),
@@ -56,14 +60,6 @@ public static class ArchetypePsychic
             .WithCustomName("Psychic Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Charisma) >= 14 || values.FinalAbilityScores.TotalScore(Ability.Intelligence) >= 14, "You must have at least Intelligence 14, or Charisma 14.")
             .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Psychic, "You already have this archetype as a main class.")
-            .WithPrerequisite(values =>
-            values.Sheet?.Class.ClassTrait != Trait.Bard &&
-            values.Sheet?.Class.ClassTrait != Trait.Wizard &&
-            values.Sheet?.Class.ClassTrait != Trait.Magus &&
-            values.Sheet?.Class.ClassTrait != Trait.Sorcerer &&
-            values.Sheet?.Class.ClassTrait != Trait.Psychic &&
-            values.Sheet?.Class.ClassTrait != Trait.Cleric
-            , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
@@ -187,7 +183,7 @@ public static class ArchetypePsychic
   {
     return;
   }
-  sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("1st level spell", "1st level psychic spell", 4, Trait.Psychic, Trait.Occult, 1, 1));
+  sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("1st level spell", "1st level psychic spell", -1, Trait.Psychic, Trait.Occult, 1, 1));
   repertoire.SpellSlots[1] += 1;
 })
 );

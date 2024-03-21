@@ -43,7 +43,7 @@ public class ArchetypeBloodline : Feat
     SpellId grantedCantrip,
     SpellId grantedLevel1Spell,
     SpellId grantedLevel2Spell)
-    : base(featName, flavorText, "• Spell list: {b}" + spellList.ToString() + "{/b} {i}" + ArchetypeBloodline.ExplainSpellList(spellList) + "{/i}\n• Focus spell: " + AllSpells.CreateModernSpellTemplate(focusSpell).ToSpellLink() + "\n• Bloodline-granted spells: cantrip: " + AllSpells.CreateModernSpellTemplate(grantedCantrip).ToSpellLink() + ", 1st: " + AllSpells.CreateModernSpellTemplate(grantedLevel1Spell).ToSpellLink() + ", 2nd: " + AllSpells.CreateModernSpellTemplate(grantedLevel2Spell).ToSpellLink(), new List<Trait>(), (List<Feat>)null)
+    : base(featName, flavorText, "• Spell list: {b}" + spellList.ToString() + "{/b} {i}" + ArchetypeBloodline.ExplainSpellList(spellList) + "{/i}\n• Focus spell: " + AllSpells.CreateModernSpellTemplate(focusSpell, Trait.Sorcerer).ToSpellLink() + "\n• Bloodline-granted spells: cantrip: " + AllSpells.CreateModernSpellTemplate(grantedCantrip, Trait.Sorcerer).ToSpellLink() + ", 1st: " + AllSpells.CreateModernSpellTemplate(grantedLevel1Spell, Trait.Sorcerer).ToSpellLink() + ", 2nd: " + AllSpells.CreateModernSpellTemplate(grantedLevel2Spell, Trait.Sorcerer).ToSpellLink(), new List<Trait>(), (List<Feat>)null)
   {
     this.focusSpell = focusSpell;
     this.grantedLevel1Spell = grantedLevel1Spell;

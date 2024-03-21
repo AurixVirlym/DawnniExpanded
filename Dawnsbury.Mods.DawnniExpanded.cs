@@ -2,6 +2,7 @@ using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
 using Dawnsbury.Mods.DawnniExpanded.Backgrounds;
+using Dawnsbury.Mods.DawnniExpanded.Ancestries;
 
 
 namespace Dawnsbury.Mods.DawnniExpanded;
@@ -40,6 +41,7 @@ public class DawnniExpanded
         SpellHeightenedFear.LoadMod();
         SpellConcordantChoir.LoadMod();
         SpellRayofEnfeeblement.LoadMod();
+        SpellInnerRadianceTorrent.LoadMod();
 
         FeatBattleMedicine.LoadMod();
         FeatPowerfulLeap.LoadMod();
@@ -62,6 +64,8 @@ public class DawnniExpanded
         GenerateHeightenedScrolls.LoadMod();
         //KinTest.LoadMod();
 
+        VersatileHertiages.LoadMod();
+        AncestryHalfling.LoadMod();
         Bard.LoadMod();
 
 

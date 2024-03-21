@@ -52,7 +52,7 @@ public class SpellEndure
     public static void LoadMod()
     {
 
-        Id = ModManager.RegisterNewSpell("Endure", 1, (spellId, spellcaster, spellLevel, inCombat) =>
+        Id = ModManager.RegisterNewSpell("Endure", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) =>
         CombatAction(spellcaster, spellLevel, inCombat)
     );
     }

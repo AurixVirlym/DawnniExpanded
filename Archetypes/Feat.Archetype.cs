@@ -128,5 +128,6 @@ public static class FeatArchetype
         ArchetypeCleric.LoadMod();
         ArchetypeSorcerer.LoadMod();
         ArchetypeDualWeaponWarrior.LoadMod();
+        ArchetypeWrestler.LoadMod();
     }
 }

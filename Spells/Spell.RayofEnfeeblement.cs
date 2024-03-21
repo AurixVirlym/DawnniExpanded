@@ -83,7 +83,7 @@ public class SpellRayofEnfeeblement
     {
 
 
-        Id = ModManager.RegisterNewSpell("RayofEnfeeblement", 1, (spellId, spellcaster, spellLevel, inCombat) => MakeRayofEnfeeblementSpell(spellcaster, spellLevel, inCombat)
+        Id = ModManager.RegisterNewSpell("RayofEnfeeblement", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeRayofEnfeeblementSpell(spellcaster, spellLevel, inCombat)
         );
 
     }

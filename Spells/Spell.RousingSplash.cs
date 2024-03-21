@@ -49,13 +49,13 @@ public class SpellRousingSplash
         ActionId RousingSplashActionID = ModManager.RegisterEnumMember<ActionId>("RousingSplashActionID");
         QEffectId RousingSplashEffectID = ModManager.RegisterEnumMember<QEffectId>("RousingSplashQEffectID");
 
-        ModManager.RegisterNewSpell("Rousing Splash", 0, (spellId, spellcaster, spellLevel, inCombat) =>
+        ModManager.RegisterNewSpell("Rousing Splash", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) =>
         {
             return Spells.CreateModern(SpellIllustration,
                 "Rousing Splash",
             new[] { Trait.Primal, Trait.Divine, Trait.Water, Trait.Cantrip, DawnniExpanded.DETrait },
                     "You cause a splash of cold water to descend on an ally's head, granting some temporary vigor.",
-                    "The target gains " + S.HeightenedVariable(spellLevel * 1, 1) + "d4 temporary Hit Points. The target is then temporarily immune to the temporary Hit Points from rousing splash for rest of the encounter.\n\nThe target can also attempt an immediate flat check to recover from a single source of persistent acid or fire damage, with the DC reduction to DC10 from appropriate assistance." + S.HeightenText(spellLevel > 1, inCombat, "\n\n{b}Heightened (+1){/b} The negative damage to living creatures increases by 1d4."),
+                    "The target gains " + S.HeightenedVariable(spellLevel * 1, 1) + "d4 temporary Hit Points. The target is then temporarily immune to the temporary Hit Points from rousing splash for rest of the encounter.\n\nThe target can also attempt an immediate flat check to recover from a single source of persistent acid or fire damage, with the DC reduction to DC10 from appropriate assistance." + S.HeightenText(spellLevel, 1, inCombat, "\n\n{b}Heightened (+1){/b} The negative damage to living creatures increases by 1d4."),
 
                     Target.RangedFriend(12),
                         spellLevel,

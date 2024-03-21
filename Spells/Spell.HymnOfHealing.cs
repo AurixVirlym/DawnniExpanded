@@ -101,7 +101,7 @@ public class SpellHymnOfHealing
     public static void LoadMod()
     {
 
-        Id = ModManager.RegisterNewSpell("Hymn of Healing", 1, (spellId, spellcaster, spellLevel, inCombat) =>
+        Id = ModManager.RegisterNewSpell("Hymn of Healing", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) =>
         CombatAction(spellcaster, spellLevel, inCombat)
     );
     }

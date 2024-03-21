@@ -72,7 +72,7 @@ public class SpellScorchingRay
     {
 
 
-        Id = ModManager.RegisterNewSpell("ScorchingRay", 2, (spellId, spellcaster, spellLevel, inCombat) => MakeScorchingRaySpell(spellcaster, spellLevel, inCombat)
+        Id = ModManager.RegisterNewSpell("ScorchingRay", 2, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeScorchingRaySpell(spellcaster, spellLevel, inCombat)
         );
 
     }

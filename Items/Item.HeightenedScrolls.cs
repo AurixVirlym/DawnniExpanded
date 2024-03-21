@@ -175,15 +175,15 @@ public class GenerateHeightenedScrolls
     MakeScrollAtLevel(new Spell(ModdedSpell), 4, true);
 
     //False Life
-    ModdedSpell = SpellFalseLife.CombatAction(null, 2, true);
+    ModdedSpell = SpellFalseLife.CombatAction(null, 2, true, new SpellInformation());
     ModdedSpell.SpellId = SpellFalseLife.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 2, true);
 
-    ModdedSpell = SpellFalseLife.CombatAction(null, 3, true);
+    ModdedSpell = SpellFalseLife.CombatAction(null, 3, true, new SpellInformation());
     ModdedSpell.SpellId = SpellFalseLife.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 3, true);
 
-    ModdedSpell = SpellFalseLife.CombatAction(null, 4, true);
+    ModdedSpell = SpellFalseLife.CombatAction(null, 4, true, new SpellInformation());
     ModdedSpell.SpellId = SpellFalseLife.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 4, true);
 
@@ -225,6 +225,15 @@ public class GenerateHeightenedScrolls
 
     ModdedSpell = SpellConcordantChoir.MakeConcordantChoirSpell(null, 4, true);
     ModdedSpell.SpellId = SpellConcordantChoir.Id;
+    MakeScrollAtLevel(new Spell(ModdedSpell), 4, true);
+
+    //thundersphere
+    ModdedSpell = SpellInnerRadianceTorrent.CombatAction(null, 3, true, new SpellInformation());
+    ModdedSpell.SpellId = SpellInnerRadianceTorrent.Id;
+    MakeScrollAtLevel(new Spell(ModdedSpell), 3, true);
+
+    ModdedSpell = SpellInnerRadianceTorrent.CombatAction(null, 4, true, new SpellInformation());
+    ModdedSpell.SpellId = SpellInnerRadianceTorrent.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 4, true);
 
 

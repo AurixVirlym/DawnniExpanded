@@ -52,7 +52,7 @@ public class SpellSuddenBolt
   public static void LoadMod()
   {
 
-    Id = ModManager.RegisterNewSpell("Sudden Bolt", 2, ((SpellId, spellcaster, spellLevel, inCombat) =>
+    Id = ModManager.RegisterNewSpell("Sudden Bolt", 2, ((SpellId, spellcaster, spellLevel, inCombat, SpellInformation) =>
      CombatAction(spellcaster, spellLevel, inCombat)
  ));
   }

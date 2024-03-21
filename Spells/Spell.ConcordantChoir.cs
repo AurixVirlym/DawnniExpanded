@@ -82,7 +82,7 @@ public class SpellConcordantChoir
     {
 
 
-        Id = ModManager.RegisterNewSpell("ConcordantChoir", 1, (spellId, spellcaster, spellLevel, inCombat) => MakeConcordantChoirSpell(spellcaster, spellLevel, inCombat)
+        Id = ModManager.RegisterNewSpell("ConcordantChoir", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeConcordantChoirSpell(spellcaster, spellLevel, inCombat)
         );
 
     }

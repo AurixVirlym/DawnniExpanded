@@ -141,7 +141,7 @@ public class SpellCounterPerformance
     public static void LoadMod()
     {
 
-        Id = ModManager.RegisterNewSpell("Counter Performance", 1, (spellId, spellcaster, spellLevel, inCombat) =>
+        Id = ModManager.RegisterNewSpell("Counter Performance", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) =>
         CombatAction(spellcaster, spellLevel, inCombat)
     );
     }

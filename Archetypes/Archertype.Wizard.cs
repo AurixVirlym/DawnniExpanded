@@ -10,6 +10,7 @@ using Dawnsbury.Core.CharacterBuilder.FeatsDb;
 using System.Collections.Generic;
 using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Display.Controls.Listbox;
 
 
 
@@ -27,14 +28,13 @@ public static class ArchetypeWizard
 
   private static Feat CreateArchetypeFocusSpell(String name, Trait schoolTrait, string flavorText, SpellId FocusSpell)
   {
-    Spell modernSpellTemplate = AllSpells.CreateModernSpellTemplate(FocusSpell);
-    return new Feat(FeatName.CustomFeat, flavorText, "You learn the focus spell " + AllSpells.CreateModernSpellTemplate(FocusSpell).ToSpellLink() + ".",
+    Spell modernSpellTemplate = AllSpells.CreateModernSpellTemplate(FocusSpell, Trait.Wizard);
+    return new Feat(FeatName.CustomFeat, flavorText, "You learn the focus spell " + AllSpells.CreateModernSpellTemplate(FocusSpell, Trait.Wizard).ToSpellLink() + ".",
      new List<Trait> { DawnniExpanded.DETrait }, null)
     .WithOnSheet(delegate (CalculatedCharacterSheetValues values)
     {
       values.WizardSchool = schoolTrait;
-      ++values.FocusPointCount;
-      values.FocusSpellsKnown.Add(AllSpells.CreateModernSpell(FocusSpell, (Creature)null, values.MaximumSpellLevel, false));
+      values.AddFocusSpellAndFocusPoint(Trait.Wizard, Ability.Intelligence, FocusSpell);
     })
   .WithCustomName(name)
   .WithRulesBlockForSpell(FocusSpell)
@@ -57,28 +57,21 @@ public static class ArchetypeWizard
     WizardDedicationFeat = new TrueFeat(FeatName.CustomFeat,
             2,
             "You have dabbled in the arcane arts and, through discipline and academic study, learned how to cast a few spells.",
-            "You cast spells like a wizard and gain the Cast a Spell activity.\n\nYou can prepare two cantrips each day from the arcane spell list \n\nYou're trained in spell attack rolls and spell DCs for arcane spells. \n\nYour key spellcasting ability for wizard archetype spells is inteligence, and they are arcane wizard spells.\n\nYou become trained in Arcana; if you were already trained in Arcana, you instead become trained in a skill of your choice." + "\n\n{b}Focus Spells granted by classes such as ranger and monk break archetype spellcasting{/b}",
+            "You cast spells like a wizard and gain the Cast a Spell activity.\n\nYou can prepare two cantrips each day from the arcane spell list \n\nYou're trained in spell attack rolls and spell DCs for arcane spells. \n\nYour key spellcasting ability for wizard archetype spells is inteligence, and they are arcane wizard spells.\n\nYou become trained in Arcana; if you were already trained in Arcana, you instead become trained in a skill of your choice.",
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait, FeatArchetype.ArchetypeSpellcastingTrait })
             .WithCustomName("Wizard Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Intelligence) >= 14, "You must have at least 14 inteligence")
             .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Wizard, "You already have this archetype as a main class.")
-            .WithPrerequisite(values =>
-            values.Sheet?.Class.ClassTrait != Trait.Bard &&
-            values.Sheet?.Class.ClassTrait != Trait.Wizard &&
-            values.Sheet?.Class.ClassTrait != Trait.Magus &&
-            values.Sheet?.Class.ClassTrait != Trait.Sorcerer &&
-            values.Sheet?.Class.ClassTrait != Trait.Psychic &&
-            values.Sheet?.Class.ClassTrait != Trait.Cleric
-            , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
 
       sheet.AdditionalClassTraits.Add(Trait.Wizard);
-      sheet.PreparedSpellcastingTradition = Trait.Arcane;
-      sheet.WizardSpells = new PreparedSpellSlots();
-      sheet.WizardSpells.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Wizard:Cantrip1"));
-      sheet.WizardSpells.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Wizard:Cantrip2"));
+      PreparedSpellSlots spellList = new PreparedSpellSlots(Ability.Intelligence, Trait.Arcane);
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Wizard:Cantrip1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Wizard:Cantrip2"));
+      sheet.PreparedSpells.Add(Trait.Wizard, spellList);
+
 
 
       if (sheet.GetProficiency(Trait.Wizard) == Proficiency.Untrained)
@@ -180,7 +173,12 @@ public static class ArchetypeWizard
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
 {
-  sheet.WizardSpells.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Wizard:Spell1-1"));
+  PreparedSpellSlots spellList;
+  if (sheet.PreparedSpells.TryGetValue(Trait.Wizard, out spellList) == false)
+  {
+    return;
+  }
+  spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Wizard:Spell1-1"));
 });
 
     ModManager.AddFeat(WizardBasicSpellcasting);

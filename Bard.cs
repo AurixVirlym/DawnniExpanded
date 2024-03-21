@@ -113,14 +113,14 @@ namespace Dawnsbury.Mods.DawnniExpanded
   , MakeString()
   , new List<Feat>()
   {
-        (Feat) new Feat(FeatName.CustomFeat, "Your muse is a virtuoso, inspiring you to greater heights. If it's a creature, it might be a performance-loving creature such as a choral angel or lillend azata. As a bard with a maestro muse, you are an inspiration to your allies and confident of your musical and oratorical abilities.", "You gain the Lingering Composition feat and add "+AllSpells.CreateModernSpellTemplate(SpellId.Soothe).ToSpellLink()+" to your spell repertoire. ", new List<Trait>(), null).WithCustomName("Maestro").WithOnSheet( sheet =>
+        (Feat) new Feat(FeatName.CustomFeat, "Your muse is a virtuoso, inspiring you to greater heights. If it's a creature, it might be a performance-loving creature such as a choral angel or lillend azata. As a bard with a maestro muse, you are an inspiration to your allies and confident of your musical and oratorical abilities.", "You gain the Lingering Composition feat and add "+AllSpells.CreateModernSpellTemplate(SpellId.Soothe,Trait.Bard).ToSpellLink()+" to your spell repertoire. ", new List<Trait>(), null).WithCustomName("Maestro").WithOnSheet( sheet =>
         {
         sheet.AddFeat(LingeringComposition,null);
         sheet.FocusPointCount += 1;
         Spell Spelltoadd = AllSpells.All.FirstOrDefault(spell => spell.SpellId == SpellId.Soothe);
         sheet.SpellRepertoires[Trait.Bard].SpellsKnown.Add(Spelltoadd);
         }),
-        (Feat) new Feat(FeatName.CustomFeat, "The battlefield is your stage, the clang of steel, your song. Your muse engages in countless battles, whether reveling in combat or resigned to its necessity. If your muse is a creature, it might be an otherworldly soldier, such as a planetar, archon, cornugon, or purrodaemon. As a bard with a warrior muse, you train for battle in addition to performance, and you prepare your allies for the dangers of battle. You might even wade into the thick of things with them.", "You gain Martial Weapon Proficiency and add "+AllSpells.CreateModernSpellTemplate(SpellId.Fear).ToSpellLink()+" to your spell repertoire.", new List<Trait>(), null).WithCustomName("Warrior").WithOnSheet( sheet =>
+        (Feat) new Feat(FeatName.CustomFeat, "The battlefield is your stage, the clang of steel, your song. Your muse engages in countless battles, whether reveling in combat or resigned to its necessity. If your muse is a creature, it might be an otherworldly soldier, such as a planetar, archon, cornugon, or purrodaemon. As a bard with a warrior muse, you train for battle in addition to performance, and you prepare your allies for the dangers of battle. You might even wade into the thick of things with them.", "You gain Martial Weapon Proficiency and add "+AllSpells.CreateModernSpellTemplate(SpellId.Fear,Trait.Bard).ToSpellLink()+" to your spell repertoire.", new List<Trait>(), null).WithCustomName("Warrior").WithOnSheet( sheet =>
         {
         sheet.GrantFeat(FeatName.WeaponProficiency,FeatName.WeaponProficiencyMartial);
         Spell Spelltoadd = AllSpells.All.FirstOrDefault(spell => spell.SpellId == SpellId.Fear);
@@ -213,12 +213,8 @@ namespace Dawnsbury.Mods.DawnniExpanded
     {
       if (!values.SpellRepertoires.ContainsKey(Trait.Bard))
         return;
-      SpellRepertoire repertoire = values.SpellRepertoires[Trait.Bard];
-      CombatAction HymnAction = SpellHymnOfHealing.CombatAction(null, values.MaximumSpellLevel, false);
-      HymnAction.SpellId = SpellHymnOfHealing.Id;
-      Spell HymnSpell = new Spell(HymnAction);
-      values.FocusSpellsKnown.Add(HymnSpell);
-      ++values.FocusPointCount;
+      values.AddFocusSpellAndFocusPoint(Trait.Bard, Ability.Charisma, SpellHymnOfHealing.Id);
+
     })).WithCustomName("Hymn of Healing")
     .WithIllustration(SpellHymnOfHealing.SpellIllustration)
     .WithRulesBlockForSpell(SpellHymnOfHealing.Id);
@@ -233,11 +229,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
     {
       if (!values.SpellRepertoires.ContainsKey(Trait.Bard))
         return;
-      SpellRepertoire repertoire = values.SpellRepertoires[Trait.Bard];
-      CombatAction HymnAction = SpellTripleTime.CombatAction(null, values.MaximumSpellLevel, false);
-      HymnAction.SpellId = SpellTripleTime.Id;
-      Spell HymnSpell = new Spell(HymnAction);
-      values.FocusSpellsKnown.Add(HymnSpell);
+      values.AddFocusSpellAndFocusPoint(Trait.Bard, Ability.Charisma, SpellTripleTime.Id);
     })).WithCustomName("Triple Time")
     .WithIllustration(SpellTripleTime.SpellIllustration)
     .WithRulesBlockForSpell(SpellTripleTime.Id);

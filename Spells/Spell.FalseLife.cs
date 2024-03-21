@@ -25,7 +25,7 @@ public class SpellFalseLife
     public static ModdedIllustration SpellIllustration = new ModdedIllustration("DawnniburyExpandedAssets/FalseLife.png");
 
     public static SpellId Id;
-    public static CombatAction CombatAction(Creature spellcaster, int spellLevel, bool inCombat)
+    public static CombatAction CombatAction(Creature spellcaster, int spellLevel, bool inCombat, SpellInformation spellInformation)
     {
 
 
@@ -65,7 +65,7 @@ public class SpellFalseLife
                 Trait.Occult,
                 DawnniExpanded.DETrait
             }, "You ward yourself with shimmering magical energy.",
-                "You gain " + S.HeightenedVariable(6 + (spellLevel - 1) * 3, 6) + " + " + S.SpellcastingModifier(spellcaster) + " temporary Hit Points.\n\n{b}Special{/b} You can cast this spell as a free action at the beginning of the encounter if not casting from a scroll." + HS.HeightenTextLevels(spellLevel > 1, spellLevel, inCombat, "{b}Heightened (+1){/b} The temporary Hit Points increase by 3.")
+                "You gain " + S.HeightenedVariable(6 + (spellLevel - 1) * 3, 6) + " + " + S.SpellcastingModifier(spellcaster, spellInformation) + " temporary Hit Points.\n\n{b}Special{/b} You can cast this spell as a free action at the beginning of the encounter if not casting from a scroll." + HS.HeightenTextLevels(spellLevel > 1, spellLevel, inCombat, "{b}Heightened (+1){/b} The temporary Hit Points increase by 3.")
                 , Target.Self(),
                 spellLevel,
                  null)
@@ -73,7 +73,7 @@ public class SpellFalseLife
                 .WithActionCost(2)
                 .WithEffectOnEachTarget(async (CombatAction spell, Creature caster, Creature target, CheckResult result) =>
                             {
-                                int FalseLifeTHP = 6 + caster.Spellcasting.SpellcastingAbilityModifier + (spell.SpellLevel - 1) * 3;
+                                int FalseLifeTHP = 6 + caster.Spellcasting.GetSourceByOrigin(spellInformation.ClassOfOrigin).SpellcastingAbilityModifier + (spell.SpellLevel - 1) * 3;
                                 QEffect falseLifeEffect = FalseLifeEffect;
 
                                 QEffect qEffect2 = target.QEffects.FirstOrDefault((QEffect qf) => qf.Name == "False Life - ");
@@ -119,11 +119,11 @@ public class SpellFalseLife
                 {
                     StartOfCombat = async delegate
                                     {
-                    if (await self.Battle.AskForConfirmation(self, SpellIllustration, "Do you want to cast {i}false life level " + falseLife.SpellLevel + " {/i} as a free action?", "Cast {i}false life{/i}"))
-                    {
-                        await self.Battle.GameLoop.FullCast(falseLife);
-                    }
-                }
+                                        if (await self.Battle.AskForConfirmation(self, SpellIllustration, "Do you want to cast {i}false life level " + falseLife.SpellLevel + " {/i} as a free action?", "Cast {i}false life{/i}"))
+                                        {
+                                            await self.Battle.GameLoop.FullCast(falseLife);
+                                        }
+                                    }
                 });
             }
         };
@@ -142,7 +142,7 @@ public class SpellFalseLife
 
 
 
-        Id = ModManager.RegisterNewSpell("False Life", 1, (spellId, spellcaster, spellLevel, inCombat) => CombatAction(spellcaster, spellLevel, inCombat));
+        Id = ModManager.RegisterNewSpell("False Life", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => CombatAction(spellcaster, spellLevel, inCombat, SpellInformation));
 
     }
 }

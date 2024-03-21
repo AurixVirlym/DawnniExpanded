@@ -102,7 +102,7 @@ public class SpellTripleTime
 
 
 
-    Id = ModManager.RegisterNewSpell("Triple Time", 0, (spellId, spellcaster, spellLevel, inCombat) =>
+    Id = ModManager.RegisterNewSpell("Triple Time", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) =>
 
      CombatAction(spellcaster, spellLevel, inCombat)
 

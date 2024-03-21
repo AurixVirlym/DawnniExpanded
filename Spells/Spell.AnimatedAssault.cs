@@ -122,7 +122,7 @@ public class SpellAnimatedAssualt
 
     public static void LoadMod()
     {
-        Id = ModManager.RegisterNewSpell("AnimatedAssualt", 2, (spellId, spellcaster, spellLevel, inCombat) => CombatAction(spellcaster, spellLevel, inCombat));
+        Id = ModManager.RegisterNewSpell("AnimatedAssualt", 2, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => CombatAction(spellcaster, spellLevel, inCombat));
 
     }
 

@@ -67,7 +67,7 @@ public static class ArchetypeBeastmaster
     BeastMasterDedicationFeat = new TrueFeat(FeatName.CustomFeat,
             2,
             "You attract the loyalty of animal.",
-            "You gain the service of a young animal companion that travels with you and obeys your commands. \n\nYou may still take this archetype if you have an animal companion but you should retraining if possible.",
+            "You gain the service of a young animal companion that travels with you and obeys your commands. \n\nYou may still take this archetype if you have an animal companion but you should consider retraining if possible.",
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait })
             .WithCustomName("Beastmaster Dedication")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Nature) <= Proficiency.Trained, "You must be trained in Nature.")

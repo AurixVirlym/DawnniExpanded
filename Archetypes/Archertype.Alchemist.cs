@@ -17,7 +17,7 @@ using Dawnsbury.Core.CharacterBuilder;
 
 using Microsoft.Xna.Framework;
 
-///
+
 namespace Dawnsbury.Mods.DawnniExpanded;
 
 public static class ArchetypeAlchemist
@@ -120,44 +120,44 @@ public static class ArchetypeAlchemist
 
             ProvideActionIntoPossibilitySection = (QEffect qfself, PossibilitySection possibilitySection1) =>
             {
-                      if (possibilitySection1.PossibilitySectionId != PossibilitySectionId.MainActions)
-                      {
-                        return null;
-                      };
+              if (possibilitySection1.PossibilitySectionId != PossibilitySectionId.MainActions)
+              {
+                return null;
+              };
 
-                      int AlchemyLevel = 1;
-
-
-                      if (sheet.AllFeats.Contains(ExpertAlchemyFeat))
-                      {
-                        AlchemyLevel = 3;
-                      }
-
-                      PossibilitySection MutagenSection = new PossibilitySection("Mutagens");
-                      PossibilitySection ElixirSection = new PossibilitySection("Elixirs");
-
-                      foreach (Item AlchemyItem in Items.ShopItems.Where<Item>(item =>
-                      item.HasTrait(Trait.Elixir) && item.Level <= AlchemyLevel && !item.HasTrait(TraitMutagens.MutagenTrait))
-                    )
-                      {
-                        ElixirSection.AddPossibility(CreateAlchemyPossibilityItem(AlchemyItem, creature));
-                      }
-
-                      foreach (Item AlchemyItem in Items.ShopItems.Where<Item>((Func<Item, bool>)(item =>
-                      item.Level <= AlchemyLevel && item.HasTrait(TraitMutagens.MutagenTrait)))
-                    )
-                      {
-                        MutagenSection.AddPossibility(CreateAlchemyPossibilityItem(AlchemyItem, creature));
-                      }
+              int AlchemyLevel = 1;
 
 
-                      SubmenuPossibility submenuPossibility = new SubmenuPossibility(IllustrationName.InvisibilityPotion,
-                    "Quick Alchemy");
-                      submenuPossibility.Subsections.Add(ElixirSection);
-                      submenuPossibility.Subsections.Add(MutagenSection);
+              if (sheet.AllFeats.Contains(ExpertAlchemyFeat))
+              {
+                AlchemyLevel = 3;
+              }
 
-                      return submenuPossibility;
-                    }
+              PossibilitySection MutagenSection = new PossibilitySection("Mutagens");
+              PossibilitySection ElixirSection = new PossibilitySection("Elixirs");
+
+              foreach (Item AlchemyItem in Items.ShopItems.Where<Item>(item =>
+              item.HasTrait(Trait.Elixir) && item.Level <= AlchemyLevel && !item.HasTrait(TraitMutagens.MutagenTrait))
+            )
+              {
+                ElixirSection.AddPossibility(CreateAlchemyPossibilityItem(AlchemyItem, creature));
+              }
+
+              foreach (Item AlchemyItem in Items.ShopItems.Where<Item>((Func<Item, bool>)(item =>
+              item.Level <= AlchemyLevel && item.HasTrait(TraitMutagens.MutagenTrait)))
+            )
+              {
+                MutagenSection.AddPossibility(CreateAlchemyPossibilityItem(AlchemyItem, creature));
+              }
+
+
+              SubmenuPossibility submenuPossibility = new SubmenuPossibility(IllustrationName.InvisibilityPotion,
+            "Quick Alchemy");
+              submenuPossibility.Subsections.Add(ElixirSection);
+              submenuPossibility.Subsections.Add(MutagenSection);
+
+              return submenuPossibility;
+            }
 
           })
             ;

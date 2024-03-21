@@ -38,7 +38,7 @@ public static class ArchetypeCleric
         Trait.Cleric
       }).WithMultipleSelection().WithOnSheet((Action<CalculatedCharacterSheetValues>)(sheet =>
       {
-        ++sheet.FocusPointCount;
+
         sheet.AddSelectionOption((SelectionOption)new SingleFeatSelectionOption("Domain", "Domain", -1, (Func<Feat, bool>)(ft =>
         {
           if (!ft.HasTrait(Trait.ClericDomain))
@@ -157,23 +157,15 @@ public static class ArchetypeCleric
             .WithCustomName("Cleric Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Wisdom) >= 14, "You must have at least 14 wisdom")
             .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Cleric, "You already have this archetype as a main class.")
-            .WithPrerequisite(values =>
-            values.Sheet?.Class.ClassTrait != Trait.Bard &&
-            values.Sheet?.Class.ClassTrait != Trait.Wizard &&
-            values.Sheet?.Class.ClassTrait != Trait.Magus &&
-            values.Sheet?.Class.ClassTrait != Trait.Sorcerer &&
-            values.Sheet?.Class.ClassTrait != Trait.Psychic &&
-            values.Sheet?.Class.ClassTrait != Trait.Cleric
-            , "You may not take a spellcasting class archetype if your main class grants you spellcasting. (engine limits, sorry.)")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
 
       sheet.AdditionalClassTraits.Add(Trait.Cleric);
-      sheet.PreparedSpellcastingTradition = Trait.Divine;
-      sheet.ClericSpells = new PreparedSpellSlots();
-      sheet.ClericSpells.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Cleric:Cantrip1"));
-      sheet.ClericSpells.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Cleric:Cantrip2"));
+      PreparedSpellSlots spellList = new PreparedSpellSlots(Ability.Intelligence, Trait.Divine);
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Cleric:Cantrip1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Cleirc:Cantrip2"));
+      sheet.PreparedSpells.Add(Trait.Wizard, spellList);
 
 
 
@@ -276,7 +268,12 @@ public static class ArchetypeCleric
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
 {
-  sheet.ClericSpells.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Cleric:Spell1-1"));
+  PreparedSpellSlots spellList;
+  if (sheet.PreparedSpells.TryGetValue(Trait.Cleric, out spellList) == false)
+  {
+    return;
+  }
+  spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Cleric:Spell1-1"));
 });
 
     ModManager.AddFeat(ClericBasicSpellcasting);

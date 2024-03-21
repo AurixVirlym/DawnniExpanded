@@ -412,76 +412,78 @@ namespace Dawnsbury.Mods.DawnniExpanded
        .WithProficiency(Trait.Weapon, Proficiency.Master)
        .WithProficiency(Trait.Spell, Proficiency.Trained)
        .WithUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.FleetStep, "hooves", "1d4", DamageKind.Bludgeoning, Trait.Agile, Trait.Finesse))
-       .AddSpellcasting(Ability.Charisma, 11)
-       .AddSpontaneousSpellcasting(0, new SpellId[0],
-      3, new SpellId[]{
+       .WithSpellProficiencyBasedOnSpellAttack(11, Ability.Charisma)
+       .AddSpellcastingSource(SpellcastingKind.Spontaneous, Trait.Bard, Ability.Charisma, Trait.Occult)
+       .WithSpells(new SpellId[0],
+       new SpellId[]{
         SpellId.CalmEmotions,
         SpellId.TouchOfIdiocy,
         SpellId.Fear,
         SpellId.HideousLaughter,
         SpellInspireCourage.Id,
       },
-      0, new SpellId[0],
-      1, new SpellId[1] { SpellId.Fear }
-      )
-      .AddQEffect(new QEffect()
-      {
+      new SpellId[0],
+      new SpellId[1] { SpellId.Fear }).WithSpontaneousSlots(3, 0, 1)
+      .Done()
 
-        StartOfCombat = (async (QEffect qf) =>
-        {
-          qf.Owner.Battle.Cinematics.EnterCutscene();
-          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner, "The filthy rats of the city have finally clawed their way into my garden, the so called civilized animals do not dance to beautiful tunes.");
-          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner, "You rats protect the unnatural and unholy, those who destory the world brick by brick. I will not allow it.");
-          await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner, "Nor will the friends of the wilds. Comrades, dance with these intruders!");
-          qf.Owner.Battle.Cinematics.ExitCutscene();
-        }),
+       .AddQEffect(new QEffect()
+       {
+
+         StartOfCombat = (async (QEffect qf) =>
+         {
+           qf.Owner.Battle.Cinematics.EnterCutscene();
+           await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner, "The filthy rats of the city have finally clawed their way into my garden, the so called civilized animals do not dance to beautiful tunes.");
+           await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner, "You rats protect the unnatural and unholy, those who destory the world brick by brick. I will not allow it.");
+           await qf.Owner.Battle.Cinematics.LineAsync(qf.Owner, "Nor will the friends of the wilds. Comrades, dance with these intruders!");
+           qf.Owner.Battle.Cinematics.ExitCutscene();
+         }),
 
 
-        YouBeginAction = (async (qf, hostileAction) =>
-                {
-                  if (hostileAction.ActionCost <= 1 || !hostileAction.HasTrait(Trait.Spell))
-                  {
-                    return;
-                  }
-                  await qf.Owner.StrideAsync("Choose where to Stride or Step with Fleet Performer.", allowStep: true, allowPass: true, allowCancel: true, maximumHalfSpeed: true);
+         YouBeginAction = (async (qf, hostileAction) =>
+                 {
+                   if (hostileAction.ActionCost <= 1 || !hostileAction.HasTrait(Trait.Spell))
+                   {
+                     return;
+                   }
+                   await qf.Owner.StrideAsync("Choose where to Stride or Step with Fleet Performer.", allowStep: true, allowPass: true, allowCancel: true, maximumHalfSpeed: true);
 
-                }),
-        AfterYouTakeAction = (async (qf, hostileAction) =>
-                {
-                  if (hostileAction.ActionCost <= 1 || !hostileAction.HasTrait(Trait.Spell))
-                  {
-                    return;
-                  }
-                  await qf.Owner.StrideAsync("Choose where to Stride or Step with Fleet Performer.", allowStep: true, allowPass: true, allowCancel: true, maximumHalfSpeed: true);
+                 }),
+         AfterYouTakeAction = (async (qf, hostileAction) =>
+                 {
+                   if (hostileAction.ActionCost <= 1 || !hostileAction.HasTrait(Trait.Spell))
+                   {
+                     return;
+                   }
+                   await qf.Owner.StrideAsync("Choose where to Stride or Step with Fleet Performer.", allowStep: true, allowPass: true, allowCancel: true, maximumHalfSpeed: true);
 
-                }),
-        /*
-                ProvideContextualAction = (qf => (Possibility) (ActionPossibility) 
-                new CombatAction(qf.Owner, (Illustration) IllustrationName.FleetStep, "Flee", new Trait[2]
-                {
-                  Trait.Move,
-                  Trait.Basic
-                },"Try to not be next to enemy.",Target.Self((Func<Creature, AI, float>) ((cr, ai) =>
-                {
-                  if (cr.Actions.ActionsLeft == 1 &&
-                    cr.Battle.AllCreatures.Any<Creature>(enemy => 
-                    enemy.EnemyOf(cr)  
-                    && cr.IsAdjacentTo(enemy)) 
-                    )
-                    {
-                    return (float) int.MaxValue;
-                    } else return int.MinValue;
+                 }),
+         /*
+                 ProvideContextualAction = (qf => (Possibility) (ActionPossibility) 
+                 new CombatAction(qf.Owner, (Illustration) IllustrationName.FleetStep, "Flee", new Trait[2]
+                 {
+                   Trait.Move,
+                   Trait.Basic
+                 },"Try to not be next to enemy.",Target.Self((Func<Creature, AI, float>) ((cr, ai) =>
+                 {
+                   if (cr.Actions.ActionsLeft == 1 &&
+                     cr.Battle.AllCreatures.Any<Creature>(enemy => 
+                     enemy.EnemyOf(cr)  
+                     && cr.IsAdjacentTo(enemy)) 
+                     )
+                     {
+                     return (float) int.MaxValue;
+                     } else return int.MinValue;
 
-                })))
-                .WithActionCost(1)
-                .WithEffectOnSelf(async (CombatAction spell, Creature caster) =>{
-                  await caster.StrideAsync("Choose where to Stride or Step.",true,allowCancel:false,allowPass:false);
-                })),
-        */
-        Innate = true,
-        Name = "Fleet Performer",
-        Description = "When the satyr casts a spell using two or more actions, they can Step or Stride before and after the cast at half speed."
-      });
+                 })))
+                 .WithActionCost(1)
+                 .WithEffectOnSelf(async (CombatAction spell, Creature caster) =>{
+                   await caster.StrideAsync("Choose where to Stride or Step.",true,allowCancel:false,allowPass:false);
+                 })),
+         */
+         Innate = true,
+         Name = "Fleet Performer",
+         Description = "When the satyr casts a spell using two or more actions, they can Step or Stride before and after the cast at half speed."
+       });
     }
 
 

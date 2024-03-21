@@ -152,6 +152,7 @@ public class SpellHorizonThunderSphere
                                 ));
 
                             HorizonThunderSphereSixAction.Owner = spellcaster;
+                            HorizonThunderSphereSixAction.SpellcastingSource = spell.SpellcastingSource;
 
                             CombatAction HorizonThunderSphereThreeAction = Spells.CreateModern(SpellIllustration,
                         "Three Action Horizon Thunder Sphere",
@@ -195,6 +196,7 @@ public class SpellHorizonThunderSphere
                             });
 
                             HorizonThunderSphereThreeAction.Owner = spellcaster;
+                            HorizonThunderSphereThreeAction.SpellcastingSource = spell.SpellcastingSource;
 
                             if (spell.SpentActions == 6)
                             {
@@ -262,7 +264,7 @@ public class SpellHorizonThunderSphere
 
 
 
-        Id = ModManager.RegisterNewSpell("Horizon Thunder Sphere", 1, ((spellId, spellcaster, spellLevel, inCombat) => CombatAction(spellcaster, spellLevel, inCombat)
+        Id = ModManager.RegisterNewSpell("Horizon Thunder Sphere", 1, ((spellId, spellcaster, spellLevel, inCombat, SpellInformation) => CombatAction(spellcaster, spellLevel, inCombat)
 
     ));
 
