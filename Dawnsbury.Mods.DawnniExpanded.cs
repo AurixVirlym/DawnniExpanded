@@ -1,5 +1,9 @@
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
+using Dawnsbury.Mods.DawnniExpanded.Backgrounds;
+using Dawnsbury.Mods.DawnniExpanded.Ancestries;
+
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 public class DawnniExpanded
@@ -19,10 +23,10 @@ public class DawnniExpanded
             new TraitProperties("Homebrew", true)
             );
 
-            
+
 
         NewSkills.LoadMod();
-        
+
         SpellHorizonThunderSphere.LoadMod();
         SpellAnimatedAssualt.LoadMod();
         SpellScorchingRay.LoadMod();
@@ -35,9 +39,17 @@ public class DawnniExpanded
         SpellTripleTime.LoadMod();
         SpellInspireCourage.LoadMod();
         SpellHeightenedFear.LoadMod();
+        SpellConcordantChoir.LoadMod();
+        SpellRayofEnfeeblement.LoadMod();
+        SpellInnerRadianceTorrent.LoadMod();
 
         FeatBattleMedicine.LoadMod();
         FeatPowerfulLeap.LoadMod();
+
+        BackgroundFieldMedic.LoadMod();
+        BackgroundMartialDisciple.LoadMod();
+        BackgroundWarrior.LoadMod();
+        BackgroundDancer.LoadMod();
 
         ActionLeap.LoadMod();
 
@@ -49,9 +61,15 @@ public class DawnniExpanded
         FeatArchetype.LoadMod();
         MonsterBadger.LoadMod();
 
-        //ArchetypeBard.LoadMod();
         GenerateHeightenedScrolls.LoadMod();
-        //CombatSpecialEffects.LoadMod();
+        //KinTest.LoadMod();
+
+        VersatileHertiages.LoadMod();
+        AncestryHalfling.LoadMod();
         Bard.LoadMod();
+
+
     }
+
+
 }

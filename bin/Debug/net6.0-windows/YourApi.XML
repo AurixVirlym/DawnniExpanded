@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dawnsbury.Mods.DawnniExpanded</name>
+    </assembly>
+    <members>
+        <member name="T:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundDancer">
+            <summary>
+            Creates the Dancer Background
+            </summary>
+        </member>
+        <member name="F:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundDancer.DancerBackground">
+            <summary>
+            The actual Dancer Background feat (assuming you called LoadMod())
+            </summary>
+        </member>
+        <member name="M:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundDancer.LoadMod">
+            <summary>
+            Loads the Dancer Background into the Dawnsbury Days game.
+            </summary>
+        </member>
+        <member name="T:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundFieldMedic">
+            <summary>
+            creates the Field Medic background
+            </summary>
+        </member>
+        <member name="F:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundFieldMedic.FieldMedicBackground">
+            <summary>
+            the actual Field Medic background (assuming you called LoadMod())
+            </summary>
+        </member>
+        <member name="M:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundFieldMedic.LoadMod">
+            <summary>
+            Loads the Field Medic Background into the Dawnsbury Days game
+            </summary>
+        </member>
+        <member name="T:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundMartialDisciple">
+            <summary>
+            Creates the Martial Disciple background
+            </summary>
+        </member>
+        <member name="F:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundMartialDisciple.MartialDiscipleBackground">
+            <summary>
+            The actual Martial Disciple background feat (assuming you called LoadMod())
+            </summary>
+        </member>
+        <member name="M:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundMartialDisciple.LoadMod">
+            <summary>
+            Loads the Martial Disciple background into the Dawnsbury Days game.
+            </summary>
+        </member>
+        <member name="T:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundWarrior">
+            <summary>
+            Creates the Warrior Background
+            </summary>
+        </member>
+        <member name="F:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundWarrior.WarriorBackground">
+            <summary>
+            The actual Warrior Background feat (assuming you called LoadMod())
+            </summary>
+        </member>
+        <member name="M:Dawnsbury.Mods.DawnniExpanded.Backgrounds.BackgroundWarrior.LoadMod">
+            <summary>
+            Loads the Warrior Background into the Dawnsbury Days game.
+            </summary>
+        </member>
+    </members>
+</doc>

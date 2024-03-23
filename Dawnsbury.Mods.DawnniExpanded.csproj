@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Dawnsbury.ModDawnni.targets" />
+  <PropertyGroup>
+    <WarningsAsErrors>4014,0618</WarningsAsErrors>
+    <HideWarningsAndErrors>1998</HideWarningsAndErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\YourApi.XML</DocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Humanizer" Version="2.14.1" />
+  </ItemGroup>
+
+</Project>

@@ -102,11 +102,12 @@ obj/Debug/net6.0-windows/Dawnsbury.Mods.Spellbook.AnimatedAssault.csproj.Assembl
 obj/Debug/net6.0-windows/Dawnsbury.Mods.Spellbook.AnimatedAssault.GeneratedMSBuildEditorConfig.editorconfig
 obj/Debug/net6.0-windows/ref/Dawnsbury.Mods.DawnniExpanded.dll
 obj/Debug/net6.0-windows/refint/Dawnsbury.Mods.DawnniExpanded.dll
-Dawnsbury.Mods.DawnniExpanded.csproj
-Dawnsbury.Mods.DawnniExpanded.sln
 DawnniburyExpandedAssets/Endure.png
 DawnniburyExpandedAssets/EnergyMutagenElectricity.png
 DawnniburyExpandedAssets/FalseLife.png
 DawnniburyExpandedAssets/RousingSplash.png
 Decomplie.code-workspace
 .editorconfig
+bin/Debug/net6.0-windows/PriorityQueue.dll
+Boring Licence Stuff/~$ListOfSources.xlsx
+Boring Licence Stuff/ListOfSources.xlsx

@@ -23,51 +23,54 @@ namespace Dawnsbury.Mods.DawnniExpanded;
 
 
 
-public class SpellHeightenedFear{
+public class SpellHeightenedFear
+{
 
-    
 
-    static string HeightenText3rd(bool isHeightened, bool inCombat, string heightenedEffect)
+
+  static string HeightenText3rd(bool isHeightened, bool inCombat, string heightenedEffect)
+  {
+    if (isHeightened)
     {
-        if (isHeightened)
-        {
-            return "\n\nHeightened to spell level 3.";
-        }
-
-        if (inCombat)
-        {
-            return "";
-        }
-
-        return "\n\n" + heightenedEffect;
+      return "\n\nHeightened to spell level 3.";
     }
 
-     static string Heightenflavourfear(bool isHeightened)
+    if (inCombat)
     {
-        if (isHeightened)
-        {
-            return "You plant fear in up to 5 targets.";
-        }
-
-        return "You plant fear in the target.";
+      return "";
     }
-    
-    public static CombatAction NewFear(Creature caster, int level, bool inCombat){
 
-      Target FearTargets = Target.Ranged(6);
+    return "\n\n" + heightenedEffect;
+  }
 
-        
-        if (level >= 3){
-          FearTargets = Target.MultipleCreatureTargets(Target.Ranged(6), Target.Ranged(6),Target.Ranged(6),Target.Ranged(6),Target.Ranged(6))
-            .WithMinimumTargets(1)
-            .WithMustBeDistinct()
-            .WithSimultaneousAnimation()
-            .WithOverriddenTargetLine("up to 5 enemies", true);
+  static string Heightenflavourfear(bool isHeightened)
+  {
+    if (isHeightened)
+    {
+      return "You plant fear in up to 5 targets.";
+    }
 
-        }
-     
-          CombatAction FearSpell = Spells.CreateModern(IllustrationName.Fear, "Fear" , new Trait[8]
-          {
+    return "You plant fear in the target.";
+  }
+
+  public static CombatAction NewFear(Creature caster, int level, bool inCombat)
+  {
+
+    Target FearTargets = Target.Ranged(6);
+
+
+    if (level >= 3)
+    {
+      FearTargets = Target.MultipleCreatureTargets(Target.Ranged(6), Target.Ranged(6), Target.Ranged(6), Target.Ranged(6), Target.Ranged(6))
+        .WithMinimumTargets(1)
+        .WithMustBeDistinct()
+        .WithSimultaneousAnimation()
+        .WithOverriddenTargetLine("up to 5 enemies", true);
+
+    }
+
+    CombatAction FearSpell = Spells.CreateModern(IllustrationName.Fear, "Fear", new Trait[9]
+    {
             Trait.Emotion,
             Trait.Enchantment,
             Trait.Fear,
@@ -75,61 +78,62 @@ public class SpellHeightenedFear{
             Trait.Arcane,
             Trait.Divine,
             Trait.Occult,
+            Trait.Primal,
             DawnniExpanded.DETrait
-          }, 
-          Heightenflavourfear(level >=3),
-           S.FourDegreesOfSuccess("The target is unaffected.", "The target is frightened 1.", "The target is frightened 2.", "The target is frightened 3 and fleeing for 1 round.")+HeightenText3rd(level>= 3,inCombat,"{b}Heightened (3rd){/b} You can target up to five creatures.")
-           , 
-           (Target) FearTargets,
-            level, 
-            SpellSavingThrow.Standard(Defense.Will))
-            .WithSoundEffect(SfxName.Fear)
-            .WithGoodnessAgainstEnemy((Func<Target, Creature, Creature, float>) ((t, a, d) => 
-            level < 3 ? AICalcs.Fear(d) : a.Battle.AllCreatures.Count(cr =>cr.DistanceTo(a) <= 6 && cr.EnemyOf(a)) >= 2 ? AICalcs.Fear(d) : 0))
-             .WithEffectOnEachTarget((Delegates.EffectOnEachTarget) (async (spell, caster, target, checkResult) =>
-          {
-            int num;
-            switch (checkResult)
-            {
-              case CheckResult.CriticalFailure:
-                num = 3;
-                break;
-              case CheckResult.Failure:
-                num = 2;
-                break;
-              case CheckResult.Success:
-                num = 1;
-                break;
-              case CheckResult.CriticalSuccess:
-                return;
-              default:
-                num = 0;
-                break;
-            }
-            target.AddQEffect(QEffect.Frightened(num));
-            if (checkResult != CheckResult.CriticalFailure)
-              return;
-            target.AddQEffect(QEffect.Fleeing(caster).WithExpirationAtStartOfSourcesTurn(caster, 1));
-          }));
-
-        return FearSpell;
-
-
-        }
-      
-
-
-    public static void LoadMod()
+    },
+    Heightenflavourfear(level >= 3), "The target makes a Will save.\n\n" +
+     S.FourDegreesOfSuccess("The target is unaffected.", "The target is frightened 1.", "The target is frightened 2.", "The target is frightened 3 and fleeing for 1 round.") + HeightenText3rd(level >= 3, inCombat, "{b}Heightened (3rd){/b} You can target up to five creatures.")
+     ,
+     (Target)FearTargets,
+      level,
+      SpellSavingThrow.Standard(Defense.Will))
+      .WithSoundEffect(SfxName.Fear)
+      .WithGoodnessAgainstEnemy((Func<Target, Creature, Creature, float>)((t, a, d) =>
+      level < 3 ? AICalcs.Fear(d) : a.Battle.AllCreatures.Count(cr => cr.DistanceTo(a) <= 6 && cr.EnemyOf(a)) >= 2 ? AICalcs.Fear(d) : 0))
+       .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, checkResult) =>
     {
+      int num;
+      switch (checkResult)
+      {
+        case CheckResult.CriticalFailure:
+          num = 3;
+          break;
+        case CheckResult.Failure:
+          num = 2;
+          break;
+        case CheckResult.Success:
+          num = 1;
+          break;
+        case CheckResult.CriticalSuccess:
+          return;
+        default:
+          num = 0;
+          break;
+      }
+      target.AddQEffect(QEffect.Frightened(num));
+      if (checkResult != CheckResult.CriticalFailure)
+        return;
+      target.AddQEffect(QEffect.Fleeing(caster).WithExpirationAtStartOfSourcesTurn(caster, 1));
+    }));
 
-       
-        ModManager.ReplaceExistingSpell(SpellId.Fear,1,(spellcaster, level, inCombat) => NewFear(spellcaster,level,inCombat));
-           
-                    
-    }
-    
+    return FearSpell;
+
+
+  }
+
+
+
+  public static void LoadMod()
+  {
+
+
+    ModManager.ReplaceExistingSpell(SpellId.Fear, 1, (spellcaster, level, inCombat, SpellInformation) => NewFear(spellcaster, level, inCombat));
+
+
+  }
+
 }
-    
 
-                
-                
+
+
+
