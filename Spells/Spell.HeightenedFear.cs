@@ -69,7 +69,7 @@ public class SpellHeightenedFear
 
     }
 
-    CombatAction FearSpell = Spells.CreateModern(IllustrationName.Fear, "Fear", new Trait[8]
+    CombatAction FearSpell = Spells.CreateModern(IllustrationName.Fear, "Fear", new Trait[9]
     {
             Trait.Emotion,
             Trait.Enchantment,
@@ -78,9 +78,10 @@ public class SpellHeightenedFear
             Trait.Arcane,
             Trait.Divine,
             Trait.Occult,
+            Trait.Primal,
             DawnniExpanded.DETrait
     },
-    Heightenflavourfear(level >= 3),
+    Heightenflavourfear(level >= 3), "The target makes a Will save.\n\n" +
      S.FourDegreesOfSuccess("The target is unaffected.", "The target is frightened 1.", "The target is frightened 2.", "The target is frightened 3 and fleeing for 1 round.") + HeightenText3rd(level >= 3, inCombat, "{b}Heightened (3rd){/b} You can target up to five creatures.")
      ,
      (Target)FearTargets,

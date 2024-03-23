@@ -99,6 +99,16 @@ public class GenerateHeightenedScrolls
       text += "occult";
     }
 
+    if (spell2.HasTrait(Trait.Primal))
+    {
+      if (text != "")
+      {
+        text += " or ";
+      }
+
+      text += "primal";
+    }
+
     String ScrollDescription = "Casts the spell {i}" + spell2.Name.ToLower() + "{/i} once, then disintegrates into dust. Only heroes capable of casting {b}" + text + "{/b} spells can activate this scroll.\n\n" + spell2.CombatActionSpell.Description;
 
 

@@ -169,7 +169,8 @@ public static class ArchetypeSorcerer
     ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat, 4, "You able to cast the magic innate to your bloodline", "You gain your bloodline's initial bloodline spell. If you don't already have one, you also gain a focus pool of 1 Focus Point, which you can Refocus without any special effort.", new Trait[3]
      {
         FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, SorcererArchetypeTrait
-     }).WithOnSheet((Action<CalculatedCharacterSheetValues>)(sheet =>
+     }).WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(SorcererDedicationFeat), "You must have the Sorcerer Dedication feat.")
+     .WithOnSheet((Action<CalculatedCharacterSheetValues>)(sheet =>
      {
        if (!sheet.SpellRepertoires.ContainsKey(Trait.Sorcerer))
        { return; }

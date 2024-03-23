@@ -63,7 +63,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
 
   })).WithCustomName("Elemental Embellish");
 
-        public static Feat ElementalAssault = new TrueFeat(FeatName.CustomFeat, 1, "You shroud your arms and held weapons in elemental magic.", "Choose one element. Until the end of your next turn, your Strikes deal an additional 1d6 damage of the indicated type corresponding to the element: electricity for air, bludgeoning for earth, fire for fire, or cold for water.", new Trait[]
+        public static Feat ElementalAssault = new TrueFeat(FeatName.CustomFeat, 1, "{b}Usage{/b} Once a day.\n\nYou shroud your arms and held weapons in elemental magic.", "Choose one element. Until the end of your next turn, your Strikes deal an additional 1d6 damage of the indicated type corresponding to the element: electricity for air, bludgeoning for earth, fire for fire, or cold for water.", new Trait[]
         {
         SuliTrait, DawnniExpanded.DETrait
           }).WithIllustration(ElementalIllustration)
