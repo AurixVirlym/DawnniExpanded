@@ -61,7 +61,7 @@ public static class ArchetypeWizard
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait, FeatArchetype.ArchetypeSpellcastingTrait })
             .WithCustomName("Wizard Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Intelligence) >= 14, "You must have at least 14 inteligence")
-            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Wizard, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet.Class?.ClassTrait != Trait.Wizard, "You already have this archetype as a main class.")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {

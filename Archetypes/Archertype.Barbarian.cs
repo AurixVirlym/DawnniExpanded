@@ -107,7 +107,7 @@ public static class ArchetypeBarbarian
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, BarbarianArchetypeTrait })
             .WithCustomName("Barbarian Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Strength) >= 14 && values.FinalAbilityScores.TotalScore(Ability.Constitution) >= 14, "You must have at least 14 Strength and Constitution .")
-            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Barbarian, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet.Class?.ClassTrait != Trait.Barbarian, "You already have this archetype as a main class.")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
@@ -178,7 +178,7 @@ public static class ArchetypeBarbarian
               .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BarbarianDedicationFeat), "You must have the Barbarian Dedication feat.")
               .WithPrerequisite((CalculatedCharacterSheetValues values) =>
 
-              values.Sheet?.Class.ClassTrait != Trait.Barbarian
+              values.Sheet.Class?.ClassTrait != Trait.Barbarian
 
 
               , "You have a class granting more than Hit Points per level than 10 + your Constitution modifier")
