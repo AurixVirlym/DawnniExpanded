@@ -217,7 +217,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
 
     })).WithCustomName("Hymn of Healing")
     .WithIllustration(SpellHymnOfHealing.SpellIllustration)
-    .WithRulesBlockForSpell(SpellHymnOfHealing.Id);
+    .WithRulesBlockForSpell(SpellHymnOfHealing.Id, Trait.Bard);
 
     public static Feat TripleTime = new TrueFeat(FeatName.CustomFeat, 4, "You imbue your music with melodies which speed up you and your allies.",
     "You learn the {i}triple time{/i} composition cantrip.", new Trait[2]
@@ -232,7 +232,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
       values.AddFocusSpellAndFocusPoint(Trait.Bard, Ability.Charisma, SpellTripleTime.Id);
     })).WithCustomName("Triple Time")
     .WithIllustration(SpellTripleTime.SpellIllustration)
-    .WithRulesBlockForSpell(SpellTripleTime.Id);
+    .WithRulesBlockForSpell(SpellTripleTime.Id, Trait.Bard);
 
 
     public static Feat LingeringComposition = new TrueFeat(FeatName.CustomFeat, 1, "You add a flourish to your composition to extend its benefits.", "If your next action is to cast a cantrip composition with a duration of 1 round, attempt a check using your performance skill. The DC is usually a standard-difficulty DC of a level  The effect depends on the result of your check.", new Trait[7]

@@ -37,7 +37,7 @@ public static class ArchetypeWizard
       values.AddFocusSpellAndFocusPoint(Trait.Wizard, Ability.Intelligence, FocusSpell);
     })
   .WithCustomName(name)
-  .WithRulesBlockForSpell(FocusSpell)
+  .WithRulesBlockForSpell(FocusSpell, Trait.Wizard)
   .WithIllustration(modernSpellTemplate.Illustration);
     //. modernSpellTemplate.Name.ToLower() 
 
