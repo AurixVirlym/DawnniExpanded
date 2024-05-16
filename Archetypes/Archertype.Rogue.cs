@@ -38,7 +38,7 @@ public static class ArchetypeRogue
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, RogueArchetypeTrait })
             .WithCustomName("Rogue Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Dexterity) >= 14, "You must have at least 14 Dexterity.")
-            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Rogue, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet.Class?.ClassTrait != Trait.Rogue, "You already have this archetype as a main class.")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {

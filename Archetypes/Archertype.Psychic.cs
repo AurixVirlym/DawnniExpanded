@@ -59,10 +59,11 @@ public static class ArchetypePsychic
             )
             .WithCustomName("Psychic Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Charisma) >= 14 || values.FinalAbilityScores.TotalScore(Ability.Intelligence) >= 14, "You must have at least Intelligence 14, or Charisma 14.")
-            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Psychic, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet.Class?.ClassTrait != Trait.Psychic, "You already have this archetype as a main class.")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
+        if (sheet.Sheet.Class?.ClassTrait == Trait.Psychic) return; // Do nothing if you're already this class. This feat will be removed in the next cycle due to a failed prerequisite anyway.
 
       Ability CastingAbility = Ability.Intelligence;
 

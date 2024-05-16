@@ -58,7 +58,7 @@ public static class ArchetypeSorcerer
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, SorcererArchetypeTrait, FeatArchetype.ArchetypeSpellcastingTrait }, bloodlinelist)
             .WithCustomName("Sorcerer Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Charisma) >= 14, "You must have at least 14 Charisma")
-            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Sorcerer, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet.Class?.ClassTrait != Trait.Sorcerer, "You already have this archetype as a main class.")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
@@ -154,6 +154,7 @@ public static class ArchetypeSorcerer
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
 {
+    
   SpellRepertoire repertoire;
   if (sheet.SpellRepertoires.TryGetValue(Trait.Sorcerer, out repertoire) == false)
   {
