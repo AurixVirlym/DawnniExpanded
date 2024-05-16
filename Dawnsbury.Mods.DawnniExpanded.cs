@@ -66,6 +66,7 @@ public class DawnniExpanded
 
         VersatileHertiages.LoadMod();
         AncestryHalfling.LoadMod();
+        AncestryDragon.LoadMod();
         Bard.LoadMod();
 
 

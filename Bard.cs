@@ -275,12 +275,13 @@ namespace Dawnsbury.Mods.DawnniExpanded
       AllFeats.All.RemoveAll(feat => feat.FeatName == FeatName.ReachSpell);
       ModManager.AddFeat(
 
-      new TrueFeat(FeatName.ReachSpell, 1, "You can extend the range of your spells.", "You can spend an extra action as you cast a spell in order to increase that spell's range by 30 feet. If the spell had a range of touch, you extend its range to 30 feet.", new Trait[6]
+      new TrueFeat(FeatName.ReachSpell, 1, "You can extend the range of your spells.", "You can spend an extra action as you cast a spell in order to increase that spell's range by 30 feet. If the spell had a range of touch, you extend its range to 30 feet.", new Trait[7]
     {
         Trait.Sorcerer,
         Trait.Cleric,
         Trait.Wizard,
         Trait.Bard,
+        Trait.Druid,
         Trait.Concentrate,
         Trait.Metamagic
     }).WithActionCost(1).WithPermanentQEffect("You can extend the range of your spells.", (Action<QEffect>)(qf => qf.MetamagicProvider = new MetamagicProvider("Reach spell", (Func<CombatAction, CombatAction>)(spell =>

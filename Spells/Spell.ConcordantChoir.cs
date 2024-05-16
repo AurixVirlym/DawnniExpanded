@@ -42,7 +42,7 @@ public class SpellConcordantChoir
                     Target.DependsOnActionsSpent(
                         Target.Ranged(6),
                         Target.Burst(6, 2),
-                        Target.Emanation(6)),
+                        Target.SelfExcludingEmanation(6)),
                         spellLevel,
                         SpellSavingThrow.Basic(Defense.Fortitude)
                         ).WithActionCost(-1)

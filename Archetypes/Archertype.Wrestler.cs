@@ -49,9 +49,9 @@ public static class ArchetypeWrestler
             {
               BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) =>
                         {
-                          if (defense == Defense.Will || defense == Defense.Reflex)
+                          if (defense == Defense.Fortitude && attack.Name.StartsWith("Grapple"))
                           {
-                            return new Bonus(2, BonusType.Circumstance, "Drakeheart Mutagen");
+                            return new Bonus(2, BonusType.Circumstance, "Wrestler");
                           }
                           else return null;
                         }
