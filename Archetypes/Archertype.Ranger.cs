@@ -39,7 +39,7 @@ public static class ArchetypeRanger
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, RangerArchetypeTrait })
             .WithCustomName("Ranger Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Dexterity) >= 14, "You must have at least 14 Dexterity.")
-            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Ranger, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet.Class?.ClassTrait != Trait.Ranger, "You already have this archetype as a main class.")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
@@ -133,9 +133,9 @@ public static class ArchetypeRanger
             .WithCustomName("Ranger Resiliency")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RangerDedicationFeat), "You must have the Ranger Dedication feat.")
             .WithPrerequisite((CalculatedCharacterSheetValues values) =>
-            values.Sheet?.Class.ClassTrait != Trait.Monk &&
-            values.Sheet?.Class.ClassTrait != Trait.Barbarian &&
-            values.Sheet?.Class.ClassTrait != Trait.Fighter
+            values.Sheet.Class?.ClassTrait != Trait.Monk &&
+            values.Sheet.Class?.ClassTrait != Trait.Barbarian &&
+            values.Sheet.Class?.ClassTrait != Trait.Fighter
 
             , "You have a class granting more than Hit Points per level than 8 + your Constitution modifier")
             .WithOnCreature((CalculatedCharacterSheetValues sheet, Creature cr) =>

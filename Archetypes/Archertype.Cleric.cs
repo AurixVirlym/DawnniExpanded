@@ -156,7 +156,7 @@ public static class ArchetypeCleric
             dietylist)
             .WithCustomName("Cleric Dedication")
             .WithPrerequisite(values => values.FinalAbilityScores.TotalScore(Ability.Wisdom) >= 14, "You must have at least 14 wisdom")
-            .WithPrerequisite(values => values.Sheet?.Class.ClassTrait != Trait.Cleric, "You already have this archetype as a main class.")
+            .WithPrerequisite(values => values.Sheet.Class?.ClassTrait != Trait.Cleric, "You already have this archetype as a main class.")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {

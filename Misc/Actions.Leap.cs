@@ -51,7 +51,7 @@ public static class ActionLeap
                                         }
 
                                         if (nullable.GetValueOrDefault() <= num & nullable.HasValue)
-                                            if (caster.Occupies.HasLineOfEffectTo(tile) <= CoverKind.Lesser)
+                                            if (caster.Occupies.HasLineOfEffectToIgnoreLesser(tile) <= CoverKind.Lesser)
                                             {
                                                 return true;
                                             }
