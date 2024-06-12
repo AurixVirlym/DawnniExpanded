@@ -157,7 +157,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
                     }
                     else
                     {
-                        a.AddQEffect(new QEffect() { PreventTargetingBy = newAttack => newAttack.Name == "Breath Weapon (Ancestry)" ? "You already used your breath this encounter" : null });
+                        a.AddQEffect(new QEffect() { PreventTakingAction = newAttack => newAttack.Name == "Breath Weapon (Ancestry)" ? "You already used your breath this encounter" : null });
                     }
 
                 }

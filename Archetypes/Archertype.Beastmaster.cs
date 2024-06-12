@@ -105,7 +105,7 @@ public static class ArchetypeBeastmaster
 
     BeastMasterMatureFeat = new TrueFeat(FeatName.CustomFeat,
                 4,
-                "Your animal companions grow up, becoming a mature animal companion and gaining additional capabilities.",
+                "Your animal companions has grown up, becoming a mature animal companion and gaining additional capabilities.",
                 "The following increases are applied to your animal companion:"
                 + "\n\n- Strength, Dexterity, Constitution, and Wisdom modifiers increase by 1."
                 + "\n- Unarmed attack damage increases from one die to two dice."
@@ -114,6 +114,7 @@ public static class ArchetypeBeastmaster
                 + "\n\nEven if you don't use the Command an Animal action, your animal companion can still use 1 action at the end of your turn.",
                 new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait })
                 .WithCustomName("Mature Beastmaster Companion")
+                .WithEquivalent(values => values.AllFeats.Contains(ArchetypeDruid.DruidMatureFeat))
                 .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BeastMasterDedicationFeat) && values.AllFeatNames.Contains(FeatName.AnimalCompanion), "You must have the beastmaster dedication feat and have selected an Animal Companion.")
                 .WithOnSheet((CalculatedCharacterSheetValues sheet) =>
                 {

@@ -65,7 +65,7 @@ public class DawnniExpanded
         //KinTest.LoadMod();
 
         VersatileHertiages.LoadMod();
-        AncestryHalfling.LoadMod();
+        //AncestryHalfling.LoadMod();
         AncestryDragon.LoadMod();
         Bard.LoadMod();
 

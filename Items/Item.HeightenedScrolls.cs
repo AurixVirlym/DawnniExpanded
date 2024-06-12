@@ -185,9 +185,6 @@ public class GenerateHeightenedScrolls
     MakeScrollAtLevel(new Spell(ModdedSpell), 4, true);
 
     //False Life
-    ModdedSpell = SpellFalseLife.CombatAction(null, 2, true, new SpellInformation());
-    ModdedSpell.SpellId = SpellFalseLife.Id;
-    MakeScrollAtLevel(new Spell(ModdedSpell), 2, true);
 
     ModdedSpell = SpellFalseLife.CombatAction(null, 3, true, new SpellInformation());
     ModdedSpell.SpellId = SpellFalseLife.Id;

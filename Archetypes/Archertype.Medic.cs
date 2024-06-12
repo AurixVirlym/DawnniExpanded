@@ -35,7 +35,7 @@ public static class ArchetypeMedic
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait })
             .WithCustomName("Medic Dedication")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) >= Proficiency.Trained, "You must be trained in Medicine.")
-            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FeatBattleMedicine.BattleMedicineTrueFeat), "You must have the Battle Medicine feat.")
+            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeatNames.Contains(FeatName.BattleMedicine), "You must have the Battle Medicine feat.")
             .WithOnSheet(sheet => sheet.GrantFeat(FeatName.ExpertMedicine));
 
     Illustration IllustrationDocVisit = new ModdedIllustration("DawnniburyExpandedAssets/DoctorsVisitation.png");

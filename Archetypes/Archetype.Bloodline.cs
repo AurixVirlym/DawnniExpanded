@@ -49,10 +49,10 @@ public class ArchetypeBloodline : Feat
     this.focusSpell = focusSpell;
     this.grantedLevel1Spell = grantedLevel1Spell;
     this.grantedLevel2Spell = grantedLevel2Spell;
-    this.WithRulesBlockForSpell(focusSpell);
+    this.WithRulesBlockForSpell(focusSpell, spellList);
     this.OnSheet = (Action<CalculatedCharacterSheetValues>)(sheet =>
     {
-        if (sheet.Sheet.Class?.ClassTrait == Trait.Sorcerer) return; // Do nothing if you're already this class. This feat will be removed in the next cycle due to a failed prerequisite anyway.
+      if (sheet.Sheet.Class?.ClassTrait == Trait.Sorcerer) return; // Do nothing if you're already this class. This feat will be removed in the next cycle due to a failed prerequisite anyway.
       sheet.SpellTraditionsKnown.Add(spellList);
       sheet.SpellRepertoires.Add(Trait.Sorcerer, new SpellRepertoire(Ability.Charisma, spellList));
       sheet.SetProficiency(Trait.Spell, Proficiency.Trained);

@@ -49,7 +49,7 @@ public static class ArchetypeWrestler
             {
               BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) =>
                         {
-                          if (defense == Defense.Fortitude && attack.Name.StartsWith("Grapple"))
+                          if (attack != null && defense == Defense.Fortitude && attack.HasTrait(Trait.Grab))
                           {
                             return new Bonus(2, BonusType.Circumstance, "Wrestler");
                           }

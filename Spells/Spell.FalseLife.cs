@@ -65,7 +65,7 @@ public class SpellFalseLife
                 Trait.Occult,
                 DawnniExpanded.DETrait
             }, "You ward yourself with shimmering magical energy.",
-                "You gain " + S.HeightenedVariable(6 + (spellLevel - 1) * 3, 6) + " + " + S.SpellcastingModifier(spellcaster, spellInformation) + " temporary Hit Points.\n\n{b}Special{/b} You can cast this spell as a free action at the beginning of the encounter if not casting from a scroll." + HS.HeightenTextLevels(spellLevel > 1, spellLevel, inCombat, "{b}Heightened (+1){/b} The temporary Hit Points increase by 3.")
+                "You gain " + S.HeightenedVariable(10 + (spellLevel - 2) * 3, 6) + " temporary Hit Points.\n\n{b}Special{/b} You can cast this spell as a free action at the beginning of the encounter if not casting from a scroll." + HS.HeightenTextLevels(spellLevel > 2, spellLevel, inCombat, "{b}Heightened (+1){/b} The temporary Hit Points increase by 3.")
                 , Target.Self(),
                 spellLevel,
                  null)
@@ -73,7 +73,7 @@ public class SpellFalseLife
                 .WithActionCost(2)
                 .WithEffectOnEachTarget(async (CombatAction spell, Creature caster, Creature target, CheckResult result) =>
                             {
-                                int FalseLifeTHP = 6 + caster.Spellcasting.GetSourceByOrigin(spellInformation.ClassOfOrigin).SpellcastingAbilityModifier + (spell.SpellLevel - 1) * 3;
+                                int FalseLifeTHP = 10 + (spell.SpellLevel - 2) * 3;
                                 QEffect falseLifeEffect = FalseLifeEffect;
 
                                 QEffect qEffect2 = target.QEffects.FirstOrDefault((QEffect qf) => qf.Name == "False Life - ");

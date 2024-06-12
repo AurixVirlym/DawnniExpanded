@@ -27,7 +27,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Backgrounds
                 , new List<AbilityBoost> { new LimitedAbilityBoost(Ability.Constitution, Ability.Wisdom), new FreeAbilityBoost() })
                 .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                 {
-                    sheet.AddFeat(FeatBattleMedicine.BattleMedicineTrueFeat, null);
+                    sheet.GrantFeat(FeatName.BattleMedicine);
                     sheet.GrantFeat(FeatName.Medicine);
                 }).WithCustomName("Field Medic")
                 as BackgroundSelectionFeat;
