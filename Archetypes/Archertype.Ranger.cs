@@ -22,6 +22,7 @@ public static class ArchetypeRanger
 
   public static Feat RangerDedicationFeat;
   public static Trait RangerArchetypeTrait;
+  public static Feat RangerBasicFeat;
   public static void LoadMod()
 
   {
@@ -75,7 +76,7 @@ public static class ArchetypeRanger
 
 
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(RangerBasicFeat = new TrueFeat(FeatName.CustomFeat,
             4,
             "You are able to learn how to perform Hunter's Tricks.",
             "You gain a 1st- or 2nd-level ranger feat.",
@@ -124,6 +125,57 @@ public static class ArchetypeRanger
 })
 
     );
+
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                            6,
+                            "You are able to learn how to perform advanced Hunter's Tricks.",
+                            "You gain one ranger feat. For the purpose of meeting its prerequisites, your ranger level is equal to half your character level.",
+                            new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, RangerArchetypeTrait })
+                            .WithMultipleSelection()
+                            .WithCustomName("Advanced Hunter's Trick")
+                            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RangerDedicationFeat), "You must have the Ranger Dedication feat.")
+                            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RangerBasicFeat), "You must have the Basic Hunter's Trick feat.")
+                            .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+                {
+
+                  sheet.AddSelectionOption(
+                              new SingleFeatSelectionOption(
+                                  "Advanced Hunter's Trick",
+                                  "Advanced Hunter's Trick feat",
+                                  -1,
+                                  (Feat ft) =>
+                            {
+                              if (ft.HasTrait(Trait.Ranger) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                              {
+
+                                if (ft.CustomName == null)
+                                {
+                                  TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                                  if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                  {
+                                    return true;
+                                  }
+                                  else return false;
+
+                                }
+                                else
+                                {
+                                  TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                                  if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                  {
+                                    return true;
+                                  }
+                                  return false;
+                                }
+                              }
+                              return false;
+                            })
+                                  );
+                })
+                    );
 
     ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
             4,

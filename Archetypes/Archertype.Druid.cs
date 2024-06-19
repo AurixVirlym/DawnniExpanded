@@ -36,6 +36,8 @@ public static class ArchetypeDruid
 
   public static Feat DruidBasicSpellcasting;
 
+  public static Feat DruidBasicFeat;
+
 
 
 
@@ -119,9 +121,9 @@ public static class ArchetypeDruid
 
 
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(DruidBasicFeat = new TrueFeat(FeatName.CustomFeat,
             4,
-            "You gain a deeper understanding of the wilds.",
+            "You gain a basic understanding of the wilds.",
             "You gain a 1st- or 2nd-level druid feat.",
             new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, DruidArchetypeTrait })
             .WithCustomName("Basic Wilding")
@@ -169,10 +171,63 @@ public static class ArchetypeDruid
 
     );
 
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                    6,
+                    "You gain an advanced understanding of the wilds.",
+                    "You gain one druid feat. For the purpose of meeting its prerequisites, your druid level is equal to half your character level.",
+                    new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, DruidArchetypeTrait })
+                    .WithMultipleSelection()
+                    .WithCustomName("Advanced Wilding")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DruidDedicationFeat), "You must have the Druid Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DruidBasicFeat), "You must have the Basic Wilding feat.")
+                    .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+        {
+
+          sheet.AddSelectionOption(
+                      new SingleFeatSelectionOption(
+                          "Advanced Wilding",
+                          "Advanced Wilding feat",
+                          -1,
+                          (Feat ft) =>
+                    {
+                      if (ft.HasTrait(Trait.Druid) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                      {
+
+                        if (ft.CustomName == null)
+                        {
+                          TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                          if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                          {
+                            return true;
+                          }
+                          else return false;
+
+                        }
+                        else
+                        {
+                          TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                          if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                          {
+                            return true;
+                          }
+                          return false;
+                        }
+                      }
+                      return false;
+                    })
+                          );
+        })
+            );
+
     DruidBasicSpellcasting = new TrueFeat(FeatName.CustomFeat,
             4,
             "You gain the basic spellcasting benefits for Druid.",
-            "You may prepare one 1st level spell slot per day.",
+            "You may prepare one 1st level spell slot per day."
+            + "\n\nAt level 6, You may prepare one 2nd level spell slot per day"
+            + "\n\nAt level 8, You may prepare one 3nd level spell slot per day",
             new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, DruidArchetypeTrait })
             .WithCustomName("Basic Druid Spellcasting")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(DruidDedicationFeat), "You must have the Druid Dedication feat.")
@@ -184,7 +239,26 @@ public static class ArchetypeDruid
   {
     return;
   }
-  spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Druid:Spell1-1"));
+  switch (sheet.CurrentLevel)
+  {
+    case 6:
+    case 7:
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Druid:Spell1-1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "Druid:Spell2-1"));
+      sheet.AddAtLevel(8, _ => spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "Druid:Spell3-1")));
+      break;
+    case 8:
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Druid:Spell1-1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "Druid:Spell2-1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "Druid:Spell3-1"));
+
+      break;
+    default:
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Druid:Spell1-1"));
+      sheet.AddAtLevel(6, _ => spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "Druid:Spell2-1")));
+      sheet.AddAtLevel(8, _ => spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "Druid:Spell3-1")));
+      break;
+  }
 });
 
 

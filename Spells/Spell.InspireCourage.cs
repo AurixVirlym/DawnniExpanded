@@ -36,7 +36,8 @@ public class SpellInspireCourage
             Trait.Emotion,
             Trait.Enchantment,
             Trait.Mental,
-            Trait.Composition
+            Trait.Composition,
+            Trait.SpellCannotBeChosenInCharacterBuilder
         }, "You inspire your allies with words or tunes of encouragement.", "You and all allies in the area gain a +1 status bonus to attack rolls, damage rolls, and saves against fear effects for 1 round.", (Target)Target.Emanation(12).WithIncludeOnlyIf((target, creature) => creature.FriendOf(spellcaster)), spellLevel, null)
         .WithSoundEffect(SfxName.PositiveMelody)
         .WithActionCost(1)
@@ -49,7 +50,7 @@ public class SpellInspireCourage
 
           if (spell.Name.Contains("Lingering Composition"))
           {
-            CheckResult lingeringresult = CommonSpellEffects.RollCheck("Lingering Composition", new ActiveRollSpecification(Checks.SkillCheck(Skill.Performance), Checks.FlatDC(Bard.LevelBasedDC(caster.Level))), caster, caster);
+            CheckResult lingeringresult = CommonSpellEffects.RollCheck("Lingering Composition", new ActiveRollSpecification(Checks.SkillCheck(Skill.Performance), Checks.FlatDC(DCs.LevelBased(caster.Level))), caster, caster);
 
             if (lingeringresult == CheckResult.CriticalSuccess)
             {

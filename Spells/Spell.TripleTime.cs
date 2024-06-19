@@ -36,7 +36,8 @@ public class SpellTripleTime
             Trait.Emotion,
             Trait.Enchantment,
             Trait.Mental,
-            Trait.Composition
+            Trait.Composition,
+            Trait.SpellCannotBeChosenInCharacterBuilder,
         }, "You dance at a lively tempo, speeding your allies' movement.", "You and all allies in the area gain a +10-foot status bonus to all Speeds for 1 round.", (Target)Target.Emanation(12).WithIncludeOnlyIf((target, creature) => creature.FriendOf(spellcaster)), spellLevel, null)
         .WithSoundEffect(SfxName.PositiveMelody)
         .WithActionCost(1)
@@ -49,7 +50,7 @@ public class SpellTripleTime
 
           if (spell.Name.Contains("Lingering Composition"))
           {
-            CheckResult lingeringresult = CommonSpellEffects.RollCheck("Lingering Composition", new ActiveRollSpecification(Checks.SkillCheck(Skill.Performance), Checks.FlatDC(Bard.LevelBasedDC(caster.Level))), caster, caster);
+            CheckResult lingeringresult = CommonSpellEffects.RollCheck("Lingering Composition", new ActiveRollSpecification(Checks.SkillCheck(Skill.Performance), Checks.FlatDC(DCs.LevelBased(caster.Level))), caster, caster);
 
             if (lingeringresult == CheckResult.CriticalSuccess)
             {

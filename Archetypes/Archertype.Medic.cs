@@ -31,7 +31,7 @@ public static class ArchetypeMedic
     MedicDedicationFeat = new TrueFeat(FeatName.CustomFeat,
             2,
             "You've studied countless techniques for providing medical aid, making you a peerless doctor and healer.",
-            "You become an expert in Medicine. (Retrain if you perviously had Expert Medicine)\r\n\r\nWhen you succeed with Battle Medicine, the target regains 5 additional HP at DC 20.\r\n\r\nOnce per day, you can use Battle Medicine on a creature that's temporarily immune.",
+            "You become an expert in Medicine. (Retrain if you perviously had Expert Medicine)\r\n\r\nWhen you succeed with Battle Medicine, the target regains 5 additional HP at DC 20 or 10 HP at DC 30.\r\n\r\nOnce per day, you can use Battle Medicine on a creature that's temporarily immune. If you're a master in Medicine, you can do so once per encounter.",
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait })
             .WithCustomName("Medic Dedication")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) >= Proficiency.Trained, "You must be trained in Medicine.")

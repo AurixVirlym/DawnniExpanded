@@ -18,6 +18,7 @@ using Dawnsbury.Core.Coroutines.Requests;
 using Dawnsbury.Core.Creatures;
 using Dawnsbury.Display.Text;
 using Dawnsbury.Core.CharacterBuilder.FeatsDb;
+using Dawnsbury.Core.Mechanics;
 
 
 
@@ -44,6 +45,14 @@ public class FeatBattleMedicine
         GameLoop.AddDirectUsageOnCreatureOptions(trainedBM, options, noConfirmation: false);
         GameLoop.AddDirectUsageOnCreatureOptions(expertBM, options, noConfirmation: false);
 
+        if (self.PersistentCharacterSheet.Calculated.GetProficiency(Trait.Medicine) >= Proficiency.Master)
+        {
+            CombatAction MasterBM = BattleMedAction(self, false, true);
+            MasterBM.WithActionCost(0);
+            MasterBM.Owner = self;
+            GameLoop.AddDirectUsageOnCreatureOptions(MasterBM, options, noConfirmation: false);
+        }
+
 
 
         if (options.Count > 0)
@@ -63,17 +72,17 @@ public class FeatBattleMedicine
     }
 
     public static CombatAction ExpertBattleMedAction;
-    private static CombatAction BattleMedAction(Creature creature, bool expert = false)
+    private static CombatAction BattleMedAction(Creature creature, bool expert = false, bool master = false)
     {
         string text = "";
-        int num = (expert ? 20 : 15);
+        int num = (master ? 30 : expert ? 20 : 15);
         if (creature.HasFeat(ArchetypeMedic.MedicDedicationFeat.FeatName))
         {
-            text = (expert ? "+15" : "");
+            text = (master ? "+40" : expert ? "+15" : "");
         }
-        else text = (expert ? "+10" : "");
+        else text = (master ? "+30" : expert ? "+10" : "");
 
-        CombatAction BattleMedAction = new CombatAction(creature, IllustrationName.HealersTools, "Battle Medicine" + (expert ? " (DC 20)" : ""), new Trait[4] {
+        CombatAction BattleMedAction = new CombatAction(creature, IllustrationName.HealersTools, "Battle Medicine" + (master ? " (DC 30)" : expert ? " (DC 20)" : ""), new Trait[4] {
             Trait.Healing,
             Trait.Manipulate,
             Trait.Basic,
@@ -105,10 +114,9 @@ public class FeatBattleMedicine
                                       return Usability.NotUsableOnThisCreature("Target has been already affected by your Battle Medicine today.");
                                   })
                                   )
-                                  .WithSoundEffect(SfxName.Healing)
                                   .WithActionCost(1)
                                   .WithActiveRollSpecification(
-                              new ActiveRollSpecification(Checks.SkillCheck(Skill.Medicine), Checks.FlatDC(15)))
+                              new ActiveRollSpecification(Checks.SkillCheck(Skill.Medicine), Checks.FlatDC(num)))
                               .WithEffectOnEachTarget(async (spell, caster, target, result) =>
                               {
 
@@ -130,7 +138,17 @@ public class FeatBattleMedicine
                                   if (result >= CheckResult.Success)
                                   {
                                       DiceFormula diceFormula = ((result == CheckResult.CriticalSuccess) ? DiceFormula.FromText("4d8", "Battle Medicine (critical success)") : DiceFormula.FromText("2d8", "Battle Medicine"));
-                                      if (expert)
+
+                                      if (master)
+                                      {
+                                          diceFormula = diceFormula.Add(DiceFormula.FromText("30", "Battle Medicine (master)"));
+
+                                          if (creature.HasFeat(ArchetypeMedic.MedicDedicationFeat.FeatName))
+                                          {
+                                              diceFormula = diceFormula.Add(DiceFormula.FromText("10", "Medic Dedication (master)"));
+                                          }
+                                      }
+                                      else if (expert)
                                       {
                                           diceFormula = diceFormula.Add(DiceFormula.FromText("10", "Battle Medicine (expert)"));
 
@@ -146,8 +164,6 @@ public class FeatBattleMedicine
 
                               });
 
-        BattleMedAction.WithActiveRollSpecification(
-                   new ActiveRollSpecification(Checks.SkillCheck(Skill.Medicine), Checks.FlatDC(num)));
 
 
         return BattleMedAction;
@@ -163,30 +179,76 @@ public class FeatBattleMedicine
 
         BattleMedicineTrueFeat = new TrueFeat(FeatName.BattleMedicine, 1,
               "You can patch up wounds, even in combat.",
-               "{b}Range{/b} touch\n{b}Requirements{/b} You must have a hand free.\n\nMake a Medicine check against DC 15." + S.FourDegreesOfSuccess("The target regains 4d8 HP.", "The target regains 2d8 HP.", (string)null, "The target takes 1d8 damage.") + "\n\nRegardless of your result, the target is then temporarily immune to your Battle Medicine for the rest of the day.\n\nIf you're expert in Medicine, you can choose to make the check against DC 20. If you do, you heal 2d8+10 HP on a success instead (4d8+10 HP on a critical success).",
+               "{b}Range{/b} touch\n{b}Requirements{/b} You must have a hand free.\n\nMake a Medicine check against DC 15." + S.FourDegreesOfSuccess("The target regains 4d8 HP.", "The target regains 2d8 HP.", (string)null, "The target takes 1d8 damage.") + "\n\nRegardless of your result, the target is then temporarily immune to your Battle Medicine for the rest of the day.\n\nIf you're expert in Medicine, you can choose to make the check against DC 20. If you do, you heal 2d8+10 HP on a success instead (4d8+10 HP on a critical success).\n\nIf you're master in Medicine, you can choose to make the check against DC 20. If you do, you heal 2d8+30 HP on a success instead (4d8+30 HP on a critical success).",
               new Trait[5] { Trait.General, Trait.Skill, Trait.Healing, Trait.Manipulate, DawnniExpanded.DETrait }
               )
           .WithActionCost(1)
-          .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) >= Proficiency.Trained, "You must be trained in Medicine.").WithPermanentQEffect("You can heal allies as an 'other maneuver'.", (qf => qf.ProvideActionIntoPossibilitySection = ((qfBattleMedicine, section) =>
-    {
-        if (section.PossibilitySectionId != PossibilitySectionId.OtherManeuvers)
-            return (Possibility)null;
-        CharacterSheet persistentCharacterSheet = qfBattleMedicine.Owner.PersistentCharacterSheet;
-        if (persistentCharacterSheet == null || persistentCharacterSheet.Calculated.GetProficiency(Trait.Medicine) < Proficiency.Expert)
-            return (Possibility)new ActionPossibility(BattleMedAction(qfBattleMedicine.Owner, false));
-        return (Possibility)new SubmenuPossibility((Illustration)IllustrationName.HealersTools, "Battle Medicine")
-        {
-            Subsections = {
-            new PossibilitySection("Battle Medicine")
+          .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Medicine) >= Proficiency.Trained, "You must be trained in Medicine.")
+          .WithPermanentQEffect("You can heal allies as an 'other maneuver'.", qf =>
+
+          {
+
+              qf.EndOfCombat = ((QEffect qfBattleMedicine, bool winstate) =>
+              {
+                  if (qf.Owner.PersistentCharacterSheet.Calculated.GetProficiency(Trait.Medicine) >= Proficiency.Master)
+                  {
+                      qf.Owner.PersistentUsedUpResources.UsedUpActions.Remove("BattleMedicineMedicArchetypePassed");
+                  }
+
+                  return null;
+              });
+
+              qf.ProvideActionIntoPossibilitySection = ((qfBattleMedicine, section) =>
             {
-              Possibilities = {
-                (Possibility) (ActionPossibility) BattleMedAction(qfBattleMedicine.Owner, false),
-                (Possibility) (ActionPossibility) BattleMedAction(qfBattleMedicine.Owner, true)
-              }
-            }
-        }
-        };
-    })));
+                if (section.PossibilitySectionId != PossibilitySectionId.OtherManeuvers)
+                    return (Possibility)null;
+
+                CharacterSheet persistentCharacterSheet = qfBattleMedicine.Owner.PersistentCharacterSheet;
+
+
+
+                if (persistentCharacterSheet == null || persistentCharacterSheet.Calculated.GetProficiency(Trait.Medicine) == Proficiency.Expert)
+                {
+                    return (Possibility)new SubmenuPossibility((Illustration)IllustrationName.HealersTools, "Battle Medicine")
+                    {
+                        Subsections = {
+                        new PossibilitySection("Battle Medicine")
+                        {
+                        Possibilities = {
+                            (Possibility) (ActionPossibility) BattleMedAction(qfBattleMedicine.Owner, false),
+                            (Possibility) (ActionPossibility) BattleMedAction(qfBattleMedicine.Owner, true)
+                        }
+                        }
+                    }
+                    };
+                }
+
+                else if (persistentCharacterSheet == null || persistentCharacterSheet.Calculated.GetProficiency(Trait.Medicine) == Proficiency.Master)
+                {
+                    return (Possibility)new SubmenuPossibility((Illustration)IllustrationName.HealersTools, "Battle Medicine")
+                    {
+                        Subsections = {
+                        new PossibilitySection("Battle Medicine")
+                        {
+                        Possibilities = {
+                            (Possibility) (ActionPossibility) BattleMedAction(qfBattleMedicine.Owner, false),
+                            (Possibility) (ActionPossibility) BattleMedAction(qfBattleMedicine.Owner, true),
+                            (Possibility) (ActionPossibility) BattleMedAction(qfBattleMedicine.Owner, false,true)
+                        }
+                        }
+                    }
+                    };
+                }
+                return (Possibility)new ActionPossibility(BattleMedAction(qfBattleMedicine.Owner, false));
+
+
+            });
+          }
+
+
+
+
+    );
 
 
         /*.WithOnCreature((sheet, creature) =>

@@ -21,6 +21,8 @@ public static class ArchetypeRogue
 
   public static Feat RogueDedicationFeat;
   public static Trait RogueArchetypeTrait;
+
+  public static Feat RogueBasicFeat;
   public static void LoadMod()
 
   {
@@ -101,7 +103,7 @@ public static class ArchetypeRogue
 
 
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(RogueBasicFeat = new TrueFeat(FeatName.CustomFeat,
             4,
             "You are able to learn how to perform Rogue Trickery.",
             "You gain a 1st- or 2nd-level rogue feat.",
@@ -151,6 +153,56 @@ public static class ArchetypeRogue
 
     );
 
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                                6,
+                                "You are able to learn how to perform advanced Rogue Trickery.",
+                                "You gain one rogue feat. For the purpose of meeting its prerequisites, your rogue level is equal to half your character level.",
+                                new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, RogueArchetypeTrait })
+                                .WithMultipleSelection()
+                                .WithCustomName("Advanced Trickery")
+                                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RogueDedicationFeat), "You must have the Rogue Dedication feat.")
+                                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(RogueBasicFeat), "You must have the Basic Rogue Trickery feat.")
+                                .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+                    {
+
+                      sheet.AddSelectionOption(
+                                  new SingleFeatSelectionOption(
+                                      "Advanced Trickery",
+                                      "Advanced Trickery feat",
+                                      -1,
+                                      (Feat ft) =>
+                                {
+                                  if (ft.HasTrait(Trait.Rogue) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                                  {
+
+                                    if (ft.CustomName == null)
+                                    {
+                                      TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                                      if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                      {
+                                        return true;
+                                      }
+                                      else return false;
+
+                                    }
+                                    else
+                                    {
+                                      TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                                      if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                      {
+                                        return true;
+                                      }
+                                      return false;
+                                    }
+                                  }
+                                  return false;
+                                })
+                                      );
+                    })
+                        );
 
 
 

@@ -24,6 +24,7 @@ public static class ArchetypeFighter
 
   public static Feat FighterDedicationFeat;
   public static Trait FighterArchetypeTrait;
+  public static Feat FighterBasicFeat;
   public static void LoadMod()
 
   {
@@ -119,7 +120,7 @@ public static class ArchetypeFighter
 
               }));
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(FighterBasicFeat = new TrueFeat(FeatName.CustomFeat,
             4,
             "You are able to learn basic fighter maneuvers.",
             "You gain a 1st- or 2nd-level fighter feat.",
@@ -171,7 +172,56 @@ public static class ArchetypeFighter
 
     );
 
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                        6,
+                        "You are able to learn advanced fighter maneuvers.",
+                        "You gain one fighter feat. For the purpose of meeting its prerequisites, your fighter level is equal to half your character level.",
+                        new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, FighterArchetypeTrait })
+                        .WithMultipleSelection()
+                        .WithCustomName("Advanced Maneuver")
+                        .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FighterDedicationFeat), "You must have the Fighter Dedication feat.")
+                        .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FighterBasicFeat), "You must have the Basic Maneuver feat.")
+                        .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
+            {
+
+              sheet.AddSelectionOption(
+                          new SingleFeatSelectionOption(
+                              "Advanced Maneuver",
+                              "Advanced Maneuver feat",
+                              -1,
+                              (Feat ft) =>
+                        {
+                          if (ft.HasTrait(Trait.Fighter) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                          {
+
+                            if (ft.CustomName == null)
+                            {
+                              TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                              if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                              {
+                                return true;
+                              }
+                              else return false;
+
+                            }
+                            else
+                            {
+                              TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                              if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                              {
+                                return true;
+                              }
+                              return false;
+                            }
+                          }
+                          return false;
+                        })
+                              );
+            })
+                );
 
 
 

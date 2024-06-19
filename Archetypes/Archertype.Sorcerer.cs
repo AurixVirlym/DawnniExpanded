@@ -17,6 +17,7 @@ public static class ArchetypeSorcerer
 
   public static Feat SorcererDedicationFeat;
   public static Trait SorcererArchetypeTrait;
+  public static Feat SorcererBasicFeat;
 
   public static Feat SorcererBasicSpellcasting;
   public static void LoadMod()
@@ -94,7 +95,7 @@ public static class ArchetypeSorcerer
 
 
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(SorcererBasicFeat = new TrueFeat(FeatName.CustomFeat,
             4,
             "You are able to harness your blood's potency.",
             "You gain a 1st- or 2nd-level sorcerer feat.",
@@ -144,26 +145,118 @@ public static class ArchetypeSorcerer
 
     );
 
+
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                                6,
+                                "You are able to harness your blood's advanced potency.",
+                                "You gain one sorcerer feat. For the purpose of meeting its prerequisites, your sorcerer level is equal to half your character level.",
+                                new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, SorcererArchetypeTrait })
+                                .WithMultipleSelection()
+                                .WithCustomName("Advanced Blood Potency")
+                                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(SorcererDedicationFeat), "You must have the Sorcerer Dedication feat.")
+                                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(SorcererBasicFeat), "You must have the Basic Blood Potency feat.")
+                                .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+                    {
+
+                      sheet.AddSelectionOption(
+                                  new SingleFeatSelectionOption(
+                                      "Advanced Blood Potency",
+                                      "Advanced Blood Potency feat",
+                                      -1,
+                                      (Feat ft) =>
+                                {
+                                  if (ft.HasTrait(Trait.Sorcerer) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                                  {
+
+                                    if (ft.CustomName == null)
+                                    {
+                                      TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                                      if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                      {
+                                        return true;
+                                      }
+                                      else return false;
+
+                                    }
+                                    else
+                                    {
+                                      TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                                      if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                      {
+                                        return true;
+                                      }
+                                      return false;
+                                    }
+                                  }
+                                  return false;
+                                })
+                                      );
+                    })
+                        );
+
     SorcererBasicSpellcasting = new TrueFeat(FeatName.CustomFeat,
             4,
             "You gain the basic spellcasting benefits for Sorcerer.",
-            "Add a common 1st level spell of your bloodline's tradition to your repertorie and gain a 1st level spell slot.",
+            "Add a common 1st level spell of your bloodline's tradition to your repertorie and gain a 1st level spell slot."
+            + "\n\nAt level 6, Add a common 2nd level spell of your bloodline's tradition to your repertorie and gain a 2nd level spell slot. You can select one spell from your repertoire as a signature spell."
+            + "\n\nAt level 8, Add a common 3rd level spell of your bloodline's tradition to your repertorie and gain a 3rd level spell slot.",
             new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, SorcererArchetypeTrait })
             .WithCustomName("Basic Sorcerer Spellcasting")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(SorcererDedicationFeat), "You must have the Sorcerer Dedication feat.")
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
 {
-    
+
   SpellRepertoire repertoire;
   if (sheet.SpellRepertoires.TryGetValue(Trait.Sorcerer, out repertoire) == false)
   {
     return;
   }
 
+  switch (sheet.CurrentLevel)
+  {
+    case 6:
+    case 7:
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("SorcererSpellsArchetype1", "1st level sorcerer spell", -1, Trait.Sorcerer, repertoire.SpellList, 1, 1));
+      ++repertoire.SpellSlots[1];
 
-  sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("SorcererSpellsArchetype", "1st level sorcerer spell", -1, Trait.Sorcerer, repertoire.SpellList, 1, 1));
-  repertoire.SpellSlots[1] += 1;
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("SorcererSpellsArchetype2", "2nd level sorcerer spell", -1, Trait.Sorcerer, repertoire.SpellList, 2, 1));
+      ++repertoire.SpellSlots[2];
+
+      sheet.AddSelectionOption(new SignatureSpellSelectionOption("SorcererSignatureSpellArchetype1", "Signature Sorcerer archetype spell", -1, 1, Trait.Sorcerer));
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("SorcererSpellsArchetype3", "3rd level sorcerer spell", 8, Trait.Sorcerer, repertoire.SpellList, 3, 1));
+      sheet.AddAtLevel(8, _ => ++repertoire.SpellSlots[3]);
+      break;
+    case 8:
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("SorcererSpellsArchetype1", "1st level sorcerer spell", -1, Trait.Sorcerer, repertoire.SpellList, 1, 1));
+      ++repertoire.SpellSlots[1];
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("SorcererSpellsArchetype2", "2nd level sorcerer spell", -1, Trait.Sorcerer, repertoire.SpellList, 2, 1));
+      ++repertoire.SpellSlots[2];
+
+      sheet.AddSelectionOption(new SignatureSpellSelectionOption("SorcererSignatureSpellArchetype1", "Signature Sorcerer archetype spell", -1, 1, Trait.Sorcerer));
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("SorcererSpellsArchetype3", "3rd level sorcerer spell", -1, Trait.Sorcerer, repertoire.SpellList, 3, 1));
+      ++repertoire.SpellSlots[3];
+
+      break;
+    default:
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("SorcererSpellsArchetype1", "1st level sorcerer spell", -1, Trait.Sorcerer, repertoire.SpellList, 1, 1));
+      ++repertoire.SpellSlots[1];
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("SorcererSpellsArchetype2", "2nd level sorcerer spell", 6, Trait.Sorcerer, repertoire.SpellList, 2, 1));
+      sheet.AddAtLevel(6, _ => ++repertoire.SpellSlots[2]);
+
+      sheet.AddSelectionOption(new SignatureSpellSelectionOption("SorcererSignatureSpellArchetype1", "Signature Sorcerer archetype spell", 6, 1, Trait.Sorcerer));
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("SorcererSpellsArchetype3", "3rd level sorcerer spell", 8, Trait.Sorcerer, repertoire.SpellList, 3, 1));
+      sheet.AddAtLevel(8, _ => ++repertoire.SpellSlots[3]);
+      break;
+  }
 });
 
 

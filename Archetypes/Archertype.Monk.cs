@@ -19,6 +19,8 @@ public static class ArchetypeMonk
 
   public static Feat MonkDedicationFeat;
   public static Trait MonkArchetypeTrait;
+
+  public static Feat MonkBasicFeat;
   public static void LoadMod()
 
   {
@@ -85,7 +87,7 @@ public static class ArchetypeMonk
     });
   });
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(MonkBasicFeat = new TrueFeat(FeatName.CustomFeat,
               4,
               "Your Monk training has made your more resilient.",
               "You gain 3 additional Hit Points for each monk archetype class feat you have.\n\nAs you continue selecting monk archetype class feats, you continue to gain additional Hit Points in this way.",
@@ -156,7 +158,56 @@ public static class ArchetypeMonk
 
     );
 
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                            6,
+                            "You are able to learn advanced monk katas.",
+                            "You gain one monk feat. For the purpose of meeting its prerequisites, your monk level is equal to half your character level.",
+                            new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, MonkArchetypeTrait })
+                            .WithMultipleSelection()
+                            .WithCustomName("Advanced Katas")
+                            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MonkDedicationFeat), "You must have the Monk Dedication feat.")
+                            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(MonkBasicFeat), "You must have the Basic Kata feat.")
+                            .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
+                {
+
+                  sheet.AddSelectionOption(
+                              new SingleFeatSelectionOption(
+                                  "Advanced Kata",
+                                  "Advanced Kata feat",
+                                  -1,
+                                  (Feat ft) =>
+                            {
+                              if (ft.HasTrait(Trait.Monk) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                              {
+
+                                if (ft.CustomName == null)
+                                {
+                                  TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                                  if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                  {
+                                    return true;
+                                  }
+                                  else return false;
+
+                                }
+                                else
+                                {
+                                  TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                                  if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                  {
+                                    return true;
+                                  }
+                                  return false;
+                                }
+                              }
+                              return false;
+                            })
+                                  );
+                })
+                    );
 
 
 

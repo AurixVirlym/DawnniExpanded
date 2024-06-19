@@ -24,7 +24,7 @@ public static class ArchetypeCleric
   public static Trait ClericArchetypeTrait;
 
   public static Feat ClericBasicSpellcasting;
-
+  public static Feat ClericBasicFeat;
 
 
 
@@ -208,7 +208,7 @@ public static class ArchetypeCleric
 
 
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(ClericBasicFeat = new TrueFeat(FeatName.CustomFeat,
             4,
             "You start to understand your faith's dogma",
             "You gain a 1st- or 2nd-level cleric feat.",
@@ -261,7 +261,9 @@ public static class ArchetypeCleric
     ClericBasicSpellcasting = new TrueFeat(FeatName.CustomFeat,
             4,
             "You gain the basic spellcasting benefits for Cleric.",
-            "You may prepare one 1st level spell slot per day.",
+            "You may prepare one 1st level spell slot per day."
+            + "\n\nAt level 6, You may prepare one 2nd level spell slot per day"
+            + "\n\nAt level 8, You may prepare one 3nd level spell slot per day",
             new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, ClericArchetypeTrait })
             .WithCustomName("Basic Cleric Spellcasting")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(ClericDedicationFeat), "You must have the Cleric Dedication feat.")
@@ -273,8 +275,78 @@ public static class ArchetypeCleric
   {
     return;
   }
-  spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Cleric:Spell1-1"));
+  switch (sheet.CurrentLevel)
+  {
+    case 6:
+    case 7:
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Cleric:Spell1-1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "Cleric:Spell2-1"));
+      sheet.AddAtLevel(8, _ => spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "Cleric:Spell3-1")));
+      break;
+    case 8:
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Cleric:Spell1-1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "Cleric:Spell2-1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "Cleric:Spell3-1"));
+
+      break;
+    default:
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Cleric:Spell1-1"));
+      sheet.AddAtLevel(6, _ => spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "Cleric:Spell2-1")));
+      sheet.AddAtLevel(8, _ => spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "Cleric:Spell3-1")));
+      break;
+  }
 });
+
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                    6,
+                    "You start to understand your faith's advanced dogma",
+                    "You gain one cleric feat. For the purpose of meeting its prerequisites, your cleric level is equal to half your character level.",
+                    new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, ClericArchetypeTrait })
+                    .WithMultipleSelection()
+                    .WithCustomName("Advanced Dogma")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(ClericDedicationFeat), "You must have the Cleric Dedication feat.")
+                    .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(ClericBasicFeat), "You must have the Basic Dogma feat.")
+                    .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+        {
+
+          sheet.AddSelectionOption(
+                      new SingleFeatSelectionOption(
+                          "Advanced Dogma",
+                          "Advanced Dogma feat",
+                          -1,
+                          (Feat ft) =>
+                    {
+                      if (ft.HasTrait(Trait.Cleric) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                      {
+
+                        if (ft.CustomName == null)
+                        {
+                          TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                          if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                          {
+                            return true;
+                          }
+                          else return false;
+
+                        }
+                        else
+                        {
+                          TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                          if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                          {
+                            return true;
+                          }
+                          return false;
+                        }
+                      }
+                      return false;
+                    })
+                          );
+        })
+            );
 
     ModManager.AddFeat(ClericBasicSpellcasting);
     ModManager.AddFeat(ClericDedicationFeat);

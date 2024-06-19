@@ -90,6 +90,8 @@ public static class ArchetypeBarbarian
 
   public static Feat BarbarianDedicationFeat;
   public static Trait BarbarianArchetypeTrait;
+
+  public static Feat BarbarianBasicFeat;
   public static void LoadMod()
 
   {
@@ -190,9 +192,9 @@ public static class ArchetypeBarbarian
 
               }));
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(BarbarianBasicFeat = new TrueFeat(FeatName.CustomFeat,
             4,
-            "You are able to learn basic furies.",
+            "You are able to channel basic furies.",
             "You gain a 1st- or 2nd-level barbarian feat.",
             new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, BarbarianArchetypeTrait })
             .WithCustomName("Basic Fury")
@@ -241,6 +243,56 @@ public static class ArchetypeBarbarian
     );
 
 
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                6,
+                "You are able to channel advanced furies.",
+                "You gain one barbarian feat. For the purpose of meeting its prerequisites, your barbarian level is equal to half your character level.",
+                new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, BarbarianArchetypeTrait })
+                .WithMultipleSelection()
+                .WithCustomName("Advanced Fury")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BarbarianDedicationFeat), "You must have the Barbarian Dedication feat.")
+                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BarbarianBasicFeat), "You must have the Basic Fury feat.")
+                .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+    {
+
+      sheet.AddSelectionOption(
+                  new SingleFeatSelectionOption(
+                      "Advanced Fury",
+                      "Advanced Fury feat",
+                      -1,
+                      (Feat ft) =>
+                {
+                  if (ft.HasTrait(Trait.Barbarian) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                  {
+
+                    if (ft.CustomName == null)
+                    {
+                      TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                      if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                      {
+                        return true;
+                      }
+                      else return false;
+
+                    }
+                    else
+                    {
+                      TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                      if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                      {
+                        return true;
+                      }
+                      return false;
+                    }
+                  }
+                  return false;
+                })
+                      );
+    })
+        );
 
 
 

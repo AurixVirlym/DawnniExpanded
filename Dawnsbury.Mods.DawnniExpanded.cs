@@ -1,8 +1,10 @@
 using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
+using HarmonyLib;
 using Dawnsbury.Mods.DawnniExpanded.Backgrounds;
 using Dawnsbury.Mods.DawnniExpanded.Ancestries;
+using Dawnsbury.Core.CharacterBuilder.Feats;
 
 
 namespace Dawnsbury.Mods.DawnniExpanded;
@@ -23,6 +25,7 @@ public class DawnniExpanded
             new TraitProperties("Homebrew", true)
             );
 
+        new Harmony("com.Danni.DawnniExpanded").PatchAll();
 
 
         NewSkills.LoadMod();
@@ -56,6 +59,8 @@ public class DawnniExpanded
         ItemStaffofSpellPotency.LoadMod();
         TraitMutagens.LoadMod();
         ItemMutagens.LoadMod();
+        ItemRunestone.LoadMod();
+
         FeatDuelingParry.LoadMod();
 
         FeatArchetype.LoadMod();
@@ -68,6 +73,9 @@ public class DawnniExpanded
         //AncestryHalfling.LoadMod();
         AncestryDragon.LoadMod();
         Bard.LoadMod();
+
+        FeatRecallWeakness.LoadMod();
+        ItemScholarsHat.LoadMod();
 
 
     }

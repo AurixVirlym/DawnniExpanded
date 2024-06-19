@@ -34,6 +34,8 @@ public static class ArchetypePsychic
 
   public static Feat PsychicDedicationFeat;
   public static Trait PsychicArchetypeTrait;
+
+  public static Feat PsychicBasicFeat;
   public static void LoadMod()
 
   {
@@ -63,7 +65,7 @@ public static class ArchetypePsychic
             .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
     {
-        if (sheet.Sheet.Class?.ClassTrait == Trait.Psychic) return; // Do nothing if you're already this class. This feat will be removed in the next cycle due to a failed prerequisite anyway.
+      if (sheet.Sheet.Class?.ClassTrait == Trait.Psychic) return; // Do nothing if you're already this class. This feat will be removed in the next cycle due to a failed prerequisite anyway.
 
       Ability CastingAbility = Ability.Intelligence;
 
@@ -119,7 +121,7 @@ public static class ArchetypePsychic
     ModManager.AddFeat(PsychicDedicationFeat);
 
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(PsychicBasicFeat = new TrueFeat(FeatName.CustomFeat,
             4,
             "You are able to form a basic thoughtform.",
             "You gain a 1st- or 2nd-level psychic feat.",
@@ -170,9 +172,62 @@ public static class ArchetypePsychic
     );
 
     ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                            6,
+                            "You are able to form an advanced thoughtform.",
+                            "You gain one psychic feat. For the purpose of meeting its prerequisites, your psychic level is equal to half your character level.",
+                            new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, PsychicArchetypeTrait })
+                            .WithMultipleSelection()
+                            .WithCustomName("Advanced Thoughtforms")
+                            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(PsychicDedicationFeat), "You must have the Psychic Dedication feat.")
+                            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(PsychicBasicFeat), "You must have the Basic Thoughtform feat.")
+                            .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+                {
+
+                  sheet.AddSelectionOption(
+                              new SingleFeatSelectionOption(
+                                  "Advanced Thoughtform",
+                                  "Advanced Thoughtform feat",
+                                  -1,
+                                  (Feat ft) =>
+                            {
+                              if (ft.HasTrait(Trait.Psychic) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                              {
+
+                                if (ft.CustomName == null)
+                                {
+                                  TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                                  if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                  {
+                                    return true;
+                                  }
+                                  else return false;
+
+                                }
+                                else
+                                {
+                                  TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                                  if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                  {
+                                    return true;
+                                  }
+                                  return false;
+                                }
+                              }
+                              return false;
+                            })
+                                  );
+                })
+                    );
+
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
             4,
             "You gain the basic spellcasting benefits for Psychic.",
-            "Add a common 1st level occult spell to your repertorie and gain a 1st level spell slot.",
+            "Add a common 1st level occult spell to your repertorie and gain a 1st level spell slot."
+            + "\n\nAt level 6, Add a common 2nd level occult spell to your repertorie and gain a 2nd level spell slot. You can select one spell from your repertoire as a signature spell."
+            + "\n\nAt level 8, Add a common 3rd level occult spell to your repertorie and gain a 3rd level spell slot.",
             new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, PsychicArchetypeTrait })
             .WithCustomName("Basic Psychic Spellcasting")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(PsychicDedicationFeat), "You must have the Psychic Dedication feat.")
@@ -184,8 +239,48 @@ public static class ArchetypePsychic
   {
     return;
   }
-  sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("1st level spell", "1st level psychic spell", -1, Trait.Psychic, Trait.Occult, 1, 1));
-  repertoire.SpellSlots[1] += 1;
+
+  switch (sheet.CurrentLevel)
+  {
+    case 6:
+    case 7:
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("PsychicSpellsArchetype1", "1st level psychic spell", -1, Trait.Psychic, Trait.Occult, 1, 1));
+      ++repertoire.SpellSlots[1];
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("PsychicSpellsArchetype2", "2nd level psychic spell", -1, Trait.Psychic, Trait.Occult, 2, 1));
+      ++repertoire.SpellSlots[2];
+
+      sheet.AddSelectionOption(new SignatureSpellSelectionOption("PsychicSignatureSpellArchetype1", "Signature Psychic archetype spell", -1, 1, Trait.Psychic));
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("PsychicSpellsArchetype3", "3rd level psychic spell", 8, Trait.Psychic, Trait.Occult, 3, 1));
+      sheet.AddAtLevel(8, _ => ++repertoire.SpellSlots[3]);
+      break;
+    case 8:
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("PsychicSpellsArchetype1", "1st level psychic spell", -1, Trait.Psychic, Trait.Occult, 1, 1));
+      ++repertoire.SpellSlots[1];
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("PsychicSpellsArchetype2", "2nd level psychic spell", -1, Trait.Psychic, Trait.Occult, 2, 1));
+      ++repertoire.SpellSlots[2];
+
+      sheet.AddSelectionOption(new SignatureSpellSelectionOption("PsychicSignatureSpellArchetype1", "Signature Psychic archetype spell", -1, 1, Trait.Psychic));
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("PsychicSpellsArchetype3", "3rd level psychic spell", -1, Trait.Psychic, Trait.Occult, 3, 1));
+      ++repertoire.SpellSlots[3];
+
+      break;
+    default:
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("PsychicSpellsArchetype1", "1st level psychic spell", -1, Trait.Psychic, Trait.Occult, 1, 1));
+      ++repertoire.SpellSlots[1];
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("PsychicSpellsArchetype2", "2nd level psychic spell", 6, Trait.Psychic, Trait.Occult, 2, 1));
+      sheet.AddAtLevel(6, _ => ++repertoire.SpellSlots[2]);
+
+      sheet.AddSelectionOption(new SignatureSpellSelectionOption("PsychicSignatureSpellArchetype1", "Signature Psychic archetype spell", 6, 1, Trait.Psychic));
+
+      sheet.AddSelectionOption(new AddToSpellRepertoireOption("PsychicSpellsArchetype3", "3rd level psychic spell", 8, Trait.Psychic, Trait.Occult, 3, 1));
+      sheet.AddAtLevel(8, _ => ++repertoire.SpellSlots[3]);
+      break;
+  }
 })
 );
 

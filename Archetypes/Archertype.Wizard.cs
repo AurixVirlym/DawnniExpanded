@@ -26,6 +26,8 @@ public static class ArchetypeWizard
   public static Feat WizardBasicSpellcasting;
   public static Feat WizardArcaneSchoolSpell;
 
+  public static Feat WizardBasicFeat;
+
   private static Feat CreateArchetypeFocusSpell(String name, Trait schoolTrait, string flavorText, SpellId FocusSpell)
   {
     Spell modernSpellTemplate = AllSpells.CreateModernSpellTemplate(FocusSpell, Trait.Wizard);
@@ -113,7 +115,7 @@ public static class ArchetypeWizard
 
 
 
-    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+    ModManager.AddFeat(WizardBasicFeat = new TrueFeat(FeatName.CustomFeat,
             4,
             "You have learnt a basic arcana.",
             "You gain a 1st- or 2nd-level wizard feat.",
@@ -163,10 +165,63 @@ public static class ArchetypeWizard
 
     );
 
+    ModManager.AddFeat(new TrueFeat(FeatName.CustomFeat,
+                                6,
+                                "You have learnt an arcana.",
+                                "You gain one wizard feat. For the purpose of meeting its prerequisites, your wizard level is equal to half your character level.",
+                                new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait })
+                                .WithMultipleSelection()
+                                .WithCustomName("Advanced Arcana")
+                                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(WizardDedicationFeat), "You must have the Wizard Dedication feat.")
+                                .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(WizardBasicFeat), "You must have the Basic Arcana feat.")
+                                .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+
+                    {
+
+                      sheet.AddSelectionOption(
+                                  new SingleFeatSelectionOption(
+                                      "Advanced Arcana",
+                                      "Advanced Arcana feat",
+                                      -1,
+                                      (Feat ft) =>
+                                {
+                                  if (ft.HasTrait(Trait.Wizard) && !ft.HasTrait(FeatArchetype.DedicationTrait) && !ft.HasTrait(FeatArchetype.ArchetypeTrait))
+                                  {
+
+                                    if (ft.CustomName == null)
+                                    {
+                                      TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.FeatName == ft.FeatName);
+
+                                      if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                      {
+                                        return true;
+                                      }
+                                      else return false;
+
+                                    }
+                                    else
+                                    {
+                                      TrueFeat FeatwithLevel = (TrueFeat)AllFeats.All.Find(feat => feat.CustomName == ft.CustomName);
+
+                                      if (FeatwithLevel.Level <= (int)Math.Floor((double)sheet.CurrentLevel / 2))
+                                      {
+                                        return true;
+                                      }
+                                      return false;
+                                    }
+                                  }
+                                  return false;
+                                })
+                                      );
+                    })
+                        );
+
     WizardBasicSpellcasting = new TrueFeat(FeatName.CustomFeat,
             4,
             "You gain the basic spellcasting benefits for Wizard.",
-            "You may prepare one 1st level spell slot per day.",
+            "You may prepare one 1st level spell slot per day."
+            + "\n\nAt level 6, You may prepare one 2nd level spell slot per day"
+            + "\n\nAt level 8, You may prepare one 3nd level spell slot per day",
             new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, WizardArchetypeTrait })
             .WithCustomName("Basic Wizard Spellcasting")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(WizardDedicationFeat), "You must have the Wizard Dedication feat.")
@@ -178,7 +233,27 @@ public static class ArchetypeWizard
   {
     return;
   }
-  spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Wizard:Spell1-1"));
+
+  switch (sheet.CurrentLevel)
+  {
+    case 6:
+    case 7:
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Wizard:Spell1-1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "Wizard:Spell2-1"));
+      sheet.AddAtLevel(8, _ => spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "Wizard:Spell3-1")));
+      break;
+    case 8:
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Wizard:Spell1-1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "Wizard:Spell2-1"));
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "Wizard:Spell3-1"));
+
+      break;
+    default:
+      spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "Wizard:Spell1-1"));
+      sheet.AddAtLevel(6, _ => spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "Wizard:Spell2-1")));
+      sheet.AddAtLevel(8, _ => spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "Wizard:Spell3-1")));
+      break;
+  }
 });
 
     ModManager.AddFeat(WizardBasicSpellcasting);

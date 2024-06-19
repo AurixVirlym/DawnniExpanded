@@ -8,6 +8,7 @@ using Dawnsbury.Core.Mechanics.Targeting;
 using Dawnsbury.Display.Text;
 using Dawnsbury.Core.CharacterBuilder.FeatsDb;
 using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,7 +17,11 @@ using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
 using Dawnsbury.Core.Mechanics.Targeting.TargetingRequirements;
 using Dawnsbury.Core.Mechanics.Targeting.Targets;
-
+using Dawnsbury.Core.CharacterBuilder.Feats;
+using Dawnsbury.Core.Creatures.Parts;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Modding;
+using Dawnsbury.Core.Creatures;
 
 namespace Dawnsbury.Mods.DawnniExpanded
 {
@@ -25,39 +30,6 @@ namespace Dawnsbury.Mods.DawnniExpanded
   public class Bard
   {
 
-
-    public static int LevelBasedDC(int level)
-    {
-      switch (level)
-      {
-        case 0:
-          return 14;
-        case 1:
-          return 15;
-        case 2:
-          return 16;
-        case 3:
-          return 18;
-        case 4:
-          return 19;
-        case 5:
-          return 20;
-        case 6:
-          return 22;
-        case 7:
-          return 23;
-        case 8:
-          return 24;
-        case 9:
-          return 26;
-        case 10:
-          return 27;
-        default:
-          return 10;
-
-
-      }
-    }
 
 
     public static string MakeString()
@@ -88,7 +60,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
 
 
     public static Feat BardClass = new ClassSelectionFeat(FeatName.CustomFeat
-    , "You are a master of artistry, a scholar of hidden secrets, and a captivating persuader. Using powerful performances, you influence minds and elevate souls to new levels of heroics. You might use your powers to become a charismatic leader, or perhaps you might instead be a counselor, manipulator, scholar, scoundrel, or virtuoso. While your versatility leads some to consider you a beguiling ne'er=do- well and a jack-of-all-trades, it's dangerous to dismiss you as a master of none."
+    , "You are a master of artistry, a scholar of hidden secrets, and a captivating persuader. Using powerful performances, you influence minds and elevate souls to new levels of heroics. You might use your powers to become a charismatic leader, or perhaps you might instead be a counselor, manipulator, scholar, scoundrel, or virtuoso. While your versatility leads some to consider you a beguiling ne'er-do-well and a jack-of-all-trades, it's dangerous to dismiss you as a master of none."
     , Trait.Bard
     , new EnforcedAbilityBoost(Ability.Charisma)
     , 8
@@ -126,6 +98,12 @@ namespace Dawnsbury.Mods.DawnniExpanded
         Spell Spelltoadd = AllSpells.All.FirstOrDefault(spell => spell.SpellId == SpellId.Fear);
         sheet.SpellRepertoires[Trait.Bard].SpellsKnown.Add(Spelltoadd);
         }),
+        (Feat) new Feat(FeatName.CustomFeat, "Your muse is a mystery, driving you to uncover the hidden secrets of life and the multiverse. These muses can be people you cannot fully grasp, texts layered deeply with symbolism, or emotional paradoxes that underline a lifetime's work. If your muse is an otherworldly creature, it might be a mysterious aeon or an occult dragon. Art inspired by an enigma muse could be cryptic, eerie, or laden with speculation and conspiracy. As a bard with the enigma muse, you support your allies by providing knowledge alongside inspiration and occult support.", "You gain the Bardic Lore feat and add "+AllSpells.CreateModernSpellTemplate(SpellId.TrueStrike,Trait.Bard).ToSpellLink()+" to your spell repertoire.", new List<Trait>(), null).WithCustomName("Enigma").WithOnSheet( sheet =>
+        {
+        sheet.AddFeat(BardicLore,null);
+        Spell Spelltoadd = AllSpells.All.FirstOrDefault(spell => spell.SpellId == SpellId.TrueStrike);
+        sheet.SpellRepertoires[Trait.Bard].SpellsKnown.Add(Spelltoadd);
+        })
   }).WithOnSheet(sheet =>
   {
     sheet.GrantFeat(FeatName.Occultism);
@@ -148,16 +126,29 @@ namespace Dawnsbury.Mods.DawnniExpanded
     sheet.FocusPointCount += 1;
 
     sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardCantrips", "Cantrips", 1, Trait.Bard, spellList, 0, 5));
-    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells", "Level 1 spells", 1, Trait.Bard, spellList, 1, 2));
-    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells2", "Level 1 spell", 2, Trait.Bard, spellList, 1, 1));
+    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells1-1", "Level 1 spells", 1, Trait.Bard, spellList, 1, 2));
+    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells1-2", "Level 1 spell", 2, Trait.Bard, spellList, 1, 1));
     sheet.AddSelectionOption((SelectionOption)new SignatureSpellSelectionOption("BardSignatureSpell1", "Signature spell", 3, 1, Trait.Bard));
-    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells3", "Level 2 spells", 3, Trait.Bard, spellList, 2, 2));
-    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells4", "Level 2 spell", 4, Trait.Bard, spellList, 2, 1));
+    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells2-1", "Level 2 spells", 3, Trait.Bard, spellList, 2, 2));
+    sheet.AddSelectionOption((SelectionOption)new SignatureSpellSelectionOption("BardSignatureSpell2", "Signature spell", 3, 2, Trait.Bard));
+    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells2-2", "Level 2 spell", 4, Trait.Bard, spellList, 2, 1));
+    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells3-1", "Level 3 spells", 5, Trait.Bard, spellList, 3, 2));
+    sheet.AddSelectionOption((SelectionOption)new SignatureSpellSelectionOption("BardSignatureSpell3", "Signature spell", 5, 3, Trait.Bard));
+    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells3-4", "Level 3 spell", 6, Trait.Bard, spellList, 3, 1));
+    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells3-1", "Level 4 spells", 7, Trait.Bard, spellList, 4, 2));
+    sheet.AddSelectionOption((SelectionOption)new SignatureSpellSelectionOption("BardSignatureSpell4", "Signature spell", 7, 4, Trait.Bard));
+    sheet.AddSelectionOption((SelectionOption)new AddToSpellRepertoireOption("BardSpells3-4", "Level 4 spell", 8, Trait.Bard, spellList, 4, 1));
     repertoire.SpellSlots[1] = 2;
     sheet.AddAtLevel(2, (_ => ++repertoire.SpellSlots[1]));
     sheet.AddAtLevel(3, (_ => repertoire.SpellSlots[2] += 2));
     sheet.AddAtLevel(3, (values => values.SetProficiency(Trait.Reflex, Proficiency.Expert)));
     sheet.AddAtLevel(4, (_ => ++repertoire.SpellSlots[2]));
+    sheet.AddAtLevel(5, (_ => repertoire.SpellSlots[3] += 2));
+    sheet.AddAtLevel(6, (_ => ++repertoire.SpellSlots[3]));
+    sheet.AddAtLevel(7, (values => values.SetProficiency(Trait.Spell, Proficiency.Expert)));
+    sheet.AddAtLevel(7, (_ => repertoire.SpellSlots[4] += 2));
+    sheet.AddAtLevel(8, (_ => ++repertoire.SpellSlots[4]));
+
     /*
   ++sheet.FocusPointCount;
   sheet.FocusSpellsKnown.Add(AllSpells.CreateModernSpell(focusSpell, (Creature) null, sheet.MaximumSpellLevel, false));
@@ -225,14 +216,29 @@ namespace Dawnsbury.Mods.DawnniExpanded
         Trait.Bard,
         DawnniExpanded.DETrait
     })
-    .WithOnSheet((values =>
+    .WithOnSheet(values =>
     {
       if (!values.SpellRepertoires.ContainsKey(Trait.Bard))
         return;
       values.AddFocusSpellAndFocusPoint(Trait.Bard, Ability.Charisma, SpellTripleTime.Id);
-    })).WithCustomName("Triple Time")
+    }).WithCustomName("Triple Time")
     .WithIllustration(SpellTripleTime.SpellIllustration)
     .WithRulesBlockForSpell(SpellTripleTime.Id, Trait.Occult);
+
+    public static Feat BardicLore = new TrueFeat(FeatName.CustomFeat, 1, "Your studies make you informed on every subject.",
+    "You are trained in Bardic Lore, a special Lore skill that can be used only to Recall Weakness, but on any creature type.", new Trait[2]
+    {
+        Trait.Bard,
+        DawnniExpanded.DETrait
+    })
+    .WithOnSheet(sheet =>
+    {
+
+      sheet.SetProficiency(NewSkills.BardicLoreSkillTrait, Proficiency.Trained);
+
+    })
+    .WithCustomName("Bardic Lore");
+
 
 
     public static Feat LingeringComposition = new TrueFeat(FeatName.CustomFeat, 1, "You add a flourish to your composition to extend its benefits.", "If your next action is to cast a cantrip composition with a duration of 1 round, attempt a check using your performance skill. The DC is usually a standard-difficulty DC of a level  The effect depends on the result of your check.", new Trait[7]
@@ -244,7 +250,8 @@ namespace Dawnsbury.Mods.DawnniExpanded
         Trait.Concentrate,
         Trait.Metamagic,
         DawnniExpanded.DETrait
-    }).WithActionCost(0).WithPermanentQEffect("You can extend the duration of your composition cantrips.", (qf => qf.MetamagicProvider = new MetamagicProvider("Lingering Composition", (Func<CombatAction, CombatAction>)(spell =>
+    }).WithActionCost(0
+    ).WithPermanentQEffect("You can extend the duration of your composition cantrips.", (qf => qf.MetamagicProvider = new MetamagicProvider("Lingering Composition", (Func<CombatAction, CombatAction>)(spell =>
     {
       CombatAction metamagicSpell = Spell.DuplicateSpell(spell).CombatActionSpell;
       if (metamagicSpell.ActionCost != 1 || !metamagicSpell.HasTrait(Trait.Cantrip) || !metamagicSpell.HasTrait(Trait.Composition))
@@ -270,6 +277,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
       ModManager.AddFeat(LingeringComposition);
       ModManager.AddFeat(HymnOfHealing);
       ModManager.AddFeat(TripleTime);
+      ModManager.AddFeat(BardicLore);
 
 
       AllFeats.All.RemoveAll(feat => feat.FeatName == FeatName.ReachSpell);

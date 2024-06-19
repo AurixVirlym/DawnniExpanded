@@ -38,6 +38,7 @@ public class SpellCounterPerformance
             Trait.Focus,
             Trait.Composition,
             Trait.DoesNotProvoke,
+            Trait.SpellCannotBeChosenInCharacterBuilder,
             DawnniExpanded.HomebrewTrait,
             DawnniExpanded.DETrait },
                         "Your performance protects you and your allies.",
@@ -85,7 +86,7 @@ public class SpellCounterPerformance
 
                         Sfxs.Play(SfxName.Harp);
 
-                        CheckResult lingeringresult = CommonSpellEffects.RollCheck("Counter Performance", new ActiveRollSpecification(Checks.SkillCheck(Skill.Performance), Checks.FlatDC(Bard.LevelBasedDC(spellcaster.Level))), spellcaster, spellcaster);
+                        CheckResult lingeringresult = CommonSpellEffects.RollCheck("Counter Performance", new ActiveRollSpecification(Checks.SkillCheck(Skill.Performance), Checks.FlatDC(DCs.LevelBased(spellcaster.Level))), spellcaster, spellcaster);
 
                         if (lingeringresult == CheckResult.CriticalSuccess)
                         {
