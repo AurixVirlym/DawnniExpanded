@@ -283,7 +283,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
       AllFeats.All.RemoveAll(feat => feat.FeatName == FeatName.ReachSpell);
       ModManager.AddFeat(
 
-      new TrueFeat(FeatName.ReachSpell, 1, "You can extend the range of your spells.", "You can spend an extra action as you cast a spell in order to increase that spell's range by 30 feet. If the spell had a range of touch, you extend its range to 30 feet.", new Trait[7]
+      new TrueFeat(FeatName.ReachSpell, 1, "You can extend the range of your spells.", "You can spend an extra action as you cast a spell in order to increase that spell's range by 30 feet. If the spell had a range of touch, you extend its range to 30 feet.", new Trait[]
     {
         Trait.Sorcerer,
         Trait.Cleric,

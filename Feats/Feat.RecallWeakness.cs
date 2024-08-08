@@ -12,29 +12,13 @@ using Dawnsbury.Core.Possibilities;
 using System;
 using System.Collections.Generic;
 using Dawnsbury.Core.Creatures;
-using Humanizer;
 using Dawnsbury.Core;
 using Dawnsbury.Display.Text;
-using Dawnsbury.Audio;
-using Dawnsbury.Core.CharacterBuilder.AbilityScores;
-using Dawnsbury.Core.CharacterBuilder.Feats;
-using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
-using Dawnsbury.Core.CharacterBuilder.Selections.Options;
-using Dawnsbury.Core.CombatActions;
-using Dawnsbury.Core.Creatures;
-using Dawnsbury.Core.Mechanics;
-using Dawnsbury.Core.Mechanics.Core;
-using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Core.Mechanics.Rules;
-using Dawnsbury.Core.Mechanics.Targeting;
 using Dawnsbury.Core.Mechanics.Targeting.TargetingRequirements;
 using Dawnsbury.Core.Mechanics.Targeting.Targets;
 using Dawnsbury.Core.Mechanics.Treasure;
-using Dawnsbury.Core.Possibilities;
 using Dawnsbury.Display.Illustrations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -82,7 +66,7 @@ public static class FeatRecallWeakness
 
     }
 
-    return new CombatAction(self, IllustrationName.NarratorBook, "Recall Weakness", new Trait[] { Trait.Basic, DawnniExpanded.DETrait, DawnniExpanded.HomebrewTrait, Trait.Skill },
+    return new CombatAction(self, IllustrationName.Action, "Recall Weakness", new Trait[] { Trait.Basic, DawnniExpanded.DETrait, DawnniExpanded.HomebrewTrait, Trait.Skill },
                               "You attempt to recall a weakness of a foe to use to your advantage. Attempt a skill check against a foe within 30ft using a skill relevant to a creature's type (see table below) with a level based DC on the foe's level." + S.FourDegreesOfSuccess(
         "The creatures gains a -2 circumstance penalty to the next saving throw check it attempts against your allies before the end of your next turn.",
         "As critical success except the penalty is reduced to -1.",
@@ -176,7 +160,7 @@ public static class FeatRecallWeakness
     || target.Traits.Contains(Trait.Beast)
     || target.Traits.Contains(Trait.Elemental)
     || target.Traits.Contains(Trait.Primal)
-    || target.Traits.Contains(Trait.Fey)
+    // || target.Traits.Contains(Trait.Fey)
     || target.Traits.Contains(Trait.Plant)
     || target.Traits.Contains(Trait.Leshy)
     )
@@ -186,7 +170,7 @@ public static class FeatRecallWeakness
 
     //Occultism
     if (target.Traits.Contains(Trait.Aberration)
-      || target.Traits.Contains(Trait.Ooze)
+      // ||target.Traits.Contains(Trait.Ooze)
       || target.Traits.Contains(Trait.Occult)
 
       )
@@ -261,7 +245,7 @@ public static class FeatRecallWeakness
       || target.Traits.Contains(Trait.Beast)
       || target.Traits.Contains(Trait.Elemental)
       || target.Traits.Contains(Trait.Primal)
-      || target.Traits.Contains(Trait.Fey)
+      //|| target.Traits.Contains(Trait.Fey)
       || target.Traits.Contains(Trait.Plant)
       || target.Traits.Contains(Trait.Leshy)
       )
@@ -271,7 +255,7 @@ public static class FeatRecallWeakness
 
       //Occultism
       if (target.Traits.Contains(Trait.Aberration)
-        || target.Traits.Contains(Trait.Ooze)
+        //|| target.Traits.Contains(Trait.Ooze)
         || target.Traits.Contains(Trait.Occult)
 
         )
@@ -332,7 +316,7 @@ public static class FeatRecallWeakness
     {
       CountsAsADebuff = true,
       Source = User,
-      Illustration = IllustrationName.NarratorBook,
+      Illustration = IllustrationName.Action,
       Name = "Recall Weakness " + ModifierValue,
       Description = "The creature is taking a " + EffectValue + " circumstance bonus to it's next saving throw.",
       CannotExpireThisTurn = true,
@@ -394,7 +378,7 @@ public static class FeatRecallWeakness
 }).WithActionCost(1).WithCustomName("Combat Assessment").WithPermanentQEffect("If you hit, you Recall Weakness against the target", (Action<QEffect>)(qf => qf.ProvideStrikeModifier = (Func<Item, CombatAction>)(item =>
 {
   CombatAction strike = qf.Owner.CreateStrike(item);
-  strike.Illustration = (Illustration)new SideBySideIllustration(strike.Illustration, (Illustration)IllustrationName.NarratorBook);
+  strike.Illustration = (Illustration)new SideBySideIllustration(strike.Illustration, (Illustration)IllustrationName.Action);
   strike.Name = "Combat Assessment " + strike.Name;
   strike.Traits.Add(Trait.Basic);
   strike.ActionId = CombatAssessmentActionID;

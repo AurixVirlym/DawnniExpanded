@@ -1,0 +1,128 @@
+﻿using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Core.Mechanics.Targeting.Targets;
+using Dawnsbury.Display.Text;
+using Dawnsbury.Modding;
+using Dawnsbury.Audio;
+using Microsoft.Xna.Framework;
+using Dawnsbury.Display.Illustrations;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.Creatures;
+using System.Runtime.Serialization.Formatters;
+using Dawnsbury.Core.Mechanics.Core;
+using System.ComponentModel;
+using Dawnsbury.Core.Mechanics;
+using Microsoft.VisualBasic;
+using Dawnsbury.Core;
+using Dawnsbury.Core.Possibilities;
+using System;
+using Dawnsbury.Core.Roller;
+using Dawnsbury.Core.Intelligence;
+
+namespace Dawnsbury.Mods.DawnniExpanded;
+
+
+public class SpellClingingIce
+{
+    public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/ClingingIce.png");
+    public static SpellId Id;
+    public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
+    {
+        {
+
+            CombatAction SpellAction = Spells.CreateModern(Spellillustration,
+                "Clinging Ice",
+            new[] { Trait.Cantrip, Trait.Uncommon, Witch.HexTrait, Trait.Cold, Trait.Manipulate, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+                    "Freezing sleet and heavy snowfall collect on the target's feet and legs.",
+                    "Target is dealt " + S.HeightenedVariable(spellLevel, 1) + "d4 cold damage and other effects depending on its Reflex save" +
+                    S.FourDegreesOfSuccess("The target is unaffected.", "The target takes half damage.", "The target takes full damage, and takes a -5-foot circumstance penalty to its Speeds until the end of your turn.", "The target takes double damage, and takes a -10-foot circumstance penalty to its Speeds until the end of your turn.") + "\n\nThis spell may be sustained to extend the duration by 1 round and force a basic save against the spell damage." + HS.HeightenTextLevels(spellLevel > 1, spellLevel, inCombat, "\n\n{b}Heightened (+1){/b} The damage increases by 1d4.")
+
+                    ,
+                    Target.Ranged(6),
+                        spellLevel,
+                        SpellSavingThrow.Standard(Defense.Reflex)
+                        ).WithActionCost(1)
+                        .WithSoundEffect(SfxName.RayOfFrost)
+                        .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
+                        {
+                            int dmgdice = spell.SpellLevel;
+
+                            await CommonSpellEffects.DealBasicDamage(spell, spell.Owner, target, result, DiceFormula.FromText(dmgdice + "d4", spell.Name), DamageKind.Cold);
+
+                            int SpeedPenaltyValue = 0;
+
+                            if (result == CheckResult.CriticalFailure)
+                            { SpeedPenaltyValue = -2; }
+                            else if (result == CheckResult.Failure)
+                            { SpeedPenaltyValue = -1; }
+
+                            QEffect qeffectclingingice = new QEffect()
+                            {
+                                BonusToAllSpeeds = _ => new Bonus(SpeedPenaltyValue, BonusType.Circumstance, "Clinging Ice"),
+                                CannotExpireThisTurn = true,
+                                ExpiresAt = ExpirationCondition.ExpiresAtEndOfSourcesTurn,
+                                Source = caster,
+                                Illustration = Spellillustration,
+                                Name = "Clinging Ice",
+                                Description = "You have a " + SpeedPenaltyValue * 5 + "ft penalty to all your speeds."
+                            };
+
+                            target.AddQEffect(qeffectclingingice);
+
+                            QEffect qEffect = new QEffect("Sustaining " + spell.Name, "You're sustaining an effect and it will expire if you don't sustain it every turn.", ExpirationCondition.Never, null, IllustrationName.CastASpell)
+                            {
+
+                                Id = QEffectId.Sustaining,
+                                DoNotShowUpOverhead = true,
+                                ProvideContextualAction = (QEffect qf) => (!qeffectclingingice.CannotExpireThisTurn) ? new ActionPossibility(new CombatAction(qf.Owner, spell.Illustration, "Sustain " + spell.Name + " on " + qf.Owner.Name, new Trait[3]
+                                {
+                                Trait.Concentrate,
+                                Trait.SustainASpell,
+                                Trait.Basic
+                                }, "The duration of " + spell.Name + " continues until the end of your next turn.", Target.Self((Creature self, AI ai) => 1.0737418E+09f))
+                                .WithEffectOnSelf(async delegate (Creature creature)
+                                {
+                                    qeffectclingingice.CannotExpireThisTurn = true;
+
+
+                                    Creature defender = qeffectclingingice.Owner;
+                                    CheckResult checkResult = CommonSpellEffects.RollSpellSavingThrow(defender, spell, Defense.Reflex);
+                                    await CommonSpellEffects.DealBasicDamage(spell, spell.Owner, defender, checkResult, DiceFormula.FromText(dmgdice + "d4", spell.Name), DamageKind.Cold);
+
+                                })) : null,
+                                StateCheck = delegate (QEffect qf)
+                                {
+                                    if (qeffectclingingice.Owner.Destroyed || !qeffectclingingice.Owner.HasEffect(qeffectclingingice))
+                                    {
+                                        qf.ExpiresAt = ExpirationCondition.Immediately;
+                                    }
+                                }
+
+                            };
+
+                            caster.AddQEffect(qEffect);
+                            caster.AddQEffect(SpellHexes.HexOnceEffect());
+
+                        }));
+
+
+            return SpellAction;
+
+
+        }
+    }
+    public static void LoadMod()
+    {
+
+
+        Id = ModManager.RegisterNewSpell("Clinging Ice", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        );
+
+    }
+}
+
+

@@ -1,0 +1,78 @@
+﻿using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Core.Mechanics.Targeting.Targets;
+using Dawnsbury.Display.Text;
+using Dawnsbury.Modding;
+using Dawnsbury.Audio;
+using Microsoft.Xna.Framework;
+using Dawnsbury.Display.Illustrations;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.Creatures;
+using System.Runtime.Serialization.Formatters;
+using Dawnsbury.Core.Mechanics.Core;
+using System.ComponentModel;
+using Dawnsbury.Core.Mechanics;
+using Microsoft.VisualBasic;
+using Dawnsbury.Core;
+using Dawnsbury.Core.Possibilities;
+using System;
+using Dawnsbury.Core.Roller;
+using Dawnsbury.Core.Intelligence;
+using System.Linq;
+
+namespace Dawnsbury.Mods.DawnniExpanded;
+
+
+public class SpellWitchingHour
+{
+    public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/WitchingHour.png");
+    public static SpellId Id;
+    public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
+    {
+        {
+
+            CombatAction SpellAction = Spells.CreateModern(Spellillustration,
+                "Witching Hour",
+            new[] { Trait.Focus, Trait.Uncommon, Trait.Transmutation, DawnniExpanded.DETrait, Trait.Homebrew, Trait.SpellCannotBeChosenInCharacterBuilder },
+                    "You briefly bring about the hour of otherworldly entities.",
+                    "{b}Requirements{/b} You have cast a hex this turn since you last used Witching Hour.\n\nYou may cast another hex this turn."
+                    ,
+                    Target.Self().WithAdditionalRestriction((a) =>
+                              {
+                                  if (!a.QEffects.Any(x => x.Name == "Hex Prevention"))
+                                  {
+                                      return "You have not recently cast a hex.";
+                                  }
+                                  else return null;
+
+                              }),
+                        spellLevel,
+                        null
+                        ).WithActionCost(0)
+                        .WithSoundEffect(SfxName.Necromancy)
+                        .WithEffectOnSelf((async (spell, caster) =>
+                        {
+                            caster.QEffects.FirstOrDefault(x => x.Name == "Hex Prevention").ExpiresAt = ExpirationCondition.Immediately;
+                        }));
+
+
+            return SpellAction;
+
+
+        }
+    }
+    public static void LoadMod()
+    {
+
+
+        Id = ModManager.RegisterNewSpell("Witching Hour", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        );
+
+    }
+}
+
+

@@ -1,0 +1,87 @@
+﻿using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Core.Mechanics.Targeting.Targets;
+using Dawnsbury.Display.Text;
+using Dawnsbury.Modding;
+using Dawnsbury.Audio;
+using Microsoft.Xna.Framework;
+using Dawnsbury.Display.Illustrations;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.Creatures;
+using System.Runtime.Serialization.Formatters;
+using Dawnsbury.Core.Mechanics.Core;
+using System.ComponentModel;
+using Dawnsbury.Core.Mechanics;
+using Microsoft.VisualBasic;
+
+namespace Dawnsbury.Mods.DawnniExpanded;
+
+
+public class SpellLifeBoost
+{
+    public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/LifeBoost.png");
+    public static SpellId Id;
+    public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
+    {
+        {
+
+            CombatAction SpellAction = Spells.CreateModern(Spellillustration,
+                "Life Boost",
+            new[] { Witch.ClassTrait, Trait.Focus, Trait.Necromancy, Trait.Uncommon, Witch.HexTrait, Trait.Healing, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+                    "You temporarily bolster the target's vitality.",
+                    "The target heals hp " + S.HeightenedVariable(spellLevel * 2, 2) + " at the start of their turn for 4 rounds."
+                    + HS.HeightenTextLevels(spellLevel > 1, spellLevel, inCombat, "\n\n{b}Heightened (+1){/b} The amount healed each round is increased by 2.")
+
+                    ,
+                    Target.RangedFriend(6),
+                        spellLevel,
+                        null
+                        ).WithActionCost(1)
+                        .WithSoundEffect(SfxName.Healing)
+                        .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
+                        {
+                            int number = spell.SpellLevel * 2;
+
+                            QEffect qeffectlifeboost = new QEffect()
+                            {
+                                ExpiresAt = ExpirationCondition.CountsDownAtEndOfYourTurn,
+                                Source = caster,
+                                Illustration = Spellillustration,
+                                Name = "Life Boost",
+                                Value = 4,
+                                Description = "You heal " + number + " hit points at the start of your turn.",
+
+                                StartOfYourTurn = ((effect, creature) =>
+                                {
+                                    creature.Heal(number.ToString(), spell);
+                                    return null;
+                                }),
+
+                            };
+
+                            target.AddQEffect(qeffectlifeboost);
+                            caster.AddQEffect(SpellHexes.HexOnceEffect());
+
+                        }));
+
+
+            return SpellAction;
+
+
+        }
+    }
+    public static void LoadMod()
+    {
+
+
+        Id = ModManager.RegisterNewSpell("Life Boost", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        );
+
+    }
+}
+
+

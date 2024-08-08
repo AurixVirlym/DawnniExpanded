@@ -188,15 +188,14 @@ public class FeatBattleMedicine
 
           {
 
-              qf.EndOfCombat = ((QEffect qfBattleMedicine, bool winstate) =>
+              qf.EndOfCombat = async (QEffect qfBattleMedicine, bool winstate) =>
               {
                   if (qf.Owner.PersistentCharacterSheet.Calculated.GetProficiency(Trait.Medicine) >= Proficiency.Master)
                   {
                       qf.Owner.PersistentUsedUpResources.UsedUpActions.Remove("BattleMedicineMedicArchetypePassed");
                   }
 
-                  return null;
-              });
+              };
 
               qf.ProvideActionIntoPossibilitySection = ((qfBattleMedicine, section) =>
             {

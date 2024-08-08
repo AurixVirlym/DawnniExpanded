@@ -1,0 +1,89 @@
+﻿using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Core.Mechanics.Targeting.Targets;
+using Dawnsbury.Display.Text;
+using Dawnsbury.Modding;
+using Dawnsbury.Audio;
+using Microsoft.Xna.Framework;
+using Dawnsbury.Display.Illustrations;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.Creatures;
+using System.Runtime.Serialization.Formatters;
+using Dawnsbury.Core.Mechanics.Core;
+using System.ComponentModel;
+using Dawnsbury.Core.Mechanics;
+using Microsoft.VisualBasic;
+
+namespace Dawnsbury.Mods.DawnniExpanded;
+
+
+public class SpellEvilEye
+{
+    public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/EvilEye.png");
+    public static SpellId Id;
+    public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
+    {
+        {
+
+            CombatAction SpellAction = Spells.CreateModern(Spellillustration,
+                "Evil Eye",
+            new[] { Trait.Cantrip, Trait.Uncommon, Witch.HexTrait, Trait.Curse, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+                    "Your patron's resentment manifests in a baleful, envious gaze.",
+                    S.FourDegreesOfSuccess((string)null, (string)null, "Your target suffers as -1 status penalty on all their checks and DCs until the end of your turn.", "Same as failure, except the penalty is increased to -2.") + "\n\nThis spell may be sustained to extend the duration by 1 round."
+
+                    ,
+                    Target.Ranged(6),
+                        spellLevel,
+                        SpellSavingThrow.Standard(Defense.Will)
+                        ).WithActionCost(1)
+                        .WithSoundEffect(SfxName.Fear)
+                        .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
+                        {
+
+                            if (result > CheckResult.Failure)
+                            { return; }
+
+                            int EvilEyeValue = -1;
+
+                            if (result == CheckResult.CriticalFailure)
+                            { EvilEyeValue = -2; }
+
+                            QEffect qeffectevileye = new QEffect()
+                            {
+                                BonusToAllChecksAndDCs = _ => new Bonus(EvilEyeValue, BonusType.Status, "Evil Eye"),
+                                CannotExpireThisTurn = true,
+                                ExpiresAt = ExpirationCondition.ExpiresAtEndOfSourcesTurn,
+                                Source = caster,
+                                Illustration = Spellillustration,
+                                Name = "Evil Eye",
+                                Description = "You have a " + EvilEyeValue + " status bonus to all your checks and DCs."
+                            };
+
+                            target.AddQEffect(qeffectevileye);
+
+                            caster.AddQEffect(SpellHexes.NamedSustaining(spell, qeffectevileye));
+                            caster.AddQEffect(SpellHexes.HexOnceEffect());
+
+                        }));
+
+
+            return SpellAction;
+
+
+        }
+    }
+    public static void LoadMod()
+    {
+
+
+        Id = ModManager.RegisterNewSpell("Evil Eye", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        );
+
+    }
+}
+
+

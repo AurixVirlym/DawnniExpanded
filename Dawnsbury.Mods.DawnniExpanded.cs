@@ -1,7 +1,7 @@
 using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
-using HarmonyLib;
+//using HarmonyLib;
 using Dawnsbury.Mods.DawnniExpanded.Backgrounds;
 using Dawnsbury.Mods.DawnniExpanded.Ancestries;
 using Dawnsbury.Core.CharacterBuilder.Feats;
@@ -25,16 +25,16 @@ public class DawnniExpanded
             new TraitProperties("Homebrew", true)
             );
 
-        new Harmony("com.Danni.DawnniExpanded").PatchAll();
+        //new Harmony("com.Danni.DawnniExpanded").PatchAll();
 
 
         NewSkills.LoadMod();
 
         SpellHorizonThunderSphere.LoadMod();
         SpellAnimatedAssualt.LoadMod();
-        SpellScorchingRay.LoadMod();
+        //SpellScorchingRay.LoadMod();
         SpellEndure.LoadMod();
-        SpellFalseLife.LoadMod();
+        //SpellFalseLife.LoadMod();
         SpellRousingSplash.LoadMod();
         SpellSuddenBolt.LoadMod();
         SpellCounterPerformance.LoadMod();
@@ -45,21 +45,22 @@ public class DawnniExpanded
         SpellConcordantChoir.LoadMod();
         SpellRayofEnfeeblement.LoadMod();
         SpellInnerRadianceTorrent.LoadMod();
+        //SpellHexes.LoadMod();
 
         FeatBattleMedicine.LoadMod();
-        FeatPowerfulLeap.LoadMod();
+        //FeatPowerfulLeap.LoadMod();
 
         BackgroundFieldMedic.LoadMod();
         BackgroundMartialDisciple.LoadMod();
         BackgroundWarrior.LoadMod();
         BackgroundDancer.LoadMod();
 
-        ActionLeap.LoadMod();
+        //ActionLeap.LoadMod();
 
         ItemStaffofSpellPotency.LoadMod();
         TraitMutagens.LoadMod();
         ItemMutagens.LoadMod();
-        ItemRunestone.LoadMod();
+        // ItemRunestone.LoadMod();
 
         FeatDuelingParry.LoadMod();
 
@@ -72,10 +73,13 @@ public class DawnniExpanded
         VersatileHertiages.LoadMod();
         //AncestryHalfling.LoadMod();
         AncestryDragon.LoadMod();
+
         Bard.LoadMod();
+        //Witch.LoadMod();
 
         FeatRecallWeakness.LoadMod();
         ItemScholarsHat.LoadMod();
+        //ItemSpellStaff.LoadMod();
 
 
     }

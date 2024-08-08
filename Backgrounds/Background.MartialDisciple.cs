@@ -27,7 +27,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Backgrounds
                 , new List<AbilityBoost> { new LimitedAbilityBoost(Ability.Strength, Ability.Dexterity), new FreeAbilityBoost() })
                 .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
                 {
-                    sheet.AddFeat(FeatPowerfulLeap.PowerfulLeapTrueFeat, null);
+                    sheet.GrantFeat(FeatName.PowerfulLeap);
                     sheet.GrantFeat(FeatName.Athletics);
                 }).WithCustomName("Martial Disciple")
                 as BackgroundSelectionFeat;

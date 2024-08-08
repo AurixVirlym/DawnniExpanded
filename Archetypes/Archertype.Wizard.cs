@@ -70,6 +70,7 @@ public static class ArchetypeWizard
 
       sheet.AdditionalClassTraits.Add(Trait.Wizard);
       PreparedSpellSlots spellList = new PreparedSpellSlots(Ability.Intelligence, Trait.Arcane);
+      sheet.SpellTraditionsKnown.Add(Trait.Arcane);
       spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Wizard:Cantrip1"));
       spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Wizard:Cantrip2"));
       sheet.PreparedSpells.Add(Trait.Wizard, spellList);

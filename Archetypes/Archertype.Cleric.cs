@@ -163,6 +163,7 @@ public static class ArchetypeCleric
 
       sheet.AdditionalClassTraits.Add(Trait.Cleric);
       PreparedSpellSlots spellList = new PreparedSpellSlots(Ability.Wisdom, Trait.Divine);
+      sheet.SpellTraditionsKnown.Add(Trait.Divine);
       spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Cleric:Cantrip1"));
       spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Cleirc:Cantrip2"));
       sheet.PreparedSpells.Add(Trait.Cleric, spellList);

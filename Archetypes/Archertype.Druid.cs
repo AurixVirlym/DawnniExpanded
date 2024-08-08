@@ -76,6 +76,7 @@ public static class ArchetypeDruid
 
       sheet.AdditionalClassTraits.Add(Trait.Druid);
       PreparedSpellSlots spellList = new PreparedSpellSlots(Ability.Wisdom, Trait.Primal);
+      sheet.SpellTraditionsKnown.Add(Trait.Primal);
       spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Druid:Cantrip1"));
       spellList.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "Druid:Cantrip2"));
       sheet.PreparedSpells.Add(Trait.Druid, spellList);

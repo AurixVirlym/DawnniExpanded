@@ -1,0 +1,82 @@
+﻿using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Core.Mechanics.Targeting.Targets;
+using Dawnsbury.Display.Text;
+using Dawnsbury.Modding;
+using Dawnsbury.Audio;
+using Microsoft.Xna.Framework;
+using Dawnsbury.Display.Illustrations;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.Creatures;
+using System.Runtime.Serialization.Formatters;
+using Dawnsbury.Core.Mechanics.Core;
+using System.ComponentModel;
+using Dawnsbury.Core.Mechanics;
+using Microsoft.VisualBasic;
+using Dawnsbury.Core;
+using Dawnsbury.Core.Possibilities;
+using System;
+using Dawnsbury.Core.Roller;
+using Dawnsbury.Core.Intelligence;
+
+namespace Dawnsbury.Mods.DawnniExpanded;
+
+
+public class SpellHexes
+{
+    public static QEffect HexOnceEffect()
+    {
+        return new QEffect()
+        {
+            Name = "Hex Prevention",
+            ExpiresAt = ExpirationCondition.ExpiresAtEndOfYourTurn,
+            PreventTakingAction = newAttack => newAttack.HasTrait(Witch.HexTrait) ? "You have already cast a hex cantrip this turn." : null
+        };
+    }
+
+    public static void LoadMod()
+    {
+        SpellDiscernSecrets.LoadMod();
+        SpellEvilEye.LoadMod();
+        SpellClingingIce.LoadMod();
+        SpellStokeTheHeart.LoadMod();
+        SpellWitchingHour.LoadMod();
+        SpellPatronsWard.LoadMod();
+        SpellLifeBoost.LoadMod();
+    }
+
+    public static QEffect NamedSustaining(CombatAction sustainedSpell, QEffect sustainedEffect, Action<QEffect>? onSustain = null)
+    {
+        QEffect sustainedEffect2 = sustainedEffect;
+        CombatAction sustainedSpell2 = sustainedSpell;
+        Action<QEffect> onSustain2 = onSustain;
+        return new QEffect("Sustaining " + sustainedSpell2.Name, "You're sustaining an effect and it will expire if you don't sustain it every turn.", ExpirationCondition.Never, null, IllustrationName.CastASpell)
+        {
+            Id = QEffectId.Sustaining,
+            DoNotShowUpOverhead = true,
+            ProvideContextualAction = (QEffect qf) => (!sustainedEffect2.CannotExpireThisTurn) ? new ActionPossibility(new CombatAction(qf.Owner, sustainedSpell2.Illustration, "Sustain " + sustainedSpell2.Name + " on " + qf.Owner.Name, new Trait[3]
+            {
+                Trait.Concentrate,
+                Trait.SustainASpell,
+                Trait.Basic
+            }, "The duration of " + sustainedSpell2.Name + " continues until the end of your next turn.", Target.Self((Creature self, AI ai) => ai.ShouldSustain(sustainedSpell2))).WithEffectOnSelf(delegate
+            {
+                sustainedEffect2.CannotExpireThisTurn = true;
+                onSustain2?.Invoke(sustainedEffect2);
+            })).WithPossibilityGroup("Maintain an activity") : null,
+            StateCheck = delegate (QEffect qf)
+            {
+                if (sustainedEffect2.Owner.Destroyed || !sustainedEffect2.Owner.HasEffect(sustainedEffect2))
+                {
+                    qf.ExpiresAt = ExpirationCondition.Immediately;
+                }
+            }
+        };
+    }
+}
+
+

@@ -1,0 +1,84 @@
+﻿using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Core.Mechanics.Targeting.Targets;
+using Dawnsbury.Display.Text;
+using Dawnsbury.Modding;
+using Dawnsbury.Audio;
+using Microsoft.Xna.Framework;
+using Dawnsbury.Display.Illustrations;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.Creatures;
+using System.Runtime.Serialization.Formatters;
+using Dawnsbury.Core.Mechanics.Core;
+using System.ComponentModel;
+using Dawnsbury.Core.Mechanics;
+using Microsoft.VisualBasic;
+using System;
+
+namespace Dawnsbury.Mods.DawnniExpanded;
+
+
+public class SpellStokeTheHeart
+{
+    public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/StokeTheHeart.png");
+    public static SpellId Id;
+    public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
+    {
+        {
+
+            CombatAction SpellAction = Spells.CreateModern(Spellillustration,
+                "Stroke The Heart",
+            new[] { Trait.Cantrip, Trait.Uncommon, Witch.HexTrait, Trait.Emotion, Trait.Enchantment, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+                    "Intense fervor fills the target creature, empowering their blows.", "The target gains a +" + S.HeightenedVariable((int)Math.Floor((double)(spellLevel - 1) / 2) + 2, 2) + " status bonus to damage rolls until the end of your turn.\n\nThis spell may be sustained to extend the duration by 1 round." + HS.HeightenTextLevels(spellLevel > 2, spellLevel, inCombat, "\n\n{b}Heightened (+2){/b} The status bonus to damage increases by 1.")
+
+                    ,
+                    Target.RangedFriend(6),
+                        spellLevel,
+                        null
+                        ).WithActionCost(1)
+                        .WithSoundEffect(SfxName.HolyWard)
+                        .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
+                        {
+
+                            int StokeValue = (int)Math.Floor((double)(spell.SpellLevel - 1) / 2) + 2;
+
+
+                            QEffect qeffectStokeTheHeart = new QEffect()
+                            {
+                                BonusToDamage = (effect, action, arg3) => new Bonus(StokeValue, BonusType.Status, "Stoke The Heart"),
+                                CannotExpireThisTurn = true,
+                                ExpiresAt = ExpirationCondition.ExpiresAtEndOfSourcesTurn,
+                                Source = caster,
+                                Illustration = Spellillustration,
+                                Name = "Stoke the Heart",
+                                Description = "You have a +" + StokeValue + " status bonus to damage rolls."
+                            };
+
+                            target.AddQEffect(qeffectStokeTheHeart);
+
+                            caster.AddQEffect(SpellHexes.NamedSustaining(spell, qeffectStokeTheHeart));
+                            caster.AddQEffect(SpellHexes.HexOnceEffect());
+
+                        }));
+
+
+            return SpellAction;
+
+
+        }
+    }
+    public static void LoadMod()
+    {
+
+
+        Id = ModManager.RegisterNewSpell("Sroke The Heart", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        );
+
+    }
+}
+
+

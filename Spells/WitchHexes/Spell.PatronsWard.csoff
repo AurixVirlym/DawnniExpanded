@@ -1,0 +1,90 @@
+﻿using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Core.Mechanics.Targeting.Targets;
+using Dawnsbury.Display.Text;
+using Dawnsbury.Modding;
+using Dawnsbury.Audio;
+using Microsoft.Xna.Framework;
+using Dawnsbury.Display.Illustrations;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core.Creatures;
+using System.Runtime.Serialization.Formatters;
+using Dawnsbury.Core.Mechanics.Core;
+using System.ComponentModel;
+using Dawnsbury.Core.Mechanics;
+using Microsoft.VisualBasic;
+
+namespace Dawnsbury.Mods.DawnniExpanded;
+
+
+public class SpellPatronsWard
+{
+    public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/PatronsWard.png");
+    public static SpellId Id;
+    public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
+    {
+        {
+
+            CombatAction SpellAction = Spells.CreateModern(Spellillustration,
+                "Patron's Ward",
+            new[] { Witch.ClassTrait, Trait.Focus, Trait.Abjuration, Trait.Uncommon, Witch.HexTrait, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+                    "Your patron's aegis descends to shield a target from harm.",
+                    "The target gains a +1 status bonus to its saving throws and AC until the end of your turn." + "\n\nThis spell may be sustained to extend the duration by 1 round."
+
+                    ,
+                    Target.RangedFriend(6),
+                        spellLevel,
+                        null
+                        ).WithActionCost(1)
+                        .WithSoundEffect(SfxName.ShieldSpell)
+                        .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
+                        {
+                            int number = spell.SpellLevel * 2;
+
+                            QEffect qeffectlifeboost = new QEffect()
+                            {
+                                ExpiresAt = ExpirationCondition.ExpiresAtEndOfSourcesTurn,
+                                Source = caster,
+                                CannotExpireThisTurn = true,
+                                Illustration = Spellillustration,
+                                Name = "Patron's Ward",
+                                Description = "You have a +1 status bonus to your saving throws and AC",
+
+                                BonusToDefenses = (QEffect effect, CombatAction attack, Defense defense) =>
+                                    {
+                                        if (defense == Defense.AC || defense == Defense.Fortitude || defense == Defense.Reflex || defense == Defense.Will)
+                                        {
+                                            return new Bonus(1, BonusType.Status, "Patron's Ward");
+                                        }
+                                        else return null;
+
+                                    }
+                            };
+
+                            caster.AddQEffect(SpellHexes.NamedSustaining(spell, qeffectlifeboost));
+                            target.AddQEffect(qeffectlifeboost);
+                            caster.AddQEffect(SpellHexes.HexOnceEffect());
+
+                        }));
+
+
+            return SpellAction;
+
+
+        }
+    }
+    public static void LoadMod()
+    {
+
+
+        Id = ModManager.RegisterNewSpell("Patron's Ward", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        );
+
+    }
+}
+
+
