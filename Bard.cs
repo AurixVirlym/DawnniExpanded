@@ -262,87 +262,17 @@ namespace Dawnsbury.Mods.DawnniExpanded
 
     public static void LoadMod()
     {
-      BardClass.Traits.Add(DawnniExpanded.DETrait);
-      ModManager.AddFeat(BardClass);
-      ModManager.AddFeat(CantripExpansion);
-      ModManager.AddFeat(AbundantLevel1);
-      ModManager.AddFeat(AbundantLevel2);
-      ModManager.AddFeat(LingeringComposition);
-      ModManager.AddFeat(HymnOfHealing);
-      ModManager.AddFeat(TripleTime);
-
-
-      AllFeats.All.RemoveAll(feat => feat.FeatName == FeatName.ReachSpell);
-      ModManager.AddFeat(
-
-      new TrueFeat(FeatName.ReachSpell, 1, "You can extend the range of your spells.", "You can spend an extra action as you cast a spell in order to increase that spell's range by 30 feet. If the spell had a range of touch, you extend its range to 30 feet.", new Trait[7]
-    {
-        Trait.Sorcerer,
-        Trait.Cleric,
-        Trait.Wizard,
-        Trait.Bard,
-        Trait.Druid,
-        Trait.Concentrate,
-        Trait.Metamagic
-    }).WithActionCost(1).WithPermanentQEffect("You can extend the range of your spells.", (Action<QEffect>)(qf => qf.MetamagicProvider = new MetamagicProvider("Reach spell", (Func<CombatAction, CombatAction>)(spell =>
-    {
-      CombatAction metamagicSpell = Spell.DuplicateSpell(spell).CombatActionSpell;
-      if (metamagicSpell.ActionCost == 3 || Constants.IsVariableActionCost(metamagicSpell.ActionCost) || metamagicSpell.ActionCost == -2)
-        return (CombatAction)null;
-      switch (metamagicSpell.Target)
-      {
-        case CreatureTarget creatureTarget2:
-          if (!IncreaseTarget(creatureTarget2))
-            return (CombatAction)null;
-          break;
-        case MultipleCreatureTargetsTarget creatureTargetsTarget2:
-          bool flag = false;
-          foreach (CreatureTarget target in creatureTargetsTarget2.Targets)
-            flag |= IncreaseTarget(target);
-          if (!flag)
-            return (CombatAction)null;
-          break;
-        default:
-          return (CombatAction)null;
-      }
-      metamagicSpell.Name = "Reach " + metamagicSpell.Name;
-      ++metamagicSpell.ActionCost;
-      int num = metamagicSpell.Target.ToDescription().Count<char>((Func<char, bool>)(c => c == '\n'));
-      string[] strArray = metamagicSpell.Description.Split('\n', 4 + num);
-      if (strArray.Length >= 4)
-        metamagicSpell.Description = strArray[0] + "\n" + strArray[1] + "\n{Blue}" + metamagicSpell.Target.ToDescription() + "{/Blue}\n" + strArray[3 + num];
-      return metamagicSpell;
-
-      bool IncreaseTarget(CreatureTarget creatureTarget)
-      {
-        if (creatureTarget.RangeKind == RangeKind.Melee)
-        {
-          metamagicSpell.Traits = new Traits(metamagicSpell.Traits.Except<Trait>((IEnumerable<Trait>)new Trait[1]
-          {
-              Trait.Melee
-          }).Concat<Trait>((IEnumerable<Trait>)new Trait[1]
-          {
-              Trait.Ranged
-          }));
-          creatureTarget.RangeKind = RangeKind.Ranged;
-          creatureTarget.CreatureTargetingRequirements.RemoveAll((Predicate<CreatureTargetingRequirement>)(ctr => ctr is AdjacencyCreatureTargetingRequirement || ctr is AdjacentOrSelfTargetingRequirement));
-          creatureTarget.CreatureTargetingRequirements.Add((CreatureTargetingRequirement)new MaximumRangeCreatureTargetingRequirement(6));
-          creatureTarget.CreatureTargetingRequirements.Add((CreatureTargetingRequirement)new UnblockedLineOfEffectCreatureTargetingRequirement());
-          return true;
-        }
-        MaximumRangeCreatureTargetingRequirement targetingRequirement = creatureTarget.CreatureTargetingRequirements.OfType<MaximumRangeCreatureTargetingRequirement>().FirstOrDefault<MaximumRangeCreatureTargetingRequirement>();
-        if (targetingRequirement == null)
-          return false;
-        targetingRequirement.Range += 6;
-        return true;
-      }
-    })))));
-
-
-
-
+        BardClass.Traits.Add(DawnniExpanded.DETrait);
+        ModManager.AddFeat(BardClass);
+        ModManager.AddFeat(CantripExpansion);
+        ModManager.AddFeat(AbundantLevel1);
+        ModManager.AddFeat(AbundantLevel2);
+        ModManager.AddFeat(LingeringComposition);
+        ModManager.AddFeat(HymnOfHealing);
+        ModManager.AddFeat(TripleTime);
+        
+        var reachSpell = AllFeats.All.First(feat => feat.FeatName == FeatName.ReachSpell) as TrueFeat;
+        reachSpell.WithAllowsForAdditionalClassTrait(Trait.Bard);
     }
-
   }
-
 }
