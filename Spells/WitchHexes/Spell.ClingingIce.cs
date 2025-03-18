@@ -119,7 +119,7 @@ public class SpellClingingIce
     {
 
 
-        Id = ModManager.RegisterNewSpell("Clinging Ice", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        Id = ModManager.RegisterNewSpell("ClingingIce", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
         );
 
     }

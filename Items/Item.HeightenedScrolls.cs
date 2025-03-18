@@ -61,13 +61,7 @@ public class GenerateHeightenedScrolls
     }
 
 
-    if (scrolllevel == 3 && spell2.SpellId == SpellId.Fear)
-    {
-      CombatAction fearaction = SpellHeightenedFear.NewFear(null, 3, false);
-      spell2.CombatActionSpell.Description = fearaction.Description;
-
-    }
-    else if (ModdedSpell == false)
+    if (ModdedSpell == false)
     {
       spell2 = spell1.Duplicate(null, scrolllevel, inCombat: true);
       spell2.CombatActionSpell.Description = spell2.CombatActionSpell.Description.Replace("Heightened to spell level 2.", "Heightened to spell level " + scrolllevel + ".");
@@ -180,8 +174,6 @@ public class GenerateHeightenedScrolls
     {
       MakeScrollAtLevel(spell, 3);
     }
-
-    MakeScrollAtLevel(AllSpells.All.First(x => x.SpellId == SpellId.Fear), 3);
 
     /*
     CombatAction ModdedSpell = SpellScorchingRay.MakeScorchingRaySpell(null, 3, true);

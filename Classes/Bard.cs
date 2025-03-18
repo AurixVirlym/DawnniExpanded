@@ -107,7 +107,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
   }).WithOnSheet(sheet =>
   {
     sheet.GrantFeat(FeatName.Occultism);
-    sheet.AddFeat(NewSkills.Performance, null);
+    sheet.GrantFeat(FeatName.Performance);
 
     Trait spellList = Trait.Occult;
     sheet.SpellTraditionsKnown.Add(spellList);
@@ -266,9 +266,33 @@ namespace Dawnsbury.Mods.DawnniExpanded
 
     })))).WithCustomName("Lingering Composition");
 
+    public static Feat EngimaMuseFeat = new Feat(FeatName.CustomFeat, "Your muse is a mystery, driving you to uncover the hidden secrets of life and the multiverse. These muses can be people you cannot fully grasp, texts layered deeply with symbolism, or emotional paradoxes that underline a lifetime's work. If your muse is an otherworldly creature, it might be a mysterious aeon or an occult dragon. Art inspired by an enigma muse could be cryptic, eerie, or laden with speculation and conspiracy. As a bard with the enigma muse, you support your allies by providing knowledge alongside inspiration and occult support.", "You gain the Bardic Lore feat and add "+AllSpells.CreateModernSpellTemplate(SpellId.TrueStrike,Trait.Bard).ToSpellLink()+" to your spell repertoire.", new List<Trait>(), null).WithCustomName("Muse: Enigma").WithOnSheet( sheet =>
+        {
+        sheet.AddFeat(BardicLore,null);
+        Spell Spelltoadd = AllSpells.All.FirstOrDefault(spell => spell.SpellId == SpellId.TrueStrike);
+        sheet.SpellRepertoires[Trait.Bard].SpellsKnown.Add(Spelltoadd);
+        });
+
+      public static Feat ExtraEngimaMuseFeat = new Feat(FeatName.CustomFeat, "Your extra muse is a mystery, driving you to uncover the hidden secrets of life and the multiverse. These muses can be people you cannot fully grasp, texts layered deeply with symbolism, or emotional paradoxes that underline a lifetime's work. If your muse is an otherworldly creature, it might be a mysterious aeon or an occult dragon.", "You gain the Bardic Lore feat.", new List<Trait>(), null).WithCustomName("Extra muse: Enigma").  WithOnSheet  ( sheet =>
+        {
+        sheet.AddFeat(BardicLore,null);
+        }).WithEquivalent(values => values.AllFeats.Contains(EngimaMuseFeat));
+
 
     public static void LoadMod()
     {
+
+
+      var MultifariousMuse = AllFeats.All.FirstOrDefault(feat => feat.FeatName == FeatName.MultifariousMuse);
+      AllFeats.All.RemoveAll(feat => feat.FeatName == FeatName.MultifariousMuse);
+      MultifariousMuse.Subfeats.Add(ExtraEngimaMuseFeat);
+      ModManager.AddFeat(MultifariousMuse);
+
+      var MainGameBard = AllFeats.All.FirstOrDefault(feat => feat is ClassSelectionFeat && feat.RulesText.Contains("Bard"));
+      AllFeats.All.RemoveAll(feat => feat is ClassSelectionFeat && feat.RulesText.Contains("Bard"));
+      MainGameBard.Subfeats.Add(EngimaMuseFeat);
+      ModManager.AddFeat(MainGameBard);
+
       BardClass.Traits.Add(DawnniExpanded.DETrait);
       ModManager.AddFeat(BardClass);
       ModManager.AddFeat(CantripExpansion);
@@ -280,71 +304,10 @@ namespace Dawnsbury.Mods.DawnniExpanded
       ModManager.AddFeat(BardicLore);
 
 
-      AllFeats.All.RemoveAll(feat => feat.FeatName == FeatName.ReachSpell);
-      ModManager.AddFeat(
+      
 
-      new TrueFeat(FeatName.ReachSpell, 1, "You can extend the range of your spells.", "You can spend an extra action as you cast a spell in order to increase that spell's range by 30 feet. If the spell had a range of touch, you extend its range to 30 feet.", new Trait[]
-    {
-        Trait.Sorcerer,
-        Trait.Cleric,
-        Trait.Wizard,
-        Trait.Bard,
-        Trait.Druid,
-        Trait.Concentrate,
-        Trait.Metamagic
-    }).WithActionCost(1).WithPermanentQEffect("You can extend the range of your spells.", (Action<QEffect>)(qf => qf.MetamagicProvider = new MetamagicProvider("Reach spell", (Func<CombatAction, CombatAction>)(spell =>
-    {
-      CombatAction metamagicSpell = Spell.DuplicateSpell(spell).CombatActionSpell;
-      if (metamagicSpell.ActionCost == 3 || Constants.IsVariableActionCost(metamagicSpell.ActionCost) || metamagicSpell.ActionCost == -2)
-        return (CombatAction)null;
-      switch (metamagicSpell.Target)
-      {
-        case CreatureTarget creatureTarget2:
-          if (!IncreaseTarget(creatureTarget2))
-            return (CombatAction)null;
-          break;
-        case MultipleCreatureTargetsTarget creatureTargetsTarget2:
-          bool flag = false;
-          foreach (CreatureTarget target in creatureTargetsTarget2.Targets)
-            flag |= IncreaseTarget(target);
-          if (!flag)
-            return (CombatAction)null;
-          break;
-        default:
-          return (CombatAction)null;
-      }
-      metamagicSpell.Name = "Reach " + metamagicSpell.Name;
-      ++metamagicSpell.ActionCost;
-      int num = metamagicSpell.Target.ToDescription().Count<char>((Func<char, bool>)(c => c == '\n'));
-      string[] strArray = metamagicSpell.Description.Split('\n', 4 + num);
-      if (strArray.Length >= 4)
-        metamagicSpell.Description = strArray[0] + "\n" + strArray[1] + "\n{Blue}" + metamagicSpell.Target.ToDescription() + "{/Blue}\n" + strArray[3 + num];
-      return metamagicSpell;
 
-      bool IncreaseTarget(CreatureTarget creatureTarget)
-      {
-        if (creatureTarget.RangeKind == RangeKind.Melee)
-        {
-          metamagicSpell.Traits = new Traits(metamagicSpell.Traits.Except<Trait>((IEnumerable<Trait>)new Trait[1]
-          {
-              Trait.Melee
-          }).Concat<Trait>((IEnumerable<Trait>)new Trait[1]
-          {
-              Trait.Ranged
-          }));
-          creatureTarget.RangeKind = RangeKind.Ranged;
-          creatureTarget.CreatureTargetingRequirements.RemoveAll((Predicate<CreatureTargetingRequirement>)(ctr => ctr is AdjacencyCreatureTargetingRequirement || ctr is AdjacentOrSelfTargetingRequirement));
-          creatureTarget.CreatureTargetingRequirements.Add((CreatureTargetingRequirement)new MaximumRangeCreatureTargetingRequirement(6));
-          creatureTarget.CreatureTargetingRequirements.Add((CreatureTargetingRequirement)new UnblockedLineOfEffectCreatureTargetingRequirement());
-          return true;
-        }
-        MaximumRangeCreatureTargetingRequirement targetingRequirement = creatureTarget.CreatureTargetingRequirements.OfType<MaximumRangeCreatureTargetingRequirement>().FirstOrDefault<MaximumRangeCreatureTargetingRequirement>();
-        if (targetingRequirement == null)
-          return false;
-        targetingRequirement.Range += 6;
-        return true;
-      }
-    })))));
+
 
 
 

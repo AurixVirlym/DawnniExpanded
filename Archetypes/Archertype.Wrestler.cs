@@ -102,7 +102,7 @@ public static class ArchetypeWrestler
         CombatAction strike = qf.Owner.CreateStrike(item);
         strike.Name = "Suplex";
         strike.Illustration = (Illustration)new SideBySideIllustration(strike.Illustration, (Illustration)IllustrationName.Grapple);
-        strike.Description = StrikeRules.CreateBasicStrikeDescription(strike.StrikeModifiers, additionalSuccessText: "The target lands prone. and on a critical success, the target lands prone and takes an additional 2d6 bludgeoning damage.", additionalCriticalSuccessText: "the target lands prone and takes an additional 2d6 bludgeoning damage. Regardless of whether the Strike is successful", additionalAftertext: "Regardless of whether the Strike is successful, you immediately release your hold on the target.");
+        strike.Description = StrikeRules.CreateBasicStrikeDescription2(strike.StrikeModifiers, additionalSuccessText: "The target lands prone. and on a critical success, the target lands prone and takes an additional 2d6 bludgeoning damage.", additionalCriticalSuccessText: "the target lands prone and takes an additional 2d6 bludgeoning damage. Regardless of whether the Strike is successful", additionalAftertext: "Regardless of whether the Strike is successful, you immediately release your hold on the target.");
 
         strike.Traits.Add(Trait.Basic);
 
@@ -150,7 +150,7 @@ public static class ArchetypeWrestler
       CombatAction strike = qf.Owner.CreateStrike(item);
       strike.Name = "Elbow Breaker";
       strike.Illustration = (Illustration)new SideBySideIllustration(strike.Illustration, (Illustration)IllustrationName.Grapple);
-      strike.Description = StrikeRules.CreateBasicStrikeDescription(strike.StrikeModifiers,
+      strike.Description = StrikeRules.CreateBasicStrikeDescription2(strike.StrikeModifiers,
       additionalSuccessText: "You knock one held item out of the creature's grasp. It falls to the ground in the creature's space.",
       additionalCriticalSuccessText: "You knock one held item out of the creature's grasp. It falls to the ground in the creature's space.",
       additionalAftertext: "Regardless of whether the Strike is successful, you immediately release your hold on the target.");

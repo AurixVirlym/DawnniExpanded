@@ -24,7 +24,7 @@ public static class ItemMutagenBestial
         {
             Description = "Your features transform into something bestial and you take on muscle mass, but your lumbering form is clumsy.\n\n{b}Benefit{/b} You gain a +1 item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait which deals 1d4 slashing damage and a jaws unarmed attack which deals 1d6 piercing damage.\n\n{b}Drawback{/b} You take a –1 penalty to AC and a –2 penalty to Reflex saves.\n\n",
 
-            DrinkableEffect = (CombatAction ca, Creature self) =>
+            WhenYouDrink = (CombatAction ca, Creature self) =>
             {
 
                 QEffect BestialMutagenEffect = new QEffect("Bestial Mutagen", "You are benefiting from a Bestial Mutagen", ExpirationCondition.Never, self, illustrationBestial)
@@ -75,6 +75,7 @@ public static class ItemMutagenBestial
 
                 self.AddQEffect(BestialMutagenEffect);
                 self.AddQEffect(BestialMutagenEffectbite);
+                return null;
             }
 
 
@@ -89,7 +90,7 @@ public static class ItemMutagenBestial
         {
             Description = "Your features transform into something bestial and you take on muscle mass, but your lumbering form is clumsy.\n\n{b}Benefit{/b} You gain a +1 item bonus to Athletics checks and unarmed attack rolls. You gain a claw unarmed attack with the agile trait which deals 1d6 slashing damage and a jaws unarmed attack which deals 1d8 piercing damage.\n\n{b}Drawback{/b} You take a –1 penalty to AC and a –2 penalty to Reflex saves.\n\n",
 
-            DrinkableEffect = (CombatAction ca, Creature self) =>
+            WhenYouDrink = (CombatAction ca, Creature self) =>
             {
 
                 QEffect BestialMutagenEffect = new QEffect("Bestial Mutagen", "You are benefiting from a Bestial Mutagen", ExpirationCondition.Never, self, illustrationBestial)
@@ -139,6 +140,8 @@ public static class ItemMutagenBestial
                 TraitMutagens.PreventMutagenDrinking(BestialMutagenEffect);
                 self.AddQEffect(BestialMutagenEffect);
                 self.AddQEffect(BestialMutagenEffectbite);
+
+                return null;
             }
 
 

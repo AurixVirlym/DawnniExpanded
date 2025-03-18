@@ -55,9 +55,9 @@ public class SpellLifeBoost
                                 Value = 4,
                                 Description = "You heal " + number + " hit points at the start of your turn.",
 
-                                StartOfYourTurn = ((effect, creature) =>
+                                StartOfYourPrimaryTurn = ((effect, creature) =>
                                 {
-                                    creature.Heal(number.ToString(), spell);
+                                    creature.HealAsync(number.ToString(), spell);
                                     return null;
                                 }),
 
@@ -78,7 +78,7 @@ public class SpellLifeBoost
     {
 
 
-        Id = ModManager.RegisterNewSpell("Life Boost", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        Id = ModManager.RegisterNewSpell("LifeBoost", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
         );
 
     }

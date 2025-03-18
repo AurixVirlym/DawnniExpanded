@@ -38,6 +38,7 @@ public class SpellHexes
         };
     }
 
+    /*
     public static void LoadMod()
     {
         SpellDiscernSecrets.LoadMod();
@@ -48,6 +49,7 @@ public class SpellHexes
         SpellPatronsWard.LoadMod();
         SpellLifeBoost.LoadMod();
     }
+    */
 
     public static QEffect NamedSustaining(CombatAction sustainedSpell, QEffect sustainedEffect, Action<QEffect>? onSustain = null)
     {

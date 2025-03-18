@@ -69,7 +69,7 @@ public class SpellWitchingHour
     {
 
 
-        Id = ModManager.RegisterNewSpell("Witching Hour", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        Id = ModManager.RegisterNewSpell("WitchingHour", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
         );
 
     }

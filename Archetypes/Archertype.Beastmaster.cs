@@ -70,7 +70,7 @@ public static class ArchetypeBeastmaster
             "You gain the service of a young animal companion that travels with you and obeys your commands. \n\nYou may still take this archetype if you have an animal companion but you should consider retraining if possible.",
             new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait })
             .WithCustomName("Beastmaster Dedication")
-            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Nature) <= Proficiency.Trained, "You must be trained in Nature.")
+            .WithPrerequisite((CalculatedCharacterSheetValues values) => values.GetProficiency(Trait.Nature) >= Proficiency.Trained, "You must be trained in Nature.")
             .WithOnSheet(sheet =>
             {
 
@@ -103,109 +103,21 @@ public static class ArchetypeBeastmaster
 
 
 
+
     BeastMasterMatureFeat = new TrueFeat(FeatName.CustomFeat,
                 4,
-                "Your animal companions has grown up, becoming a mature animal companion and gaining additional capabilities.",
-                "The following increases are applied to your animal companion:"
-                + "\n\n- Strength, Dexterity, Constitution, and Wisdom modifiers increase by 1."
-                + "\n- Unarmed attack damage increases from one die to two dice."
-                + "\n- Proficiency rank for Perception and all saving throws increases to expert."
-                + "\n- Proficiency ranks in Intimidation, Stealth, and Survival increase to trained, and if it was already trained in one of those skills from its type, the proficiency rank in that skill increases to expert."
-                + "\n\nEven if you don't use the Command an Animal action, your animal companion can still use 1 action at the end of your turn.",
+                "Your animal companion grows up, becoming a mature animal companion and gaining additional capabilities.", "Your animal companion gains the following benefits:\r\n• It gets +1 to Strength, Dexterity, Constitution and Wisdom.\r\n• Its unarmed attack damage increases from one die to two dice (for example, from 1d8 to 2d8).\r\n• Its proficiency with Perception and all saving throws increases to Expert (an effective +2 to Perception and all saves).\r\n• Its proficiency in Intimidation, Stealth and Survival increases by one step (from untrained to trained; or from trained to expert).\r\n• Instead of spending an action to command the animal companion, you can have it act independently as {icon:FreeAction} a free action. If you do, it only gains one action, not two, and it can only use it to move or to make a Strike {i}(you still decide where it moves or who it attacks){/i}.",
                 new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait })
                 .WithCustomName("Mature Beastmaster Companion")
                 .WithEquivalent(values => values.AllFeats.Contains(ArchetypeDruid.DruidMatureFeat))
                 .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(BeastMasterDedicationFeat) && values.AllFeatNames.Contains(FeatName.AnimalCompanion), "You must have the beastmaster dedication feat and have selected an Animal Companion.")
                 .WithOnSheet((CalculatedCharacterSheetValues sheet) =>
                 {
-                  sheet.RangerBenefitsToCompanion += (Action<Creature, Creature>)((companion, ranger) =>
-                      {
-                        companion.MaxHP += companion.Level;
-                        companion.Abilities.Strength += 1;
-                        companion.Abilities.Dexterity += 1;
-                        companion.Abilities.Constitution += 1;
-                        companion.Abilities.Wisdom += 1;
-                        if (companion.UnarmedStrike.WeaponProperties.DamageDieCount == 1)
-                        {
-                          companion.UnarmedStrike.WeaponProperties.DamageDieCount += 1;
-                        }
-
-
-                        foreach (QEffect qf in companion.QEffects.Where<QEffect>(qf => qf.AdditionalUnarmedStrike != null))
-                        {
-                          if (qf.AdditionalUnarmedStrike.WeaponProperties.DamageDieCount == 1)
-                          {
-                            qf.AdditionalUnarmedStrike.WeaponProperties.DamageDieCount += 1;
-                          }
-                        }
-
-                        companion.Perception += 2;
-                        companion.Proficiencies.Set(Trait.Perception, Proficiency.Expert);
-                        companion.Proficiencies.Set(Trait.Fortitude, Proficiency.Expert);
-                        companion.Proficiencies.Set(Trait.Will, Proficiency.Expert);
-                        companion.Proficiencies.Set(Trait.Reflex, Proficiency.Expert);
-
-                        if (companion.Proficiencies.Get(Trait.Survival) == Proficiency.Trained)
-                        {
-                          sheet.SetProficiency(Trait.Survival, Proficiency.Expert);
-                        }
-                        else if (companion.Proficiencies.Get(Trait.Survival) == Proficiency.Untrained)
-                        {
-                          sheet.SetProficiency(Trait.Survival, Proficiency.Trained);
-                        }
-
-                        if (companion.Proficiencies.Get(Trait.Intimidation) == Proficiency.Trained)
-                        {
-                          sheet.SetProficiency(Trait.Survival, Proficiency.Expert);
-                        }
-                        else if (companion.Proficiencies.Get(Trait.Intimidation) == Proficiency.Untrained)
-                        {
-                          sheet.SetProficiency(Trait.Intimidation, Proficiency.Trained);
-                        }
-
-                        if (companion.Proficiencies.Get(Trait.Stealth) == Proficiency.Trained)
-                        {
-                          sheet.SetProficiency(Trait.Stealth, Proficiency.Expert);
-                        }
-                        else if (companion.Proficiencies.Get(Trait.Stealth) == Proficiency.Untrained)
-                        {
-                          sheet.SetProficiency(Trait.Stealth, Proficiency.Trained);
-                        }
-
-                      });
-
+                  sheet.GrantFeat(FeatName.MatureAnimalCompanionDruid);
                 }
 
-                ).WithPermanentQEffect("If you don't command your companion, they will act with 1 action at end of your turn.",
-                (qf => qf.EndOfYourTurn = (Func<QEffect, Creature, Task>)(async (qfSelf, you) =>
-                    {
-                      Creature animalCompanion = you.Battle.AllCreatures.FirstOrDefault<Creature>((Func<Creature, bool>)(cr => cr.QEffects.Any<QEffect>((Func<QEffect, bool>)(qf => qf.Id == QEffectId.RangersCompanion && qf.Source == you)) && cr.Actions.CanTakeActions()));
-
-                      if (animalCompanion == null)
-                      {
-
-                        return;
-                      }
-
-
-                      if (!you.Actions.ActionHistoryThisTurn.Any<CombatAction>((Func<CombatAction, bool>)(ac => ac.Name == "Command your Animal Companion" || ac.ActionId == ActionId.Delay)))
-                      {
-                        you.Occupies.Overhead("Mature Companion.", Color.Green);
-                        animalCompanion.AddQEffect(new QEffect()
-                        {
-                          ExpiresAt = ExpirationCondition.ExpiresAtEndOfYourTurn,
-                          StartOfYourTurn = (Func<QEffect, Creature, Task>)(async (effect, creature) =>
-                                {
-                                  creature.Actions.UseUpActions(1, ActionDisplayStyle.Summoned);
-                                  return;
-                                })
-                        });
-                        await CommonSpellEffects.YourMinionActs(animalCompanion);
-
-                      }
-
-                    })
-                ));
+                );
+  
 
 
 

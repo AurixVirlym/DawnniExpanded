@@ -128,7 +128,7 @@ public class SpellHorizonThunderSphere
                                            {
                                                if ((combatAction1.HasTrait(Trait.Melee) && combatAction1.HasTrait(Trait.Grab)) || combatAction1.HasTrait(Trait.Grab))
                                                {
-                                                   await spellcaster.DealDirectDamage(spell, DiceFormula.FromText(spell.SpellLevel.ToString(), "Horizon Thunder Sphere Sparks"), combatAction.Owner, CheckResult.Failure, DamageKind.Electricity);
+                                                   await CommonSpellEffects.DealDirectDamage(spell, DiceFormula.FromText(spell.SpellLevel.ToString(), "Horizon Thunder Sphere Sparks"), combatAction.Owner, CheckResult.Failure, DamageKind.Electricity);
                                                }
                                            }
 

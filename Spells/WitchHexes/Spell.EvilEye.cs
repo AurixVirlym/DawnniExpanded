@@ -80,7 +80,7 @@ public class SpellEvilEye
     {
 
 
-        Id = ModManager.RegisterNewSpell("Evil Eye", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        Id = ModManager.RegisterNewSpell("EvilEye", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
         );
 
     }

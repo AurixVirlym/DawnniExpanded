@@ -108,7 +108,7 @@ public class SpellInnerRadianceTorrent
                                         ExpirationCondition.Never,
                                         spellcaster, SpellIllustration)
                                 {
-                                    StartOfYourTurn = (async (effect, creature) =>
+                                    StartOfYourEveryTurn = (async (effect, creature) =>
                                     {
                                         foreach (Creature enemy in creature.Battle.AllCreatures.Where<Creature>(Enemy =>
                                          creature.IsAdjacentTo(Enemy)))

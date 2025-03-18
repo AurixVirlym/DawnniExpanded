@@ -53,7 +53,7 @@ public static class ArchetypeRanger
 
       if (sheet.GetProficiency(Trait.Survival) == Proficiency.Untrained)
       {
-        sheet.AddFeat(NewSkills.Survival, null);
+        sheet.GrantFeat(FeatName.Survival);
       }
       else
       {

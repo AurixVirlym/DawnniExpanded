@@ -19,6 +19,7 @@ using Dawnsbury.Core.Creatures;
 using Dawnsbury.Display.Text;
 using Dawnsbury.Core.CharacterBuilder.FeatsDb;
 using Dawnsbury.Core.Mechanics;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
 
 
 
@@ -132,7 +133,7 @@ public class FeatBattleMedicine
 
                                   if (result == CheckResult.CriticalFailure)
                                   {
-                                      await caster.DealDirectDamage(spell, DiceFormula.FromText("1d8", "Battle Medicine (critical failure)"), target, CheckResult.Failure, DamageKind.Slashing);
+                                      await CommonSpellEffects.DealDirectDamage(spell, DiceFormula.FromText("1d8", "Battle Medicine (critical failure)"), target, CheckResult.Failure, DamageKind.Slashing);
                                   }
 
                                   if (result >= CheckResult.Success)
@@ -158,7 +159,7 @@ public class FeatBattleMedicine
                                           }
                                       }
 
-                                      target.Heal(diceFormula, spell);
+                                      await target.HealAsync(diceFormula, spell);
                                       Sfxs.Play(SfxName.Healing);
                                   }
 

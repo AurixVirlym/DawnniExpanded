@@ -318,7 +318,8 @@ namespace Dawnsbury.Mods.DawnniExpanded
               if (possibilitySection1.PossibilitySectionId != PossibilitySectionId.MainActions)
               {
                 return null;
-              };
+              }
+              ;
 
               int AlchemyLevel = creature.Level;
 

@@ -17,50 +17,55 @@ using Dawnsbury.Core.Mechanics.Core;
 using System.ComponentModel;
 using Dawnsbury.Core.Mechanics;
 using Microsoft.VisualBasic;
+using Dawnsbury.Core;
+using Dawnsbury.Core.Possibilities;
 using System;
+using Dawnsbury.Core.Roller;
+using Dawnsbury.Core.Intelligence;
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 
 
-public class SpellStokeTheHeart
+public class SpellDiscernSecrets
 {
-    public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/StokeTheHeart.png");
+    public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/DiscernSecrets.png");
     public static SpellId Id;
     public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
     {
         {
 
             CombatAction SpellAction = Spells.CreateModern(Spellillustration,
-                "Stroke The Heart",
-            new[] { Trait.Cantrip, Trait.Uncommon, Witch.HexTrait, Trait.Emotion, Trait.Enchantment, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
-                    "Intense fervor fills the target creature, empowering their blows.", "The target gains a +" + S.HeightenedVariable((int)Math.Floor((double)(spellLevel - 1) / 2) + 2, 2) + " status bonus to damage rolls until the end of your turn.\n\nThis spell may be sustained to extend the duration by 1 round." + HS.HeightenTextLevels(spellLevel > 2, spellLevel, inCombat, "\n\n{b}Heightened (+2){/b} The status bonus to damage increases by 1.")
-
+                "Discern Secrets",
+            new[] { Trait.Cantrip, Trait.Uncommon, Witch.HexTrait, Trait.Divination, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+                    "You call upon your patron's power to better uncover secrets.",
+                    "When you Cast the Spell, the target can Recall Weakness. The target gains a +2 status bonus to the Recall Weakness check, and this bonus remains as long as you Sustain the Spell."
                     ,
                     Target.RangedFriend(6),
                         spellLevel,
                         null
                         ).WithActionCost(1)
-                        .WithSoundEffect(SfxName.HolyWard)
+                        .WithSoundEffect(SfxName.OpenPage)
                         .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
                         {
 
-                            int StokeValue = (int)Math.Floor((double)(spell.SpellLevel - 1) / 2) + 2;
-
-
-                            QEffect qeffectStokeTheHeart = new QEffect()
+                            QEffect qeffectDiscernSecrets = new QEffect()
                             {
-                                BonusToDamage = (effect, action, arg3) => new Bonus(StokeValue, BonusType.Status, "Stoke The Heart"),
+                                BonusToSkillChecks = (skill, action, target) => action.ActionId == FeatRecallWeakness.ActionID ? new Bonus(2, BonusType.Status, "Discern Secrets") : (Bonus)null,
                                 CannotExpireThisTurn = true,
                                 ExpiresAt = ExpirationCondition.ExpiresAtEndOfSourcesTurn,
                                 Source = caster,
                                 Illustration = Spellillustration,
-                                Name = "Stoke the Heart",
-                                Description = "You have a +" + StokeValue + " status bonus to damage rolls."
+                                Name = "Discern Secrets",
+                                Description = "You have a +2 status bonus to Recall Weakness checks."
                             };
 
-                            target.AddQEffect(qeffectStokeTheHeart);
+                            target.AddQEffect(qeffectDiscernSecrets);
+                            caster.AddQEffect(SpellHexes.NamedSustaining(spell, qeffectDiscernSecrets));
 
-                            caster.AddQEffect(SpellHexes.NamedSustaining(spell, qeffectStokeTheHeart));
+                            TBattle battle = target.Battle;
+
+                            await battle.GameLoop.FullCast(FeatRecallWeakness.RecallWeaknessAction(target));
+
                             caster.AddQEffect(SpellHexes.HexOnceEffect());
 
                         }));
@@ -75,8 +80,8 @@ public class SpellStokeTheHeart
     {
 
 
-        Id = ModManager.RegisterNewSpell("Sroke The Heart", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
-        );
+        Id = ModManager.RegisterNewSpell("DiscernSecrets", 0, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat));
+
 
     }
 }

@@ -81,7 +81,7 @@ public class SpellPatronsWard
     {
 
 
-        Id = ModManager.RegisterNewSpell("Patron's Ward", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
+        Id = ModManager.RegisterNewSpell("PatronsWard", 1, (spellId, spellcaster, spellLevel, inCombat, SpellInformation) => MakeSpell(spellcaster, spellLevel, inCombat)
         );
 
     }

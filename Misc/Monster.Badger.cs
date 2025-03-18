@@ -41,7 +41,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
       QEffect QFCivie = new QEffect("Civilian", "You can command the civilian to take certain actions with a skill check.")
       {
         Id = CivieQFId,
-        EndOfYourTurn = async delegate (QEffect qfCivilian, Creature civilian)
+        EndOfYourTurnDetrimentalEffect = async delegate (QEffect qfCivilian, Creature civilian)
         {
           civilian.AI.Tactic = Tactic.DoNothing;
           civilian.OwningFaction = civilian.Battle.GaiaFriends;
@@ -50,7 +50,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
         {
           Creature leshy = qf.Owner;
 
-          foreach (Creature item in qf.Owner.Battle.AllCreatures.Where((Creature cr) => cr.OwningFaction.IsHumanControlled && cr != leshy && !cr.HasEffect(CommandCivieQFId)))
+          foreach (Creature item in qf.Owner.Battle.AllCreatures.Where((Creature cr) => cr.OwningFaction.IsPlayer && cr != leshy && !cr.HasEffect(CommandCivieQFId)))
           {
             QEffect PlayerActionsQF = new QEffect(ExpirationCondition.Ephemeral)
             {
@@ -161,9 +161,10 @@ namespace Dawnsbury.Mods.DawnniExpanded
                             Possibilities = source.Select((Func<Creature, Possibility>)((Creature lt) =>
                             new ActionPossibility(new CombatAction(zombie, IllustrationName.GenericCombatManeuver, "Push " + lt.Name,
                              new Trait[1] { Trait.Melee },
-                              "Push the target.", Target.Melee((Target t, Creature a, Creature d) => (!d.HasEffect(QEffectId.Unconscious)) && !d.IsFlatFootedTo(a,t.OwnerAction) && a.Actions.ActionsLeft == 1 ? 1.0737418E+09f : (-2.1474836E+09f))
-                              .WithAdditionalConditionOnTargetCreature((Creature a, Creature d) => (d != lt) ? Usability.CommonReasons.TargetIsNotPossibleForComplexReason : Usability.Usable)).
-                              WithEffectOnEachTarget(async delegate(CombatAction ca, Creature a, Creature d, CheckResult cr)
+                              "Push the target.", Target.ReachWithAnyWeapon()
+                              .WithAdditionalConditionOnTargetCreature((Creature a, Creature d) => (d != lt) ? Usability.CommonReasons.TargetIsNotPossibleForComplexReason : Usability.Usable))
+                              .WithGoodness((Target t, Creature a, Creature d) => (!d.HasEffect(QEffectId.Unconscious)) && !d.IsFlatFootedTo(a,t.OwnerAction) && a.Actions.ActionsLeft == 1 ? 1.0737418E+09f : (-2.1474836E+09f))
+                              .WithEffectOnEachTarget(async delegate(CombatAction ca, Creature a, Creature d, CheckResult cr)
                             {
 
                               await a.PushCreature(d,1);

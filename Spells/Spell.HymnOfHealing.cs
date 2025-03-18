@@ -53,7 +53,7 @@ public class SpellHymnOfHealing
                                 Creature target = chosenTargets.ChosenCreature;
                                 int EndureTHP = spellLevel * 2;
                                 target.GainTemporaryHP(EndureTHP);
-                                target.Heal(EndureTHP.ToString(), spell);
+                                await target.HealAsync(EndureTHP.ToString(), spell);
                                 int RoundsLeft = 3;
 
                                 QEffect EffectOnTarget = new QEffect("Hymn of Healing", "When Hymn of Healing is sustained, " + target.Name + " will gain " + spellLevel * 2 + " temporary Hit Points and heal " + spellLevel * 2 + " Hit Points.", ExpirationCondition.ExpiresAtEndOfSourcesTurn, caster, SpellIllustration)
@@ -68,12 +68,12 @@ public class SpellHymnOfHealing
                                 Trait.Concentrate,
                                 Trait.SustainASpell,
                                 Trait.Basic
-                                }, "The duration of " + spell.Name + " continues until the end of your next turn.", Target.Self((Creature self, AI ai) => 1.0737418E+09f)).WithEffectOnSelf(delegate
+                                }, "The duration of " + spell.Name + " continues until the end of your next turn.", Target.Self((Creature self, AI ai) => 1.0737418E+09f)).WithEffectOnSelf(async (spell, caster) =>
                                 {
                                     EffectOnTarget.CannotExpireThisTurn = true;
                                     int EndureTHP = spell.SpellLevel * 2;
                                     target.GainTemporaryHP(EndureTHP);
-                                    target.Heal(EndureTHP.ToString(), spell);
+                                    await target.HealAsync(EndureTHP.ToString(), spell);
                                     --RoundsLeft;
 
                                 })) : null;

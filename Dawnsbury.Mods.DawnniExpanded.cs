@@ -28,7 +28,7 @@ public class DawnniExpanded
         //new Harmony("com.Danni.DawnniExpanded").PatchAll();
 
 
-        NewSkills.LoadMod();
+        //NewSkills.LoadMod();
 
         SpellHorizonThunderSphere.LoadMod();
         SpellAnimatedAssualt.LoadMod();
@@ -36,12 +36,12 @@ public class DawnniExpanded
         SpellEndure.LoadMod();
         //SpellFalseLife.LoadMod();
         SpellRousingSplash.LoadMod();
-        SpellSuddenBolt.LoadMod();
+        //SpellSuddenBolt.LoadMod();
         SpellCounterPerformance.LoadMod();
         SpellHymnOfHealing.LoadMod();
         SpellTripleTime.LoadMod();
         SpellInspireCourage.LoadMod();
-        SpellHeightenedFear.LoadMod();
+        //SpellHeightenedFear.LoadMod();
         SpellConcordantChoir.LoadMod();
         SpellRayofEnfeeblement.LoadMod();
         SpellInnerRadianceTorrent.LoadMod();
@@ -67,15 +67,25 @@ public class DawnniExpanded
         FeatArchetype.LoadMod();
         MonsterBadger.LoadMod();
 
-        GenerateHeightenedScrolls.LoadMod();
+        //GenerateHeightenedScrolls.LoadMod();
         //KinTest.LoadMod();
 
         VersatileHertiages.LoadMod();
         //AncestryHalfling.LoadMod();
         AncestryDragon.LoadMod();
 
+        
+        SpellDiscernSecrets.LoadMod();
+        SpellEvilEye.LoadMod();
+        SpellClingingIce.LoadMod();
+        SpellStokeTheHeart.LoadMod();
+        SpellWitchingHour.LoadMod();
+        SpellPatronsWard.LoadMod();
+        SpellLifeBoost.LoadMod();
+        
+
         Bard.LoadMod();
-        //Witch.LoadMod();
+        Witch.LoadMod();
 
         FeatRecallWeakness.LoadMod();
         ItemScholarsHat.LoadMod();

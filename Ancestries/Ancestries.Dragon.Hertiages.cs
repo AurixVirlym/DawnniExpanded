@@ -94,7 +94,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
       yield return new DragonHertiageFeat("Silver Dragon",
                      "You are a brass dragon, descended from a line of chivalrous champions of justice, guardians and guides of goodly societies.",
                      "You gain the Draconic Resistance feat as a bonus feat. Your associated damage type is cold, your breath shape is a cone, and your additional unarmed attack is wing. You can choose Charisma instead of Strength for your first ancestry ability boost. Your spells are divine.",
-                     Target.Line(6),
+                     Target.Cone(3),
                      "wing",
                      null,
                      DamageKind.Cold,

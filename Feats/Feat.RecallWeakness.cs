@@ -382,7 +382,7 @@ public static class FeatRecallWeakness
   strike.Name = "Combat Assessment " + strike.Name;
   strike.Traits.Add(Trait.Basic);
   strike.ActionId = CombatAssessmentActionID;
-  strike.Description = StrikeRules.CreateBasicStrikeDescription(strike.StrikeModifiers, additionalSuccessText: "Recall Weakness against the target", additionalCriticalSuccessText: "Gain a +2 circumstance bonus to the check to Recall Weakness.", additionalAftertext: "The target is temporarily immune to Combat Assessment for 1 day.");
+  strike.Description = StrikeRules.CreateBasicStrikeDescription2(strike.StrikeModifiers, additionalSuccessText: "Recall Weakness against the target", additionalCriticalSuccessText: "Gain a +2 circumstance bonus to the check to Recall Weakness.", additionalAftertext: "The target is temporarily immune to Combat Assessment for 1 day.");
 
   strike.StrikeModifiers.OnEachTarget += (Func<Creature, Creature, CheckResult, Task>)(async (caster, target, checkResult) =>
   {
