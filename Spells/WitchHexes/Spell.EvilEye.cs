@@ -25,13 +25,14 @@ public class SpellEvilEye
 {
     public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/EvilEye.png");
     public static SpellId Id;
+
     public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
     {
         {
 
             CombatAction SpellAction = Spells.CreateModern(Spellillustration,
                 "Evil Eye",
-            new[] { Trait.Cantrip, Trait.Uncommon, Witch.HexTrait, Trait.Curse, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+            new[] { Trait.Cantrip, Trait.Uncommon, SpellHexes.HexTrait, Trait.Curse, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
                     "Your patron's resentment manifests in a baleful, envious gaze.",
                     S.FourDegreesOfSuccess((string)null, (string)null, "Your target suffers as -1 status penalty on all their checks and DCs until the end of your turn.", "Same as failure, except the penalty is increased to -2.") + "\n\nThis spell may be sustained to extend the duration by 1 round."
 

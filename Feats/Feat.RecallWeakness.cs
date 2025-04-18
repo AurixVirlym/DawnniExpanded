@@ -245,7 +245,7 @@ public static class FeatRecallWeakness
       || target.Traits.Contains(Trait.Beast)
       || target.Traits.Contains(Trait.Elemental)
       || target.Traits.Contains(Trait.Primal)
-      //|| target.Traits.Contains(Trait.Fey)
+      || target.Traits.Contains(Trait.Fey)
       || target.Traits.Contains(Trait.Plant)
       || target.Traits.Contains(Trait.Leshy)
       )
@@ -255,7 +255,7 @@ public static class FeatRecallWeakness
 
       //Occultism
       if (target.Traits.Contains(Trait.Aberration)
-        //|| target.Traits.Contains(Trait.Ooze)
+        || target.Traits.Contains(Trait.Ooze)
         || target.Traits.Contains(Trait.Occult)
 
         )

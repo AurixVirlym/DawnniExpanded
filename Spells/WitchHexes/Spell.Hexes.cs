@@ -28,28 +28,42 @@ namespace Dawnsbury.Mods.DawnniExpanded;
 
 public class SpellHexes
 {
+    public static Trait HexTrait = ModManager.RegisterTrait(
+           "Hex",
+           new TraitProperties("Hex", true, "A hex is a short-term effect generated on the fly from your patron's magic. You can cast only one spell with the hex trait.")
+           {
+           }
+   );
+
+    public static Trait ClassTrait = ModManager.RegisterTrait(
+             "Witch",
+             new TraitProperties("Witch", true)
+             {
+                 IsClassTrait = true,
+             }
+     );
     public static QEffect HexOnceEffect()
     {
         return new QEffect()
         {
             Name = "Hex Prevention",
             ExpiresAt = ExpirationCondition.ExpiresAtEndOfYourTurn,
-            PreventTakingAction = newAttack => newAttack.HasTrait(Witch.HexTrait) ? "You have already cast a hex cantrip this turn." : null
+            PreventTakingAction = newAttack => newAttack.HasTrait(HexTrait) ? "You have already cast a hex cantrip this turn." : null
         };
     }
 
-    /*
+    
     public static void LoadMod()
     {
+        SpellLifeBoost.LoadMod();
         SpellDiscernSecrets.LoadMod();
         SpellEvilEye.LoadMod();
-        SpellClingingIce.LoadMod();
-        SpellStokeTheHeart.LoadMod();
-        SpellWitchingHour.LoadMod();
         SpellPatronsWard.LoadMod();
-        SpellLifeBoost.LoadMod();
+        SpellStokeTheHeart.LoadMod();
+        SpellClingingIce.LoadMod();
+        SpellWitchingHour.LoadMod();
     }
-    */
+    
 
     public static QEffect NamedSustaining(CombatAction sustainedSpell, QEffect sustainedEffect, Action<QEffect>? onSustain = null)
     {

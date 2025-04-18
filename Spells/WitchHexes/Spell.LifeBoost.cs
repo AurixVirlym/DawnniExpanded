@@ -25,13 +25,14 @@ public class SpellLifeBoost
 {
     public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/LifeBoost.png");
     public static SpellId Id;
+
     public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
     {
         {
 
             CombatAction SpellAction = Spells.CreateModern(Spellillustration,
                 "Life Boost",
-            new[] { Witch.ClassTrait, Trait.Focus, Trait.Necromancy, Trait.Uncommon, Witch.HexTrait, Trait.Healing, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+            new[] { SpellHexes.ClassTrait, Trait.Focus, Trait.Necromancy, Trait.Uncommon, SpellHexes.HexTrait, Trait.Healing, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
                     "You temporarily bolster the target's vitality.",
                     "The target heals hp " + S.HeightenedVariable(spellLevel * 2, 2) + " at the start of their turn for 4 rounds."
                     + HS.HeightenTextLevels(spellLevel > 1, spellLevel, inCombat, "\n\n{b}Heightened (+1){/b} The amount healed each round is increased by 2.")

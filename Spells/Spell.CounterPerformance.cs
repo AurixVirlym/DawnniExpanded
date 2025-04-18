@@ -86,7 +86,7 @@ public class SpellCounterPerformance
 
                         Sfxs.Play(SfxName.Harp);
 
-                        CheckResult lingeringresult = CommonSpellEffects.RollCheck("Counter Performance", new ActiveRollSpecification(Checks.SkillCheck(Skill.Performance), Checks.FlatDC(DCs.LevelBased(spellcaster.Level))), spellcaster, spellcaster);
+                        CheckResult lingeringresult = CommonSpellEffects.RollCheck("Counter Performance", new ActiveRollSpecification(TaggedChecks.SkillCheck(Skill.Performance), Checks.FlatDC(DCs.LevelBased(spellcaster.Level))), spellcaster, spellcaster);
 
                         if (lingeringresult == CheckResult.CriticalSuccess)
                         {

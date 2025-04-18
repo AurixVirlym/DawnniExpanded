@@ -26,13 +26,14 @@ public class SpellStokeTheHeart
 {
     public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/StokeTheHeart.png");
     public static SpellId Id;
+
     public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
     {
         {
 
             CombatAction SpellAction = Spells.CreateModern(Spellillustration,
                 "Stroke The Heart",
-            new[] { Trait.Cantrip, Trait.Uncommon, Witch.HexTrait, Trait.Emotion, Trait.Enchantment, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+            new[] { Trait.Cantrip, Trait.Uncommon, SpellHexes.HexTrait, Trait.Emotion, Trait.Enchantment, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
                     "Intense fervor fills the target creature, empowering their blows.", "The target gains a +" + S.HeightenedVariable((int)Math.Floor((double)(spellLevel - 1) / 2) + 2, 2) + " status bonus to damage rolls until the end of your turn.\n\nThis spell may be sustained to extend the duration by 1 round." + HS.HeightenTextLevels(spellLevel > 2, spellLevel, inCombat, "\n\n{b}Heightened (+2){/b} The status bonus to damage increases by 1.")
 
                     ,

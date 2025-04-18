@@ -117,7 +117,7 @@ public class FeatBattleMedicine
                                   )
                                   .WithActionCost(1)
                                   .WithActiveRollSpecification(
-                              new ActiveRollSpecification(Checks.SkillCheck(Skill.Medicine), Checks.FlatDC(num)))
+                              new ActiveRollSpecification(TaggedChecks.SkillCheck(Skill.Medicine), Checks.FlatDC(num)))
                               .WithEffectOnEachTarget(async (spell, caster, target, result) =>
                               {
 

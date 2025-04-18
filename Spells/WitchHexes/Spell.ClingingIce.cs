@@ -36,7 +36,7 @@ public class SpellClingingIce
 
             CombatAction SpellAction = Spells.CreateModern(Spellillustration,
                 "Clinging Ice",
-            new[] { Trait.Cantrip, Trait.Uncommon, Witch.HexTrait, Trait.Cold, Trait.Manipulate, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+            new[] { Trait.Cantrip, Trait.Uncommon, SpellHexes.HexTrait, Trait.Cold, Trait.Manipulate, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
                     "Freezing sleet and heavy snowfall collect on the target's feet and legs.",
                     "Target is dealt " + S.HeightenedVariable(spellLevel, 1) + "d4 cold damage and other effects depending on its Reflex save" +
                     S.FourDegreesOfSuccess("The target is unaffected.", "The target takes half damage.", "The target takes full damage, and takes a -5-foot circumstance penalty to its Speeds until the end of your turn.", "The target takes double damage, and takes a -10-foot circumstance penalty to its Speeds until the end of your turn.") + "\n\nThis spell may be sustained to extend the duration by 1 round and force a basic save against the spell damage." + HS.HeightenTextLevels(spellLevel > 1, spellLevel, inCombat, "\n\n{b}Heightened (+1){/b} The damage increases by 1d4.")

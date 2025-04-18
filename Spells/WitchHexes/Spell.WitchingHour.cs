@@ -31,6 +31,7 @@ public class SpellWitchingHour
 {
     public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/WitchingHour.png");
     public static SpellId Id;
+
     public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
     {
         {

@@ -30,13 +30,14 @@ public class SpellDiscernSecrets
 {
     public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/DiscernSecrets.png");
     public static SpellId Id;
+
     public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
     {
         {
 
             CombatAction SpellAction = Spells.CreateModern(Spellillustration,
                 "Discern Secrets",
-            new[] { Trait.Cantrip, Trait.Uncommon, Witch.HexTrait, Trait.Divination, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+            new[] { Trait.Cantrip, Trait.Uncommon, SpellHexes.HexTrait, Trait.Divination, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
                     "You call upon your patron's power to better uncover secrets.",
                     "When you Cast the Spell, the target can Recall Weakness. The target gains a +2 status bonus to the Recall Weakness check, and this bonus remains as long as you Sustain the Spell."
                     ,

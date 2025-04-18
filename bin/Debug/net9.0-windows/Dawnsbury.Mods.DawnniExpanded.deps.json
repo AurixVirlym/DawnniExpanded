@@ -11,7 +11,7 @@
           "Humanizer": "2.14.1",
           "Lib.Harmony": "2.3.3",
           "Common": "1.0.0.0",
-          "Dawnsbury Days": "3.21.0.0",
+          "Dawnsbury Days": "3.38.0.0",
           "MonoGame.Framework": "3.8.1.303"
         },
         "runtime": {
@@ -583,11 +583,11 @@
           }
         }
       },
-      "Dawnsbury Days/3.21.0.0": {
+      "Dawnsbury Days/3.38.0.0": {
         "runtime": {
           "Dawnsbury Days.dll": {
-            "assemblyVersion": "3.21.0.0",
-            "fileVersion": "3.21.0.0"
+            "assemblyVersion": "3.38.0.0",
+            "fileVersion": "3.38.0.0"
           }
         }
       },
@@ -688,11 +688,68 @@
           }
         }
       },
+      "System.Windows.Forms.Design/9.0.0.0": {
+        "runtime": {
+          "System.Windows.Forms.Design.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.124.61006"
+          }
+        },
+        "resources": {
+          "cs/System.Windows.Forms.Design.resources.dll": {
+            "locale": "cs"
+          },
+          "de/System.Windows.Forms.Design.resources.dll": {
+            "locale": "de"
+          },
+          "es/System.Windows.Forms.Design.resources.dll": {
+            "locale": "es"
+          },
+          "fr/System.Windows.Forms.Design.resources.dll": {
+            "locale": "fr"
+          },
+          "it/System.Windows.Forms.Design.resources.dll": {
+            "locale": "it"
+          },
+          "ja/System.Windows.Forms.Design.resources.dll": {
+            "locale": "ja"
+          },
+          "ko/System.Windows.Forms.Design.resources.dll": {
+            "locale": "ko"
+          },
+          "pl/System.Windows.Forms.Design.resources.dll": {
+            "locale": "pl"
+          },
+          "pt-BR/System.Windows.Forms.Design.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "ru/System.Windows.Forms.Design.resources.dll": {
+            "locale": "ru"
+          },
+          "tr/System.Windows.Forms.Design.resources.dll": {
+            "locale": "tr"
+          },
+          "zh-Hans/System.Windows.Forms.Design.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "zh-Hant/System.Windows.Forms.Design.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        }
+      },
       "FmodForFoxes/3.1.0.0": {
         "runtime": {
           "FmodForFoxes.dll": {
             "assemblyVersion": "3.1.0.0",
             "fileVersion": "3.1.0.0"
+          }
+        }
+      },
+      "MedallionTopologicalSort/1.0.0.0": {
+        "runtime": {
+          "MedallionTopologicalSort.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -860,6 +917,14 @@
       "System.Windows.Extensions/9.0.0.0": {
         "runtime": {
           "System.Windows.Extensions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.124.61010"
+          }
+        }
+      },
+      "System.CodeDom/9.0.0.0": {
+        "runtime": {
+          "System.CodeDom.dll": {
             "assemblyVersion": "9.0.0.0",
             "fileVersion": "9.0.124.61010"
           }
@@ -1281,7 +1346,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Dawnsbury Days/3.21.0.0": {
+    "Dawnsbury Days/3.38.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1321,7 +1386,17 @@
       "serviceable": false,
       "sha512": ""
     },
+    "System.Windows.Forms.Design/9.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "FmodForFoxes/3.1.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MedallionTopologicalSort/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1402,6 +1477,11 @@
       "sha512": ""
     },
     "System.Windows.Extensions/9.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "System.CodeDom/9.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

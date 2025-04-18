@@ -81,7 +81,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
                                             .WithAdditionalConditionOnTargetCreature((Func<Creature, Creature, Usability>) ((self, target) => !target.HasEffect(CivieQFId) || target.HasEffect(QEffectId.Unconscious)
                                             ? Usability.NotUsableOnThisCreature("Not a civilian or unconscious") : Usability.Usable)))
                                             .WithActionCost(1)
-                                            .WithActiveRollSpecification(new ActiveRollSpecification(Checks.SkillCheck(Skill.Nature, Skill.Diplomacy, Skill.Intimidation), Checks.FlatDC(5)))
+                                            .WithActiveRollSpecification(new ActiveRollSpecification(TaggedChecks.SkillCheck(Skill.Nature, Skill.Diplomacy, Skill.Intimidation), Checks.FlatDC(5)))
                                             .WithEffectOnEachTarget(async delegate(CombatAction spell, Creature caster, Creature target, CheckResult result)
 
                                             {
@@ -99,7 +99,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
                                             {
                                                 Trait.Auditory,
                                                 Trait.Basic
-                                            }, "Make a Nature, Diplomacy or Intimidation check against DC 10.\n\n{b}Success{/b} The civilian will attack your enemies as best it can during its next turn.", Target.RangedFriend(30).WithAdditionalConditionOnTargetCreature((Func<Creature, Creature, Usability>) ((self, target) => !target.HasEffect(CivieQFId) || target.HasEffect(QEffectId.Unconscious) ? Usability.NotUsableOnThisCreature("Not a civilian or unconscious") : Usability.Usable))).WithActionCost(1).WithActiveRollSpecification(new ActiveRollSpecification(Checks.SkillCheck(Skill.Nature, Skill.Diplomacy, Skill.Intimidation), Checks.FlatDC(10))).WithEffectOnEachTarget(async delegate(CombatAction spell, Creature caster, Creature target, CheckResult result)
+                                            }, "Make a Nature, Diplomacy or Intimidation check against DC 10.\n\n{b}Success{/b} The civilian will attack your enemies as best it can during its next turn.", Target.RangedFriend(30).WithAdditionalConditionOnTargetCreature((Func<Creature, Creature, Usability>) ((self, target) => !target.HasEffect(CivieQFId) || target.HasEffect(QEffectId.Unconscious) ? Usability.NotUsableOnThisCreature("Not a civilian or unconscious") : Usability.Usable))).WithActionCost(1).WithActiveRollSpecification(new ActiveRollSpecification(TaggedChecks.SkillCheck(Skill.Nature, Skill.Diplomacy, Skill.Intimidation), Checks.FlatDC(10))).WithEffectOnEachTarget(async delegate(CombatAction spell, Creature caster, Creature target, CheckResult result)
                                             {
                                                 if (result >= CheckResult.Success)
                                                 {
@@ -112,7 +112,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
                                             {
                                                 Trait.Auditory,
                                                 Trait.Basic
-                                            }, "Make a Nature, Diplomacy or Intimidation check against DC 13.\n\n{b}Success{/b} You will assume direct control of the civilian during their next turn, choosing how the civilians spends its three actions.", Target.RangedFriend(30).WithAdditionalConditionOnTargetCreature((Func<Creature, Creature, Usability>) ((self, target) => !target.HasEffect(CivieQFId) || target.HasEffect(QEffectId.Unconscious) ? Usability.NotUsableOnThisCreature("Not a civilian or unconscious") : Usability.Usable))).WithActionCost(1).WithActiveRollSpecification(new ActiveRollSpecification(Checks.SkillCheck(Skill.Nature, Skill.Diplomacy, Skill.Intimidation), Checks.FlatDC(13))).WithEffectOnEachTarget(async delegate(CombatAction spell, Creature caster, Creature target, CheckResult result)
+                                            }, "Make a Nature, Diplomacy or Intimidation check against DC 13.\n\n{b}Success{/b} You will assume direct control of the civilian during their next turn, choosing how the civilians spends its three actions.", Target.RangedFriend(30).WithAdditionalConditionOnTargetCreature((Func<Creature, Creature, Usability>) ((self, target) => !target.HasEffect(CivieQFId) || target.HasEffect(QEffectId.Unconscious) ? Usability.NotUsableOnThisCreature("Not a civilian or unconscious") : Usability.Usable))).WithActionCost(1).WithActiveRollSpecification(new ActiveRollSpecification(TaggedChecks.SkillCheck(Skill.Nature, Skill.Diplomacy, Skill.Intimidation), Checks.FlatDC(13))).WithEffectOnEachTarget(async delegate(CombatAction spell, Creature caster, Creature target, CheckResult result)
                                             {
                                                 if (result >= CheckResult.Success)
                                                 {

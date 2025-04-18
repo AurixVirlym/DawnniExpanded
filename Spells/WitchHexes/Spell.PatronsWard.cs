@@ -25,13 +25,14 @@ public class SpellPatronsWard
 {
     public static ModdedIllustration Spellillustration = new ModdedIllustration("DawnniburyExpandedAssets/PatronsWard.png");
     public static SpellId Id;
+
     public static CombatAction MakeSpell(Creature caster, int spellLevel, bool inCombat)
     {
         {
 
             CombatAction SpellAction = Spells.CreateModern(Spellillustration,
                 "Patron's Ward",
-            new[] { Witch.ClassTrait, Trait.Focus, Trait.Abjuration, Trait.Uncommon, Witch.HexTrait, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
+            new[] { SpellHexes.ClassTrait, Trait.Focus, Trait.Abjuration, Trait.Uncommon, SpellHexes.HexTrait, DawnniExpanded.DETrait, Trait.SpellCannotBeChosenInCharacterBuilder },
                     "Your patron's aegis descends to shield a target from harm.",
                     "The target gains a +1 status bonus to its saving throws and AC until the end of your turn." + "\n\nThis spell may be sustained to extend the duration by 1 round."
 

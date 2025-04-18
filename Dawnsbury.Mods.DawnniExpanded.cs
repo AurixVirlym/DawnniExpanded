@@ -45,7 +45,7 @@ public class DawnniExpanded
         SpellConcordantChoir.LoadMod();
         SpellRayofEnfeeblement.LoadMod();
         SpellInnerRadianceTorrent.LoadMod();
-        //SpellHexes.LoadMod();
+        SpellHexes.LoadMod();
 
         FeatBattleMedicine.LoadMod();
         //FeatPowerfulLeap.LoadMod();
@@ -73,17 +73,7 @@ public class DawnniExpanded
         VersatileHertiages.LoadMod();
         //AncestryHalfling.LoadMod();
         AncestryDragon.LoadMod();
-
         
-        SpellDiscernSecrets.LoadMod();
-        SpellEvilEye.LoadMod();
-        SpellClingingIce.LoadMod();
-        SpellStokeTheHeart.LoadMod();
-        SpellWitchingHour.LoadMod();
-        SpellPatronsWard.LoadMod();
-        SpellLifeBoost.LoadMod();
-        
-
         Bard.LoadMod();
         Witch.LoadMod();
 

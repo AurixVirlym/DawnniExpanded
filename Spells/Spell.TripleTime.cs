@@ -50,7 +50,7 @@ public class SpellTripleTime
 
           if (spell.Name.Contains("Lingering Composition"))
           {
-            CheckResult lingeringresult = CommonSpellEffects.RollCheck("Lingering Composition", new ActiveRollSpecification(Checks.SkillCheck(Skill.Performance), Checks.FlatDC(DCs.LevelBased(caster.Level))), caster, caster);
+            CheckResult lingeringresult = CommonSpellEffects.RollCheck("Lingering Composition", new ActiveRollSpecification(TaggedChecks.SkillCheck(Skill.Performance), Checks.FlatDC(DCs.LevelBased(caster.Level))), caster, caster);
 
             if (lingeringresult == CheckResult.CriticalSuccess)
             {

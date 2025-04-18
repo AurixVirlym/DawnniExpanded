@@ -4,9 +4,8 @@ using Dawnsbury.Modding;
 using Dawnsbury.Core.CharacterBuilder.Feats;
 using Dawnsbury.Core.CharacterBuilder;
 using Dawnsbury.Core.CharacterBuilder.Selections.Options;
-using Dawnsbury.Core.CharacterBuilder.Selections.Selected;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb;
 
-using System;
 using System.Linq;
 
 
@@ -54,7 +53,7 @@ public static class FeatArchetype
                     2,
                     "Instead of a class feat, you gain an archetype dedication feat of your choice. You may have only one archetype.",
                     "You gain an archetype dedication feat.",
-                    new Trait[] { ArchetypeTrait, DedicationTrait, Trait.ClassFeat, Trait.Druid, Trait.Bard, Trait.Sorcerer, Trait.Rogue, Trait.Fighter, Trait.Wizard, Trait.Monk, Trait.Investigator, Trait.Cleric, Trait.Kineticist, Trait.Psychic, Trait.Barbarian, Trait.Magus, Trait.Rogue, Trait.Ranger, /*Witch.ClassTrait,*/ DawnniExpanded.DETrait })
+                    new Trait[] { ArchetypeTrait, DedicationTrait, Trait.ClassFeat, DawnniExpanded.DETrait, SpellHexes.ClassTrait })
                     .WithCustomName("Archetype Dedication")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
@@ -69,17 +68,12 @@ public static class FeatArchetype
                     (Feat ft) => ft.HasTrait(DedicationTrait) && ft.CustomName != "Archetype Dedication"));
         });
 
-            ModManager.AddFeat(DedicationFeat);
-
-
-
-
 
             ArchetypeFeat = new TrueFeat(FeatName.CustomFeat,
                         4,
                         "Instead of a class feat, you gain an archetype feat of your choice for your dedication.",
                         "You gain an archetype feat.",
-                        new Trait[] { ArchetypeTrait, Trait.ClassFeat, Trait.Druid, Trait.Bard, Trait.Sorcerer, Trait.Rogue, Trait.Fighter, Trait.Wizard, Trait.Monk, Trait.Investigator, Trait.Cleric, Trait.Kineticist, Trait.Psychic, Trait.Barbarian, Trait.Magus, Trait.Rogue, Trait.Ranger, /*Witch.ClassTrait,*/ DawnniExpanded.DETrait })
+                        new Trait[] { ArchetypeTrait, Trait.ClassFeat,  DawnniExpanded.DETrait, SpellHexes.ClassTrait })
                         .WithMultipleSelection()
                         .WithCustomName("Archetype Feat")
                         .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Any(Ft => Ft.HasTrait(DedicationTrait)), "You must have a Dedication feat.")
@@ -96,7 +90,6 @@ public static class FeatArchetype
 
             });
 
-            ModManager.AddFeat(ArchetypeFeat);
 
             NoneFeat = new TrueFeat(FeatName.CustomFeat,
                         1,
@@ -106,11 +99,24 @@ public static class FeatArchetype
                         .WithMultipleSelection()
                         .WithCustomName("None");
 
-            ModManager.AddFeat(NoneFeat);
 
 
 
         };
+
+        AllFeats.All.ForEach(ft =>
+        { // Loop through all feats.
+            if (ft is ClassSelectionFeat classFeat)
+            { // If the feat is a classFeat,
+                ArchetypeFeat.Traits.Add(classFeat.ClassTrait);
+                DedicationFeat.Traits.Add(classFeat.ClassTrait);
+
+            }
+        });
+
+        ModManager.AddFeat(ArchetypeFeat);
+        ModManager.AddFeat(DedicationFeat);
+        ModManager.AddFeat(NoneFeat);
 
         ArchetypeMedic.LoadMod();
         ArchetypeFighter.LoadMod();
