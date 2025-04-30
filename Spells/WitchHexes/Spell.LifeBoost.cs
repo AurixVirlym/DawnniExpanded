@@ -56,11 +56,10 @@ public class SpellLifeBoost
                                 Value = 4,
                                 Description = "You heal " + number + " hit points at the start of your turn.",
 
-                                StartOfYourPrimaryTurn = ((effect, creature) =>
+                                StartOfYourPrimaryTurn = async (QEffect effect, Creature creature) =>
                                 {
-                                    creature.HealAsync(number.ToString(), spell);
-                                    return null;
-                                }),
+                                    await creature.HealAsync(number.ToString(), spell);
+                                }
 
                             };
 

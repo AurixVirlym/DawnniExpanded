@@ -27,7 +27,7 @@ public static class ItemMutagenEnergy
       {
           Description = "When created, this mutagen was attuned to energy type of acid. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (cold, electricity, and fire).\n\n",
 
-          WhenYouDrink = (CombatAction ca, Creature self) =>
+          WhenYouDrink = async (CombatAction ca, Creature self) =>
           {
 
               QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Acid)", "You are benefiting from a Energy Mutagen (Acid)", ExpirationCondition.Never, self, MutagenAcid)
@@ -54,7 +54,7 @@ public static class ItemMutagenEnergy
 
               TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
               self.AddQEffect(EnergyMutagenEffect);
-              return null;
+              return;
 
           }
       }
@@ -64,7 +64,7 @@ public static class ItemMutagenEnergy
         {
             Description = "When created, this mutagen was attuned to energy type of cold. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, electricity, and fire).\n\n",
 
-            WhenYouDrink = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Cold)", "You are benefiting from a Energy Mutagen (Cold)", ExpirationCondition.Never, self, MutagenCold)
@@ -93,7 +93,7 @@ public static class ItemMutagenEnergy
 
                 TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                 self.AddQEffect(EnergyMutagenEffect);
-                return null;
+                return;
             }
         }
             );
@@ -102,7 +102,7 @@ public static class ItemMutagenEnergy
         {
             Description = "When created, this mutagen was attuned to energy type of electricity. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and fire).\n\n",
 
-            WhenYouDrink = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Electricity)", "You are benefiting from a Energy Mutagen (Electricity)", ExpirationCondition.Never, self, MutagenElectricity)
@@ -131,7 +131,7 @@ public static class ItemMutagenEnergy
 
                 TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                 self.AddQEffect(EnergyMutagenEffect);
-                return null;
+                return;
             }
         }
             );
@@ -140,7 +140,7 @@ public static class ItemMutagenEnergy
         {
             Description = "When created, this mutagen was attuned to energy type of fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and electricity).\n\n",
 
-            WhenYouDrink = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async  (CombatAction ca, Creature self) =>
             {
 
                 QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Fire)", "You are benefiting from a Energy Mutagen (Fire)", ExpirationCondition.Never, self, MutagenFire)
@@ -169,7 +169,7 @@ public static class ItemMutagenEnergy
 
                 TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                 self.AddQEffect(EnergyMutagenEffect);
-                return null;
+                return;
             }
         }
             );
@@ -179,7 +179,7 @@ public static class ItemMutagenEnergy
         {
             Description = "When created, this mutagen was attuned to energy type of acid. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (cold, electricity, and fire).\n\n",
 
-            WhenYouDrink = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Acid)", "You are benefiting from a Energy Mutagen (Acid)", ExpirationCondition.Never, self, MutagenAcid)
@@ -208,7 +208,7 @@ public static class ItemMutagenEnergy
 
                 TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                 self.AddQEffect(EnergyMutagenEffect);
-                return null;
+                return;
             }
         }
             );
@@ -217,7 +217,7 @@ public static class ItemMutagenEnergy
         {
             Description = "When created, this mutagen was attuned to energy type of cold. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, electricity, and fire).\n\n",
 
-            WhenYouDrink = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Cold)", "You are benefiting from a Energy Mutagen (Cold)", ExpirationCondition.Never, self, MutagenCold)
@@ -246,7 +246,7 @@ public static class ItemMutagenEnergy
 
                 TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                 self.AddQEffect(EnergyMutagenEffect);
-                return null;
+                return;
             }
         }
             );
@@ -255,7 +255,7 @@ public static class ItemMutagenEnergy
         {
             Description = "When created, this mutagen was attuned to energy type of electricity. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and fire).\n\n",
 
-            WhenYouDrink = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Electricity)", "You are benefiting from a Energy Mutagen (Electricity)", ExpirationCondition.Never, self, MutagenElectricity)
@@ -284,7 +284,7 @@ public static class ItemMutagenEnergy
 
                 TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                 self.AddQEffect(EnergyMutagenEffect);
-                return null;
+                return;
             }
         }
             );
@@ -293,7 +293,7 @@ public static class ItemMutagenEnergy
         {
             Description = "When created, this mutagen was attuned to energy type of fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and electricity).\n\n",
 
-            WhenYouDrink = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 QEffect EnergyMutagenEffect = new QEffect("Energy Mutagen (Fire)", "You are benefiting from a Energy Mutagen (Fire)", ExpirationCondition.Never, self, MutagenFire)
@@ -322,7 +322,7 @@ public static class ItemMutagenEnergy
 
                 TraitMutagens.PreventMutagenDrinking(EnergyMutagenEffect);
                 self.AddQEffect(EnergyMutagenEffect);
-                return null;
+                return;
             }
         }
             );

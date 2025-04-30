@@ -28,15 +28,15 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
             IsAncestryTrait = true
         });
         public static ModdedIllustration ElementalIllustration = new ModdedIllustration("DawnniburyExpandedAssets/ElementalAssault.png");
-        public static Feat Hertiage = new VersatileHeritageSelectionFeat("Suli",
+        public static Feat Hertiage = new Feat(FeatName.CustomFeat,
          "You are descended from a janni or otherwise embody a dichotomy of opposing elemental planar forces.",
-         "You gain the suli trait, in addition to the traits from your ancestry. Your vision improves, granting you a +1 bonus to perception. You can choose from suli feats and feats from your ancestry whenever you gain an ancestry feat.", new List<Trait> { DawnniExpanded.DETrait, SuliTrait, Trait.Uncommon }, SuliTrait
+         "You gain the suli trait, in addition to the traits from your ancestry. Your vision improves, granting you a +1 bonus to perception. You can choose from suli feats and feats from your ancestry whenever you gain an ancestry feat.", new List<Trait> { DawnniExpanded.DETrait, SuliTrait, Trait.Uncommon, Trait.VersatileHeritage }, null
          ).WithOnSheet((Action<CalculatedCharacterSheetValues>)(sheet => sheet.Ancestries.Add(SuliTrait)))
          .WithOnCreature(delegate (Creature creature)
             {
                 creature.Traits.Add(SuliTrait);
                 creature.Perception += 1;
-            });
+            }).WithCustomName("Suli");
 
 
         public static Feat ElementalEmbellish = new TrueFeat(FeatName.CustomFeat, 1, "You can summon a harmless but impressive elemental display.", "You become trained in Intimidation. If you would automatically become trained in Intimidation (from your background or class, for example), you instead become trained in a skill of your choice.\n\nYou gain the Intimidating Glare feat.", new Trait[]

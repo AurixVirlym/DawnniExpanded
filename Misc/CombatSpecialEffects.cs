@@ -12,6 +12,8 @@ using Dawnsbury.Display.Illustrations;
 using Microsoft.Xna.Framework;
 
 
+
+
 namespace Dawnsbury.Mods.DawnniExpanded
 {
     public class CombatSpecialEffects
@@ -53,7 +55,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
 
 
 
-            ModManager.RegisterActionOnEachCreature(creature =>
+                        ModManager.RegisterActionOnEachCreature(creature =>
             {
                 // We add an effect to every single creature...
                 creature.AddQEffect(

@@ -5,7 +5,7 @@ using Dawnsbury.Core.CharacterBuilder.Feats;
 using Dawnsbury.Core.CharacterBuilder;
 using Dawnsbury.Core.CharacterBuilder.Selections.Options;
 using Dawnsbury.Core.CharacterBuilder.FeatsDb;
-
+using System.Collections.Generic;
 using System.Linq;
 
 
@@ -46,14 +46,29 @@ public static class FeatArchetype
             });
 
 
+        List<Trait> ClassTraits = new List<Trait>();
 
+        Trait[] DedicationFeatTraits = new Trait[] { ArchetypeTrait, DedicationTrait, Trait.ClassFeat, DawnniExpanded.DETrait, SpellHexes.ClassTrait };
+
+        Trait[] ArchetypeFeatTraits = new Trait[] { ArchetypeTrait, Trait.ClassFeat, DawnniExpanded.DETrait, SpellHexes.ClassTrait };
+
+        AllFeats.All.ForEach(ft =>
+        { // Loop through all feats.
+            if (ft is ClassSelectionFeat classFeat)
+            { // If the feat is a classFeat,
+                ClassTraits.Add(classFeat.ClassTrait);
+            }
+        });
+
+        ArchetypeFeatTraits = ArchetypeFeatTraits.Concat(ClassTraits).ToArray();
+        DedicationFeatTraits = DedicationFeatTraits.Concat(ClassTraits).ToArray();
 
         {
             DedicationFeat = new TrueFeat(FeatName.CustomFeat,
                     2,
                     "Instead of a class feat, you gain an archetype dedication feat of your choice. You may have only one archetype.",
                     "You gain an archetype dedication feat.",
-                    new Trait[] { ArchetypeTrait, DedicationTrait, Trait.ClassFeat, DawnniExpanded.DETrait, SpellHexes.ClassTrait })
+                    DedicationFeatTraits)
                     .WithCustomName("Archetype Dedication")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
@@ -73,7 +88,7 @@ public static class FeatArchetype
                         4,
                         "Instead of a class feat, you gain an archetype feat of your choice for your dedication.",
                         "You gain an archetype feat.",
-                        new Trait[] { ArchetypeTrait, Trait.ClassFeat,  DawnniExpanded.DETrait, SpellHexes.ClassTrait })
+                       ArchetypeFeatTraits)
                         .WithMultipleSelection()
                         .WithCustomName("Archetype Feat")
                         .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Any(Ft => Ft.HasTrait(DedicationTrait)), "You must have a Dedication feat.")
@@ -104,16 +119,6 @@ public static class FeatArchetype
 
         };
 
-        AllFeats.All.ForEach(ft =>
-        { // Loop through all feats.
-            if (ft is ClassSelectionFeat classFeat)
-            { // If the feat is a classFeat,
-                ArchetypeFeat.Traits.Add(classFeat.ClassTrait);
-                DedicationFeat.Traits.Add(classFeat.ClassTrait);
-
-            }
-        });
-
         ModManager.AddFeat(ArchetypeFeat);
         ModManager.AddFeat(DedicationFeat);
         ModManager.AddFeat(NoneFeat);
@@ -136,5 +141,6 @@ public static class FeatArchetype
         ArchetypeDualWeaponWarrior.LoadMod();
         ArchetypeWrestler.LoadMod();
         ArchetypeDruid.LoadMod();
+        ArchetypeFamiliarMaster.LoadMod();
     }
 }

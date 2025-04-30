@@ -159,10 +159,12 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
                             return;
                         }
 
+                        else {
+                            
+                            
+                            }
+
                         DragonHertiageFeat hertiage = (DragonHertiageFeat)creature.PersistentCharacterSheet.Heritage;
-
-
-
                         Defense BreathSavingThrow = Defense.Reflex;
                         if (hertiage.AssociatedDamage == DamageKind.Mental)
                         {

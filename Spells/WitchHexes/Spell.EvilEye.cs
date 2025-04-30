@@ -45,6 +45,8 @@ public class SpellEvilEye
                         .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (spell, caster, target, result) =>
                         {
 
+                            caster.AddQEffect(SpellHexes.HexOnceEffect());
+                            
                             if (result > CheckResult.Failure)
                             { return; }
 
@@ -67,7 +69,7 @@ public class SpellEvilEye
                             target.AddQEffect(qeffectevileye);
 
                             caster.AddQEffect(SpellHexes.NamedSustaining(spell, qeffectevileye));
-                            caster.AddQEffect(SpellHexes.HexOnceEffect());
+                            
 
                         }));
 

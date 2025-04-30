@@ -24,7 +24,7 @@ public static class ItemMutagenJuggernaut
             {
                 Description = "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n{b}Benefit{/b} You gain a +1 item bonus to Fortitude saves and 5 temporary Hit Points.\n\n{b}Drawback{/b} You take a –2 penalty to Will saves and Perception checks.\n\n",
 
-                WhenYouDrink = (CombatAction ca, Creature self) =>
+                WhenYouDrink = async (CombatAction ca, Creature self) =>
                 {
 
                     self.GainTemporaryHP(5);
@@ -69,7 +69,7 @@ public static class ItemMutagenJuggernaut
 
                     TraitMutagens.PreventMutagenDrinking(JuggernautMutagenEffect);
                     self.AddQEffect(JuggernautMutagenEffect);
-                    return null;
+                    return;
                 }
 
 
@@ -84,7 +84,7 @@ public static class ItemMutagenJuggernaut
         {
             Description = "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n{b}Benefit{/b} You gain a +2 item bonus to Fortitude saves and 10 temporary Hit Points.\n\n{b}Drawback{/b} You take a –2 penalty to Will saves and Perception checks.\n\n",
 
-            WhenYouDrink = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 self.GainTemporaryHP(10);
@@ -126,7 +126,7 @@ public static class ItemMutagenJuggernaut
 
                 TraitMutagens.PreventMutagenDrinking(JuggernautMutagenEffect);
                 self.AddQEffect(JuggernautMutagenEffect);
-                return null;
+                return;
             }
 
 

@@ -63,12 +63,13 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
         public static void LoadMod()
 
         {
-
+            /*
             foreach (Feat AncestryFeat in AllFeats.All.Where(item => item is AncestrySelectionFeat))
             {
                 AncestryFeat.Subfeats.Add(MakeVHfeat(AncestryFeat.FeatName.ToString()));
             }
-
+            */
+            
             VersatileHertiageSuli.LoadMod();
 
 

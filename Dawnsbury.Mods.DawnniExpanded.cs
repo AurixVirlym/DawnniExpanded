@@ -4,6 +4,7 @@ using Dawnsbury.Modding;
 //using HarmonyLib;
 using Dawnsbury.Mods.DawnniExpanded.Backgrounds;
 using Dawnsbury.Mods.DawnniExpanded.Ancestries;
+using Dawnsbury.Mods.DawnniExpanded.Feats;
 using Dawnsbury.Core.CharacterBuilder.Feats;
 
 
@@ -81,7 +82,9 @@ public class DawnniExpanded
         ItemScholarsHat.LoadMod();
         //ItemSpellStaff.LoadMod();
 
+        //FlankingIndictor.LoadMod();
 
+        Familiars.LoadMod();
     }
 
 

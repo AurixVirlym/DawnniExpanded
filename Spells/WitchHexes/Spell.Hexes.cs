@@ -74,6 +74,7 @@ public class SpellHexes
         {
             Id = QEffectId.Sustaining,
             DoNotShowUpOverhead = true,
+            CannotExpireThisTurn = true,
             ProvideContextualAction = (QEffect qf) => (!sustainedEffect2.CannotExpireThisTurn) ? new ActionPossibility(new CombatAction(qf.Owner, sustainedSpell2.Illustration, "Sustain " + sustainedSpell2.Name + " on " + qf.Owner.Name, new Trait[3]
             {
                 Trait.Concentrate,

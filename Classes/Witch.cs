@@ -28,7 +28,14 @@ using Dawnsbury.Core.Possibilities;
 using Dawnsbury.Core.Mechanics.Treasure;
 using Dawnsbury.Core;
 using Dawnsbury.Audio;
-
+using Dawnsbury.Display.Illustrations;
+using System.Runtime.Serialization.Formatters;
+using Dawnsbury.Core.Mechanics.Core;
+using System.ComponentModel;
+using Microsoft.VisualBasic;
+using Dawnsbury.Core.Roller;
+using Dawnsbury.Core.Intelligence;
+using Dawnsbury.Mods.DawnniExpanded.Feats;
 
 namespace Dawnsbury.Mods.DawnniExpanded
 {
@@ -175,7 +182,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
   }).WithOnSheet(sheet =>
   {
 
-    sheet.AddSelectionOption((SelectionOption)new SingleFeatSelectionOption("WitchFeat1", "Witch feat", 1, (ft => ft.HasTrait(SpellHexes.ClassTrait))));
+    sheet.AddFeat(Familiars.Familiar,null);
 
     sheet.AddAtLevel(5, values => values.SetProficiency(Trait.Fortitude, Proficiency.Expert));
 
@@ -353,6 +360,17 @@ namespace Dawnsbury.Mods.DawnniExpanded
 
                   });
 
+    public static ModdedIllustration Hairillustration = new ModdedIllustration("DawnniburyExpandedAssets/WitchHair.png");
+    public static Feat LivingHair = new TrueFeat(FeatName.CustomFeat,
+               2,
+               "You can instantly grow or shrink your hair, eyebrows, beard, or mustache by up to several feet and manipulate your hair for use as a weapon, though your control isn't fine enough for more dexterous tasks.",
+               "You gain a hair unarmed attack that deals 1d4 bludgeoning damage; is in the brawling group; and has the disarm, finesse, trip, reach, and unarmed traits.\n\nModder Note, PF2e rules normally give this feat agile instead of reach.",
+               new Trait[] { SpellHexes.ClassTrait, DawnniExpanded.DETrait, Trait.Homebrew
+     })
+               .WithCustomName("Living Hair").WithOnCreature(creature =>
+                        {
+      creature.WithAdditionalUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.Tail, "hair", "1d4", DamageKind.Bludgeoning, Trait.Finesse, Trait.Reach, Trait.Disarm, Trait.Trip));
+    });
 
 
 
@@ -367,11 +385,23 @@ namespace Dawnsbury.Mods.DawnniExpanded
       ModManager.AddFeat(AbundantLevel4);
       ModManager.AddFeat(Cauldron);
       ModManager.AddFeat(BasicLesson);
+      ModManager.AddFeat(LivingHair);
 
       var widenSpell = AllFeats.All.First(feat => feat.FeatName == FeatName.WidenSpell) as TrueFeat;
       widenSpell.WithAllowsForAdditionalClassTrait(SpellHexes.ClassTrait);
 
-  }
+      var reachSpell = AllFeats.All.First(feat => feat.FeatName == FeatName.ReachSpell) as TrueFeat;
+      reachSpell.WithAllowsForAdditionalClassTrait(SpellHexes.ClassTrait);
+
+      var detonatingSpell = AllFeats.All.First(feat => feat.FeatName == FeatName.DetonatingSpell) as TrueFeat;
+      detonatingSpell.WithAllowsForAdditionalClassTrait(SpellHexes.ClassTrait);
+
+      var counterspell = AllFeats.All.First(feat => feat.FeatName == FeatName.Counterspell) as TrueFeat;
+      counterspell.WithAllowsForAdditionalClassTrait(SpellHexes.ClassTrait);
+
+
+
+    }
 
   }
   }

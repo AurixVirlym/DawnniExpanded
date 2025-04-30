@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Dawnsbury.Mods.DawnniExpanded")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7de0d1f27312768d842f164abd6c707b504a9e31")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc557a5101acfb93caa36d24730f3e539eadcffa")]
 [assembly: System.Reflection.AssemblyProductAttribute("Dawnsbury.Mods.DawnniExpanded")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Dawnsbury.Mods.DawnniExpanded")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

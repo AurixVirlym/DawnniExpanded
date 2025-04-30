@@ -39,11 +39,13 @@ public static class ArchetypeAlchemist
                                 Target.Self()
                                 .WithAdditionalRestriction((a) =>
                               {
+                                int MaxReagents = a.Level;
+                                
                                 if (!a.HasFreeHand)
                                 {
                                   return "You need a free hand to use quick alchemy.";
                                 }
-                                else if (a.PersistentUsedUpResources.UsedUpActions.Count(x => x == "Used Infused Reagent.") >= a.Level)
+                                else if (a.PersistentUsedUpResources.UsedUpActions.Count(x => x == "Used Infused Reagent.") >= MaxReagents)
                                 {
                                   return "You have no infused reagents for the day.";
                                 }
