@@ -111,6 +111,7 @@ Decomplie.code-workspace
 bin/Debug/net6.0-windows/PriorityQueue.dll
 Boring Licence Stuff/~$ListOfSources.xlsx
 Boring Licence Stuff/ListOfSources.xlsx
+bin/
 bin/Debug/net8.0-windows/Accessibility.dll
 bin/Debug/net8.0-windows/Common.dll
 bin/Debug/net8.0-windows/Dawnsbury Days.dll

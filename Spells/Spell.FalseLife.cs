@@ -65,7 +65,7 @@ public class SpellFalseLife
                 Trait.Occult,
                 DawnniExpanded.DETrait
             }, "You ward yourself with shimmering magical energy.",
-                "You gain " + S.HeightenedVariable(10 + (spellLevel - 2) * 3, 6) + " temporary Hit Points.\n\n{b}Special{/b} You can cast this spell as a free action at the beginning of the encounter if not casting from a scroll." + HS.HeightenTextLevels(spellLevel > 2, spellLevel, inCombat, "{b}Heightened (+1){/b} The temporary Hit Points increase by 3.")
+                "You gain " + S.HeightenedVariable(10 + (spellLevel - 2) * 3, 10) + " temporary Hit Points.\n\n{b}Special{/b} You can cast this spell as a free action at the beginning of the encounter if not casting from a scroll." + HS.HeightenTextLevels(spellLevel > 2, spellLevel, inCombat, "{b}Heightened (+1){/b} The temporary Hit Points increase by 3.")
                 , Target.Self(),
                 spellLevel,
                  null)

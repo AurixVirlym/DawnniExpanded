@@ -4,9 +4,8 @@ using Dawnsbury.Modding;
 using Dawnsbury.Core.CharacterBuilder.Feats;
 using Dawnsbury.Core.CharacterBuilder;
 using Dawnsbury.Core.CharacterBuilder.Selections.Options;
-using Dawnsbury.Core.CharacterBuilder.Selections.Selected;
-
-using System;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb;
+using System.Collections.Generic;
 using System.Linq;
 
 
@@ -25,20 +24,14 @@ public static class FeatArchetype
 
     public static Feat NoneFeat;
     public static void LoadMod()
-
-
     {
         DedicationTrait = ModManager.RegisterTrait(
-            "Dedication",
-            new TraitProperties("Dedication", true, "", false)
-            {
-            });
+            "DE_Dedication",
+            new TraitProperties("Dedication", false));
 
         ArchetypeTrait = ModManager.RegisterTrait(
-            "Archetype",
-            new TraitProperties("Archetype", true, "", false)
-            {
-            });
+            "DE_Archetype",
+            new TraitProperties("Archetype", false));
 
         ArchetypeSpellcastingTrait = ModManager.RegisterTrait(
             "ArchetypeSpellcasting",
@@ -47,14 +40,29 @@ public static class FeatArchetype
             });
 
 
+        List<Trait> ClassTraits = new List<Trait>();
 
+        Trait[] DedicationFeatTraits = new Trait[] { ArchetypeTrait, DedicationTrait, Trait.ClassFeat, DawnniExpanded.DETrait, SpellHexes.ClassTrait };
+
+        Trait[] ArchetypeFeatTraits = new Trait[] { ArchetypeTrait, Trait.ClassFeat, DawnniExpanded.DETrait, SpellHexes.ClassTrait };
+
+        AllFeats.All.ForEach(ft =>
+        { // Loop through all feats.
+            if (ft is ClassSelectionFeat classFeat)
+            { // If the feat is a classFeat,
+                ClassTraits.Add(classFeat.ClassTrait);
+            }
+        });
+
+        ArchetypeFeatTraits = ArchetypeFeatTraits.Concat(ClassTraits).ToArray();
+        DedicationFeatTraits = DedicationFeatTraits.Concat(ClassTraits).ToArray();
 
         {
             DedicationFeat = new TrueFeat(FeatName.CustomFeat,
                     2,
                     "Instead of a class feat, you gain an archetype dedication feat of your choice. You may have only one archetype.",
                     "You gain an archetype dedication feat.",
-                    new Trait[] { ArchetypeTrait, DedicationTrait, Trait.ClassFeat, Trait.Bard, Trait.Sorcerer, Trait.Rogue, Trait.Fighter, Trait.Wizard, Trait.Monk, Trait.Investigator, Trait.Cleric, Trait.Kineticist, Trait.Psychic, Trait.Barbarian, Trait.Magus, Trait.Rogue, Trait.Ranger, DawnniExpanded.DETrait })
+                    DedicationFeatTraits)
                     .WithCustomName("Archetype Dedication")
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
 
@@ -69,17 +77,12 @@ public static class FeatArchetype
                     (Feat ft) => ft.HasTrait(DedicationTrait) && ft.CustomName != "Archetype Dedication"));
         });
 
-            ModManager.AddFeat(DedicationFeat);
-
-
-
-
 
             ArchetypeFeat = new TrueFeat(FeatName.CustomFeat,
                         4,
                         "Instead of a class feat, you gain an archetype feat of your choice for your dedication.",
                         "You gain an archetype feat.",
-                        new Trait[] { ArchetypeTrait, Trait.ClassFeat, Trait.Bard, Trait.Sorcerer, Trait.Rogue, Trait.Fighter, Trait.Wizard, Trait.Monk, Trait.Investigator, Trait.Cleric, Trait.Kineticist, Trait.Psychic, Trait.Barbarian, Trait.Magus, Trait.Rogue, Trait.Ranger, DawnniExpanded.DETrait })
+                       ArchetypeFeatTraits)
                         .WithMultipleSelection()
                         .WithCustomName("Archetype Feat")
                         .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Any(Ft => Ft.HasTrait(DedicationTrait)), "You must have a Dedication feat.")
@@ -96,7 +99,6 @@ public static class FeatArchetype
 
             });
 
-            ModManager.AddFeat(ArchetypeFeat);
 
             NoneFeat = new TrueFeat(FeatName.CustomFeat,
                         1,
@@ -106,29 +108,43 @@ public static class FeatArchetype
                         .WithMultipleSelection()
                         .WithCustomName("None");
 
-            ModManager.AddFeat(NoneFeat);
 
 
 
-        };
+        }
+        
+        // ModManager.AddFeat(ArchetypeFeat);
+        // ModManager.AddFeat(DedicationFeat);
+        // ModManager.AddFeat(NoneFeat);
 
-        ArchetypeMedic.LoadMod();
-        ArchetypeFighter.LoadMod();
-        ArchetypeMonk.LoadMod();
-        ArchetypeRogue.LoadMod();
-        ArchetypeRanger.LoadMod();
-        ArchetypeBarbarian.LoadMod();
-        ArchetypeSentinel.LoadMod();
-        ArchetypeDuelist.LoadMod();
-        ArchetypeBeastmaster.LoadMod();
+        //ArchetypeMedic.LoadMod();
+        // ArchetypeFighter.LoadMod();
+        // ArchetypeMonk.LoadMod();
+        // ArchetypeRogue.LoadMod();
+        // ArchetypeRanger.LoadMod();
+        // ArchetypeBarbarian.LoadMod();
+        // ArchetypeSentinel.LoadMod();
+        // ArchetypeDuelist.LoadMod();
+        // ArchetypeBeastmaster.LoadMod();
         ArchetypeAlchemist.LoadMod();
-        ArchetypeBard.LoadMod();
-        ArchetypePsychic.LoadMod();
-        ArchetypeWizard.LoadMod();
-        ArchetypeCleric.LoadMod();
-        ArchetypeSorcerer.LoadMod();
+        // ArchetypeBard.LoadMod();
+        // ArchetypePsychic.LoadMod();
+        // ArchetypeWizard.LoadMod();
+        // ArchetypeCleric.LoadMod();
+        // ArchetypeSorcerer.LoadMod();
         ArchetypeDualWeaponWarrior.LoadMod();
-        ArchetypeWrestler.LoadMod();
-        ArchetypeDruid.LoadMod();
+        // ArchetypeWrestler.LoadMod();
+        // ArchetypeDruid.LoadMod();
+        ArchetypeFamiliarMaster.LoadMod();
+        LoadOrder.AtEndOfLoadingSequence += () =>
+        {
+            AllFeats.All.ForEach(feat =>
+            {
+                if (feat.HasTrait(Trait.Dedication))
+                    feat.Traits.Add(DedicationTrait);
+                if (feat.HasTrait(Trait.Archetype))
+                    feat.Traits.Add(ArchetypeTrait);
+            });
+        };
     }
 }

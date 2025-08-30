@@ -22,15 +22,15 @@ namespace Dawnsbury.Mods.DawnniExpanded.Backgrounds
         public static void LoadMod()
         {
 
-            FieldMedicBackground = new BackgroundSelectionFeat(FeatName.CustomFeat, "In the chaotic rush of battle, you learned to adapt to rapidly changing conditions as you administered to battle casualties. You patched up soldiers, guards, or other combatants, and learned a fair amount about the logistics of war."
-                , "You're trained in the {b}Medicine{/b} skill. You gain the {b}Battle Medicine{/b} feat."
-                , new List<AbilityBoost> { new LimitedAbilityBoost(Ability.Constitution, Ability.Wisdom), new FreeAbilityBoost() })
-                .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
-                {
-                    sheet.GrantFeat(FeatName.BattleMedicine);
-                    sheet.GrantFeat(FeatName.Medicine);
-                }).WithCustomName("Field Medic")
-                as BackgroundSelectionFeat;
+            FieldMedicBackground = (new BackgroundSelectionFeat(ModManager.RegisterFeatName("DE_FieldMedic", "Field Medic"), "In the chaotic rush of battle, you learned to adapt to rapidly changing conditions as you administered to battle casualties. You patched up soldiers, guards, or other combatants, and learned a fair amount about the logistics of war."
+                        , "You're trained in the {b}Medicine{/b} skill. You gain the {b}Battle Medicine{/b} feat."
+                        , new List<AbilityBoost> { new LimitedAbilityBoost(Ability.Constitution, Ability.Wisdom), new FreeAbilityBoost() })
+                    .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
+                    {
+                        sheet.GrantFeat(FeatName.BattleMedicine);
+                        sheet.GrantFeat(FeatName.Medicine);
+                    })
+                as BackgroundSelectionFeat)!;
             FieldMedicBackground.Traits.Add(DawnniExpanded.DETrait);
             ModManager.AddFeat(FieldMedicBackground);
         }

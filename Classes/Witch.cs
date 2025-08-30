@@ -1,0 +1,407 @@
+using Dawnsbury.Core.CharacterBuilder.AbilityScores;
+using Dawnsbury.Core.CharacterBuilder.Feats;
+using Dawnsbury.Core.CharacterBuilder.Selections.Options;
+using Dawnsbury.Core.CombatActions;
+using Dawnsbury.Core.Mechanics;
+using Dawnsbury.Core.Mechanics.Enumerations;
+using Dawnsbury.Core.Mechanics.Targeting;
+using Dawnsbury.Display.Text;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Dawnsbury.Modding;
+using Dawnsbury.Core.CharacterBuilder.Spellcasting;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Spellbook;
+using Dawnsbury.Core.Mechanics.Targeting.TargetingRequirements;
+using Dawnsbury.Core.Mechanics.Targeting.Targets;
+using Dawnsbury.Core.CharacterBuilder;
+using Dawnsbury.Core.Creatures;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.TrueFeatDb;
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
+using Dawnsbury.Display;
+using Microsoft.Xna.Framework;
+using System.Threading.Tasks;
+using System.Data;
+using Dawnsbury.Core.Possibilities;
+using Dawnsbury.Core.Mechanics.Treasure;
+using Dawnsbury.Core;
+using Dawnsbury.Audio;
+using Dawnsbury.Display.Illustrations;
+using System.Runtime.Serialization.Formatters;
+using Dawnsbury.Core.Mechanics.Core;
+using System.ComponentModel;
+using Microsoft.VisualBasic;
+using Dawnsbury.Core.Roller;
+using Dawnsbury.Core.Intelligence;
+using Dawnsbury.Mods.DawnniExpanded.Feats;
+
+namespace Dawnsbury.Mods.DawnniExpanded
+{
+
+  public class PatronFeat : Feat
+  {
+    public readonly SpellId hexCantrip;
+    public readonly QEffect PatronAbilityQeffect;
+    public readonly string PatronAbilityDescription;
+
+    public readonly Trait PatronSkill;
+
+    public PatronFeat(
+      string featName,
+      string flavorText,
+      Trait spellList,
+      Trait patronSkill,
+      SpellId hexCantrip,
+      QEffect PatronAbilityQeffect,
+      String PatronAbilityDescription)
+      : base(FeatName.CustomFeat,
+       flavorText,
+       "• Spell list: {b}" + spellList.ToString() + "{/b} {i}" + PatronFeat.ExplainSpellList(spellList) + "{/i}\n• Hex Cantrip: " + AllSpells.CreateModernSpellTemplate(hexCantrip, SpellHexes.ClassTrait).ToSpellLink(),
+        new List<Trait>(),
+        (List<Feat>)null)
+    {
+      this.hexCantrip = hexCantrip;
+      this.PatronAbilityQeffect = PatronAbilityQeffect;
+      this.PatronAbilityDescription = PatronAbilityDescription;
+      this.PatronSkill = patronSkill;
+      this.WithRulesBlockForSpell(hexCantrip, SpellHexes.ClassTrait);
+      this.WithCustomName(featName);
+      this.OnSheet = sheet =>
+      {
+        sheet.SpellTraditionsKnown.Add(spellList);
+        sheet.SetProficiency(Trait.Spell, Proficiency.Trained);
+        sheet.SetProficiency(patronSkill, Proficiency.Trained);
+
+        sheet.PreparedSpells.Add(SpellHexes.ClassTrait, new PreparedSpellSlots(Ability.Intelligence, spellList));
+
+        sheet.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(0, "Witch:Cantrip1"));
+        sheet.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(0, "Witch:Cantrip2"));
+        sheet.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(0, "Witch:Cantrip3"));
+        sheet.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(0, "Witch:Cantrip4"));
+        sheet.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(0, "Witch:Cantrip5"));
+
+        sheet.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(1, "Witch:Spell1-1"));
+        sheet.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(1, "Witch:Spell1-2"));
+
+        sheet.AddFocusSpellAndFocusPoint(SpellHexes.ClassTrait, Ability.Intelligence, SpellWitchingHour.Id);
+
+        var hexCantripSpell = AllSpells.CreateModernSpellTemplate(hexCantrip, SpellHexes.ClassTrait);
+
+        sheet.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new EnforcedPreparedSpellSlot(0, "Hex Cantrip", hexCantripSpell, "Witch:HexCantrip1"));
+
+        sheet.AddAtLevel(2, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(1, "Witch:Spell1-3")));
+
+        sheet.AddAtLevel(3, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(2, "Witch:Spell2-1")));
+        sheet.AddAtLevel(3, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(2, "Witch:Spell2-2")));
+        sheet.AddAtLevel(4, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(2, "Witch:Spell2-3")));
+
+        sheet.AddAtLevel(5, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(3, "Witch:Spell3-1")));
+        sheet.AddAtLevel(5, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(3, "Witch:Spell3-2")));
+        sheet.AddAtLevel(6, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(3, "Witch:Spell3-3")));
+
+        sheet.AddAtLevel(7, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(4, "Witch:Spell4-1")));
+        sheet.AddAtLevel(7, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(4, "Witch:Spell4-2")));
+        sheet.AddAtLevel(8, values => values.PreparedSpells[SpellHexes.ClassTrait].Slots.Add(new FreePreparedSpellSlot(4, "Witch:Spell4-3")));
+
+      };
+    }
+
+    private static string ExplainSpellList(Trait spellList)
+    {
+      switch (spellList)
+      {
+        case Trait.Arcane:
+          return "(You cast arcane spells. Arcane spells are extremely varied, include powerful offensive and debuffing spells, but cannot heal your allies. Arcane sorcerers, wizards and magi can cast arcane spells.)";
+        case Trait.Primal:
+          return "(You cast primal spells. Primal spells are very varied, but focus on elemental and energy effects, including both dealing damage and healing, but generally can't affect minds. Primal sorcerers and druids can cast primal spells.)";
+        case Trait.Occult:
+          return "(You can cast occult spells. Occult spells focus on enchantment, emotion and the mind. They inflict debuffs on your opponents and grant buffs to your allies, but generally can't manipulate energy. Occult sorcerers and psychics can cast occult spells.)";
+        default:
+          return "(You cast divine spells. Divine spells can heal or buff your allies and are powerful against the undead, but they can lack utility or offensive power against natural creatures. Divine sorcerers and clerics can cast divine spells.)";
+      }
+    }
+  }
+  public class Witch
+  {
+
+
+    public static string MakeString()
+    {
+      DefaultInterpolatedStringHandler interpolatedStringHandler = new DefaultInterpolatedStringHandler(397, 4);
+      interpolatedStringHandler.AppendLiteral("{b}1. Muses.{/b}As a bard, you select one muse at 1st level. This muse leads you to great things, and might be a physical creature, a deity, a philosophy, or a captivating mystery. A muse grants you one extra spell known and an extra feat.\r\n\r\n{b}2. Spontaneous occult spellcasting.{/b} ");
+      interpolatedStringHandler.AppendLiteral("You can cast spells. You can cast 2 spells per day and you can choose the spells from among the spells you know. You learn 2 spells of your choice from the Occult tradition and 1 additional spell from your Muse. You also learn 5 cantrips — weak spells — that automatically heighten as you level up. You can cast any number of cantrips per day. Your spellcasting ability is Charisma.");
+      CombatAction CounterPerformanceAction = SpellCounterPerformance.CombatAction(null, 1, false);
+      CounterPerformanceAction.SpellId = SpellCounterPerformance.Id;
+      string CounterPerformanceSpell = new Spell(CounterPerformanceAction).ToSpellLink();
+
+      CombatAction InspireAction = SpellInspireCourage.CombatAction(null, 1, false);
+      InspireAction.SpellId = SpellInspireCourage.Id;
+      string InspireSpell = new Spell(InspireAction).ToSpellLink();
+
+      interpolatedStringHandler.AppendLiteral("\r\n\r\n{b}3. Composition Spells{/b} You can infuse your performances with magic to create unique effects called compositions. Compositions are a special type of spell that often require you to use the Performance skill when casting them. Composition spells are a type of focus spell. It costs 1 Focus Point to cast a focus spell, and you start with a focus pool of 1 Focus Point." + " You learn the " + CounterPerformanceSpell + " composition spell and " + InspireSpell + " composition spell cantrip which does not require focus points to be used.");
+
+      interpolatedStringHandler.AppendLiteral("\r\n\r\n{b}At higher levels:{/b}\r\n{b}Level 2:{/b} Bard feat, ");
+      interpolatedStringHandler.AppendFormatted(S.ExtraSpontaneousSpellSlot(1));
+      interpolatedStringHandler.AppendLiteral("\r\n{b}Level 3:{/b} General feat, Lightning Reflexes, ");
+      interpolatedStringHandler.AppendFormatted(S.InitialLevel2SpontaneousSpellSlots("Two slots, two spells known."));
+      interpolatedStringHandler.AppendLiteral(", skill increase\r\n{b}Level 4:{/b} Bard feat.");
+      interpolatedStringHandler.AppendFormatted(S.ExtraSpontaneousSpellSlot(2));
+      string stringAndClear = interpolatedStringHandler.ToStringAndClear();
+      return stringAndClear;
+
+    }
+
+
+    public static Feat WitchClass = new ClassSelectionFeat(FeatName.CustomFeat
+    , "WIP1"
+    , SpellHexes.ClassTrait
+    , new EnforcedAbilityBoost(Ability.Intelligence)
+    , 6
+    , new Trait[]
+  {
+        Trait.Fortitude,
+        Trait.Reflex,
+        Trait.Simple,
+        Trait.Unarmed,
+        Trait.UnarmoredDefense,
+        Trait.Perception
+  }, new Trait[]
+  {
+        Trait.Will,
+  }
+  , 3
+  , "WIP2"
+  , new List<Feat>()
+  {
+    new PatronFeat("Arcane Patron","Your Patron is Arcane",Trait.Arcane,Trait.Arcana,SpellDiscernSecrets.Id, new QEffect(), "WIP Patron ability"),
+    new PatronFeat("Primal Patron","Your Patron is Primal",Trait.Primal,Trait.Nature,SpellClingingIce.Id, new QEffect(), "WIP Patron ability"),
+    new PatronFeat("Occult Patron","Your Patron is Occult",Trait.Occult,Trait.Occultism,SpellEvilEye.Id, new QEffect(), "WIP Patron ability"),
+    new PatronFeat("Divine Patron","Your Patron is Divine",Trait.Divine,Trait.Divine,SpellStokeTheHeart.Id, new QEffect(), "WIP Patron ability"),
+  }).WithOnSheet(sheet =>
+  {
+
+    sheet.AddFeat(Familiars.Familiar,null);
+
+    sheet.AddAtLevel(5, values => values.SetProficiency(Trait.Fortitude, Proficiency.Expert));
+
+    sheet.AddAtLevel(7, values => values.SetProficiency(Trait.Spell, Proficiency.Expert));
+
+
+    /*
+  ++sheet.FocusPointCount;
+  sheet.FocusSpellsKnown.Add(AllSpells.CreateModernSpell(focusSpell, (Creature) null, sheet.MaximumSpellLevel, false));
+  repertoire.SpellsKnown.Add(AllSpells.CreateModernSpell(grantedCantrip, (Creature) null, sheet.MaximumSpellLevel, false));
+  repertoire.SpellsKnown.Add(AllSpells.CreateModernSpell(grantedLevel1Spell, (Creature) null, 1, false));
+  repertoire.SpellsKnown.Add(AllSpells.CreateModernSpell(grantedLevel2Spell, (Creature) null, 2, false));
+  */
+  }).WithCustomName("Witch");
+
+
+    public static Feat CantripExpansion = new TrueFeat(FeatName.CustomFeat, 1, "You have deepened your understanding of your patron.", "You can prepare two additional cantrips each day.", new Trait[2]
+    {
+        SpellHexes.ClassTrait,
+        DawnniExpanded.DETrait
+    }).WithOnSheet(values =>
+    {
+      values.PreparedSpells.GetValueOrDefault<Trait, PreparedSpellSlots>(SpellHexes.ClassTrait)?.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "WitchCantripExpansion1"));
+      values.PreparedSpells.GetValueOrDefault<Trait, PreparedSpellSlots>(SpellHexes.ClassTrait)?.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(0, "WitchCantripExpansion2"));
+    }).WithCustomName("Witch Cantrip Expansion");
+
+    public static Feat AbundantLevel1 = new TrueFeat(FeatName.CustomFeat, 2, "You have deepened your understanding of your patron.", "You can prepare an additional level 1 spell each day.", new Trait[3]
+      {
+        SpellHexes.ClassTrait,
+        DawnniExpanded.DETrait,
+        DawnniExpanded.HomebrewTrait
+      }).WithOnSheet(values => values.PreparedSpells.GetValueOrDefault<Trait, PreparedSpellSlots>(SpellHexes.ClassTrait)?.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(1, "WitchAbundantSpellcasting1")))
+
+      .WithCustomName("Witch Abundant Spellcasting 1");
+
+
+    public static Feat AbundantLevel2 = new TrueFeat(FeatName.CustomFeat, 4, "You have deepened your understanding of your patron.", "You can prepare an additional level 2 spell each day.", new Trait[3]
+      {
+        SpellHexes.ClassTrait,
+        DawnniExpanded.DETrait,
+        DawnniExpanded.HomebrewTrait
+      }).WithOnSheet(values => values.PreparedSpells.GetValueOrDefault<Trait, PreparedSpellSlots>(SpellHexes.ClassTrait)?.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(2, "WitchAbundantSpellcasting2")))
+      .WithCustomName("Witch Abundant Spellcasting 2");
+
+    public static Feat AbundantLevel3 = new TrueFeat(FeatName.CustomFeat, 6, "You have deepened your understanding of your patron.", "You can prepare an additional level 3 spell each day.", new Trait[3]
+    {
+        SpellHexes.ClassTrait,
+        DawnniExpanded.DETrait,
+        DawnniExpanded.HomebrewTrait
+    }).WithOnSheet(values => values.PreparedSpells.GetValueOrDefault<Trait, PreparedSpellSlots>(SpellHexes.ClassTrait)?.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(3, "WitchAbundantSpellcasting3")))
+    .WithCustomName("Witch Abundant Spellcasting 3");
+
+    public static Feat AbundantLevel4 = new TrueFeat(FeatName.CustomFeat, 8, "You have deepened your understanding of your patron.", "You can prepare an additional level 4 spell each day.", new Trait[3]
+      {
+        SpellHexes.ClassTrait,
+        DawnniExpanded.DETrait,
+        DawnniExpanded.HomebrewTrait
+      }).WithOnSheet(values => values.PreparedSpells.GetValueOrDefault<Trait, PreparedSpellSlots>(SpellHexes.ClassTrait)?.Slots.Add((PreparedSpellSlot)new FreePreparedSpellSlot(4, "WitchAbundantSpellcasting4")))
+      .WithCustomName("Witch Abundant Spellcasting 4");
+
+    public static Feat BasicLesson = new TrueFeat(FeatName.CustomFeat, 2, "Your patron grants you a special lesson, revealing a hidden facet of its nature.", " Choose a basic lesson, you gain its associated hex.", new Trait[2]
+    {
+        SpellHexes.ClassTrait,
+        DawnniExpanded.DETrait
+
+    },
+    new List<Feat>()
+  {
+    new Feat(FeatName.CustomFeat,"Life can be shared.","You gain the "+ AllSpells.CreateModernSpellTemplate(SpellLifeBoost.Id, SpellHexes.ClassTrait).ToSpellLink() +" hex.",new List<Trait>()
+    {
+
+        DawnniExpanded.DETrait,
+
+    },null).WithCustomName("Life Boost")
+    .WithRulesBlockForSpell(SpellLifeBoost.Id, SpellHexes.ClassTrait)
+    .WithOnSheet(values => values.AddFocusSpellAndFocusPoint(SpellHexes.ClassTrait, Ability.Intelligence, SpellLifeBoost.Id)),
+
+    new Feat(FeatName.CustomFeat,"An ounce of protection is worth a pound of cure.","You gain the "+ AllSpells.CreateModernSpellTemplate(SpellPatronsWard.Id, SpellHexes.ClassTrait).ToSpellLink() +" hex.",new List<Trait>()
+    {
+
+        DawnniExpanded.DETrait,
+
+    },null).WithCustomName("Patron's Ward")
+    .WithRulesBlockForSpell(SpellPatronsWard.Id, SpellHexes.ClassTrait)
+    .WithOnSheet(values => values.AddFocusSpellAndFocusPoint(SpellHexes.ClassTrait, Ability.Intelligence, SpellPatronsWard.Id)),
+  }
+
+
+  ).WithCustomName("Basic Lesson");
+
+
+
+
+
+
+
+    public static Feat Cauldron = new TrueFeat(FeatName.CustomFeat,
+            1,
+            "You can quickly brew potions.",
+            "Once per day, you may use the Cauldron{icon:Action} action to make any potion of your level or lower. These items only last until the end of an encounter.",
+            new Trait[] { SpellHexes.ClassTrait, DawnniExpanded.DETrait, Trait.Homebrew
+  })
+            .WithCustomName("Cauldron")
+            .WithOnCreature((CalculatedCharacterSheetValues sheet, Creature creature) =>
+                  {
+
+
+
+                    creature.AddQEffect(new QEffect("Cauldron", "You can quickly create a potion.")
+                    {
+
+
+                      ProvideActionIntoPossibilitySection = (QEffect qfself, PossibilitySection possibilitySection1) =>
+            {
+              if (possibilitySection1.PossibilitySectionId != PossibilitySectionId.MainActions)
+              {
+                return null;
+              }
+              ;
+
+              int AlchemyLevel = creature.Level;
+
+              PossibilitySection PotionSection = new PossibilitySection("Potions");
+
+              foreach (Item AlchemyItem in Items.ShopItems.Where<Item>((Func<Item, bool>)(item =>
+              item.Level <= AlchemyLevel && item.HasTrait(Trait.Potion)))
+            )
+              {
+                PotionSection.AddPossibility(new ActionPossibility(new CombatAction(creature, AlchemyItem.Illustration, "Make " + AlchemyItem.Name, new Trait[] { Trait.Basic, Trait.Manipulate },
+                              "{i}Spend one action to make this item{/i}. The item only lasts until the end of the encounter.\n\n" + AlchemyItem.Description,
+                                Target.Self()
+                                .WithAdditionalRestriction((a) =>
+                              {
+                                if (!a.HasFreeHand)
+                                {
+                                  return "You need a free hand to use quick alchemy.";
+                                }
+                                else if (a.PersistentUsedUpResources.UsedUpActions.Count(x => x == "Used Cauldron") >= 1)
+                                {
+                                  return "You have already used cauldron today.";
+                                }
+                                else return null;
+
+                              }
+
+
+
+                              ))
+                              .WithSoundEffect(SfxName.PotionUse2)
+                              .WithActionCost(1)
+                              .WithEffectOnSelf(async (spell, caster) =>
+                          {
+
+                            AlchemyItem.Traits.Add(Trait.EncounterEphemeral);
+                            AlchemyItem.Traits.Add(ArchetypeAlchemist.InfusedTrait);
+                            caster.PersistentUsedUpResources.UsedUpActions.Add("Used Cauldron");
+                            caster.AddHeldItem(AlchemyItem);
+
+
+                          }
+                          ), PossibilitySize.Half));
+              }
+
+
+              SubmenuPossibility submenuPossibility = new SubmenuPossibility(IllustrationName.InvisibilityPotion,
+            "Cauldron");
+              submenuPossibility.Subsections.Add(PotionSection);
+
+              return submenuPossibility;
+            }
+
+                    })
+            ;
+
+
+                  });
+
+    public static ModdedIllustration Hairillustration = new ModdedIllustration("DawnniburyExpandedAssets/WitchHair.png");
+    public static Feat LivingHair = new TrueFeat(FeatName.CustomFeat,
+               2,
+               "You can instantly grow or shrink your hair, eyebrows, beard, or mustache by up to several feet and manipulate your hair for use as a weapon, though your control isn't fine enough for more dexterous tasks.",
+               "You gain a hair unarmed attack that deals 1d4 bludgeoning damage; is in the brawling group; and has the disarm, finesse, trip, reach, and unarmed traits.\n\nModder Note, PF2e rules normally give this feat agile instead of reach.",
+               new Trait[] { SpellHexes.ClassTrait, DawnniExpanded.DETrait, Trait.Homebrew
+     })
+               .WithCustomName("Living Hair").WithOnCreature(creature =>
+                        {
+      creature.WithAdditionalUnarmedStrike(CommonItems.CreateNaturalWeapon(IllustrationName.Tail, "hair", "1d4", DamageKind.Bludgeoning, Trait.Finesse, Trait.Reach, Trait.Disarm, Trait.Trip));
+    });
+
+
+
+    public static void LoadMod()
+    {
+      WitchClass.Traits.Add(DawnniExpanded.DETrait);
+      ModManager.AddFeat(WitchClass);
+      ModManager.AddFeat(CantripExpansion);
+      ModManager.AddFeat(AbundantLevel1);
+      ModManager.AddFeat(AbundantLevel2);
+      ModManager.AddFeat(AbundantLevel3);
+      ModManager.AddFeat(AbundantLevel4);
+      ModManager.AddFeat(Cauldron);
+      ModManager.AddFeat(BasicLesson);
+      ModManager.AddFeat(LivingHair);
+
+      var widenSpell = AllFeats.All.First(feat => feat.FeatName == FeatName.WidenSpell) as TrueFeat;
+      widenSpell.WithAllowsForAdditionalClassTrait(SpellHexes.ClassTrait);
+
+      var reachSpell = AllFeats.All.First(feat => feat.FeatName == FeatName.ReachSpell) as TrueFeat;
+      reachSpell.WithAllowsForAdditionalClassTrait(SpellHexes.ClassTrait);
+
+      var detonatingSpell = AllFeats.All.First(feat => feat.FeatName == FeatName.DetonatingSpell) as TrueFeat;
+      detonatingSpell.WithAllowsForAdditionalClassTrait(SpellHexes.ClassTrait);
+
+      var counterspell = AllFeats.All.First(feat => feat.FeatName == FeatName.Counterspell) as TrueFeat;
+      counterspell.WithAllowsForAdditionalClassTrait(SpellHexes.ClassTrait);
+
+
+
+    }
+
+  }
+  }

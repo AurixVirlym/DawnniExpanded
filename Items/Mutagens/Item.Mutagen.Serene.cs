@@ -20,9 +20,9 @@ public static class ItemMutagenSerene
         ItemName SereneMutagenLesser = ModManager.RegisterNewItemIntoTheShop("Serene Mutagen (Lesser)", itemName =>
         new Item(itemName, illustrationSerene, "Serene Mutagen (Lesser)", 1, 4, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.\n\n{b}Benefit{/b} You gain a +1 item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves to +2 when you attempt Will saves against mental effects. \n\n{b}Drawback{/b} You take a –1 penalty to attack rolls and save DCs of offensive spells, and a –1 penalty to all weapon, unarmed attack, and spell damage.\n\n",
+            Description = "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.\n\n{b}Benefit{/b} You gain a +1 item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves to +2 when you attempt Will saves against mental effects. \n\n{b}Drawback{/b} You take a –1 penalty to attack rolls and save DCs of offensive spells, and a –1 penalty to all weapon, unarmed attack, and spell damage.",
 
-            DrinkableEffect = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 QEffect SereneMutagenEffect = new QEffect("Serene Mutagen", "You are benefiting from a Serene Mutagen", ExpirationCondition.Never, self, illustrationSerene)
@@ -83,7 +83,7 @@ public static class ItemMutagenSerene
 
                 TraitMutagens.PreventMutagenDrinking(SereneMutagenEffect);
                 self.AddQEffect(SereneMutagenEffect);
-
+                return;
             }
 
 
@@ -94,9 +94,9 @@ public static class ItemMutagenSerene
         ItemName SereneMutagenModerate = ModManager.RegisterNewItemIntoTheShop("Serene Mutagen (Moderate)", itemName =>
     new Item(itemName, illustrationSerene, "Serene Mutagen (Moderate)", 3, 12, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
     {
-        Description = "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.\n\n{b}Benefit{/b} You gain a +2 item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves to +3 when you attempt Will saves against mental effects. \n\n{b}Drawback{/b} You take a –1 penalty to attack rolls and save DCs of offensive spells, and a –2 penalty to all weapon, unarmed attack, and spell damage.\n\n",
+        Description = "You gain inner serenity, focused on fine details and steeled against mental assaults, but you find violence off-putting.\n\n{b}Benefit{/b} You gain a +2 item bonus to Will saves and Perception, Medicine, Nature, Religion, and Survival checks. This bonus improves to +3 when you attempt Will saves against mental effects. \n\n{b}Drawback{/b} You take a –1 penalty to attack rolls and save DCs of offensive spells, and a –2 penalty to all weapon, unarmed attack, and spell damage.",
 
-        DrinkableEffect = (CombatAction ca, Creature self) =>
+        WhenYouDrink = async (CombatAction ca, Creature self) =>
         {
 
             QEffect SereneMutagenEffect = new QEffect("Serene Mutagen", "You are benefiting from a Serene Mutagen", ExpirationCondition.Never, self, illustrationSerene)
@@ -156,6 +156,7 @@ public static class ItemMutagenSerene
 
             TraitMutagens.PreventMutagenDrinking(SereneMutagenEffect);
             self.AddQEffect(SereneMutagenEffect);
+            return;
 
         }
 

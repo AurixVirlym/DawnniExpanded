@@ -61,13 +61,7 @@ public class GenerateHeightenedScrolls
     }
 
 
-    if (scrolllevel == 3 && spell2.SpellId == SpellId.Fear)
-    {
-      CombatAction fearaction = SpellHeightenedFear.NewFear(null, 3, false);
-      spell2.CombatActionSpell.Description = fearaction.Description;
-
-    }
-    else if (ModdedSpell == false)
+    if (ModdedSpell == false)
     {
       spell2 = spell1.Duplicate(null, scrolllevel, inCombat: true);
       spell2.CombatActionSpell.Description = spell2.CombatActionSpell.Description.Replace("Heightened to spell level 2.", "Heightened to spell level " + scrolllevel + ".");
@@ -152,7 +146,7 @@ public class GenerateHeightenedScrolls
     !sp.HasTrait(Trait.Cantrip)
     && !sp.HasTrait(Trait.Focus)
     && !sp.HasTrait(Trait.Uncommon)
-    && sp.MinimumSpellLevel == 1
+    && (sp.MinimumSpellLevel == 1 || sp.MinimumSpellLevel == 2)
     && sp.CombatActionSpell.Description.Contains("Heightened (+1)"))))
     {
 
@@ -161,8 +155,27 @@ public class GenerateHeightenedScrolls
       MakeScrollAtLevel(spell, 4);
     }
 
-    MakeScrollAtLevel(AllSpells.All.First(x => x.SpellId == SpellId.Fear), 3);
+    foreach (Spell spell in AllSpells.All.Where<Spell>((Func<Spell, bool>)(sp =>
+    !sp.HasTrait(Trait.Cantrip)
+    && !sp.HasTrait(Trait.Focus)
+    && !sp.HasTrait(Trait.Uncommon)
+    && (sp.MinimumSpellLevel == 2)
+    && sp.CombatActionSpell.Description.Contains("Heightened (+2)"))))
+    {
+      MakeScrollAtLevel(spell, 4);
+    }
 
+    foreach (Spell spell in AllSpells.All.Where<Spell>((Func<Spell, bool>)(sp =>
+    !sp.HasTrait(Trait.Cantrip)
+    && !sp.HasTrait(Trait.Focus)
+    && !sp.HasTrait(Trait.Uncommon)
+    && (sp.MinimumSpellLevel == 1)
+    && (sp.CombatActionSpell.Description.Contains("Heightened (+2)") || sp.CombatActionSpell.Description.Contains("Heightened (3rd)")))))
+    {
+      MakeScrollAtLevel(spell, 3);
+    }
+
+    /*
     CombatAction ModdedSpell = SpellScorchingRay.MakeScorchingRaySpell(null, 3, true);
     ModdedSpell.SpellId = SpellScorchingRay.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 3, true);
@@ -170,9 +183,10 @@ public class GenerateHeightenedScrolls
     ModdedSpell = SpellScorchingRay.MakeScorchingRaySpell(null, 4, true);
     ModdedSpell.SpellId = SpellScorchingRay.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 4, true);
+    */
 
     //thundersphere
-    ModdedSpell = SpellHorizonThunderSphere.CombatAction(null, 2, true);
+    CombatAction ModdedSpell = SpellHorizonThunderSphere.CombatAction(null, 2, true);
     ModdedSpell.SpellId = SpellHorizonThunderSphere.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 2, true);
 
@@ -186,6 +200,7 @@ public class GenerateHeightenedScrolls
 
     //False Life
 
+    /*
     ModdedSpell = SpellFalseLife.CombatAction(null, 3, true, new SpellInformation());
     ModdedSpell.SpellId = SpellFalseLife.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 3, true);
@@ -193,6 +208,7 @@ public class GenerateHeightenedScrolls
     ModdedSpell = SpellFalseLife.CombatAction(null, 4, true, new SpellInformation());
     ModdedSpell.SpellId = SpellFalseLife.Id;
     MakeScrollAtLevel(new Spell(ModdedSpell), 4, true);
+    */
 
     //Endure
     ModdedSpell = SpellEndure.CombatAction(null, 2, true);

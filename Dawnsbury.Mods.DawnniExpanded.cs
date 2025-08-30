@@ -1,15 +1,18 @@
 using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Modding;
+//using HarmonyLib;
 using Dawnsbury.Mods.DawnniExpanded.Backgrounds;
 using Dawnsbury.Mods.DawnniExpanded.Ancestries;
+using Dawnsbury.Mods.DawnniExpanded.Feats;
+using Dawnsbury.Core.CharacterBuilder.Feats;
 
 
 namespace Dawnsbury.Mods.DawnniExpanded;
 public class DawnniExpanded
 {
     public static Trait DETrait;
-    public static Trait HomebrewTrait;
+    public static readonly Trait HomebrewTrait = Trait.Homebrew;
 
     [DawnsburyDaysModMainMethod]
     public static void LoadMod()
@@ -18,58 +21,66 @@ public class DawnniExpanded
             "DawnniEx",
             new TraitProperties("DawnniEx", true)
             );
-        HomebrewTrait = ModManager.RegisterTrait(
-            "Homebrew",
-            new TraitProperties("Homebrew", true)
-            );
+        //new Harmony("com.Danni.DawnniExpanded").PatchAll();
 
 
-
-        NewSkills.LoadMod();
+        //NewSkills.LoadMod();
 
         SpellHorizonThunderSphere.LoadMod();
         SpellAnimatedAssualt.LoadMod();
-        SpellScorchingRay.LoadMod();
+        //SpellScorchingRay.LoadMod();
         SpellEndure.LoadMod();
-        SpellFalseLife.LoadMod();
+        //SpellFalseLife.LoadMod();
         SpellRousingSplash.LoadMod();
-        SpellSuddenBolt.LoadMod();
+        //SpellSuddenBolt.LoadMod();
         SpellCounterPerformance.LoadMod();
         SpellHymnOfHealing.LoadMod();
         SpellTripleTime.LoadMod();
         SpellInspireCourage.LoadMod();
-        SpellHeightenedFear.LoadMod();
+        //SpellHeightenedFear.LoadMod();
         SpellConcordantChoir.LoadMod();
         SpellRayofEnfeeblement.LoadMod();
         SpellInnerRadianceTorrent.LoadMod();
+        SpellHexes.LoadMod();
 
-        FeatBattleMedicine.LoadMod();
-        FeatPowerfulLeap.LoadMod();
+        //FeatBattleMedicine.LoadMod();
+        //FeatPowerfulLeap.LoadMod();
+        FeatDoctorsVisitation.LoadMod();
 
         BackgroundFieldMedic.LoadMod();
         BackgroundMartialDisciple.LoadMod();
         BackgroundWarrior.LoadMod();
         BackgroundDancer.LoadMod();
 
-        ActionLeap.LoadMod();
+        //ActionLeap.LoadMod();
 
         ItemStaffofSpellPotency.LoadMod();
         TraitMutagens.LoadMod();
         ItemMutagens.LoadMod();
-        FeatDuelingParry.LoadMod();
+        //  ItemRunestone.LoadMod();
+
+        // FeatDuelingParry.LoadMod();
 
         FeatArchetype.LoadMod();
         MonsterBadger.LoadMod();
 
-        GenerateHeightenedScrolls.LoadMod();
+        //GenerateHeightenedScrolls.LoadMod();
         //KinTest.LoadMod();
 
-        VersatileHertiages.LoadMod();
+        VersatileHeritages.LoadMod();
         //AncestryHalfling.LoadMod();
         AncestryDragon.LoadMod();
+        
         Bard.LoadMod();
+        Witch.LoadMod();
 
+        FeatRecallWeakness.LoadMod();
+        ItemScholarsHat.LoadMod();
+        //ItemSpellStaff.LoadMod();
 
+        //FlankingIndictor.LoadMod();
+
+        Familiars.LoadMod();
     }
 
 

@@ -10,76 +10,14 @@ using Dawnsbury.Core.CombatActions;
 using Dawnsbury.Core.Creatures;
 using Dawnsbury.Core.Mechanics;
 using Dawnsbury.Core.Mechanics.Core;
-using Dawnsbury.Core.Mechanics.Treasure;
 using Dawnsbury.Display.Illustrations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dawnsbury.Core;
 using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
-using Dawnsbury.Core.CombatActions;
-using Dawnsbury.Core.Creatures;
-using Dawnsbury.Core.Creatures.Parts;
-using Dawnsbury.Core.Intelligence;
-using Dawnsbury.Core.Mechanics;
-using Dawnsbury.Core.CharacterBuilder.Feats;
-using Dawnsbury.Core.Mechanics.Enumerations;
-using Dawnsbury.Modding;
-using Dawnsbury.Core.CharacterBuilder;
-using Dawnsbury.Core.Mechanics;
-using Dawnsbury.Core.CombatActions;
-using Dawnsbury.Core.Mechanics.Targeting;
-using Dawnsbury.Core.Possibilities;
-using Dawnsbury.Core.Mechanics.Core;
-using Dawnsbury.Core;
-using Dawnsbury.Core.Roller;
-using Dawnsbury.Audio;
-using Dawnsbury.Display.Illustrations;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Dawnsbury.Core.Coroutines.Options;
-using Dawnsbury.Core.Coroutines.Requests;
-using Dawnsbury.Core.Creatures;
-using Dawnsbury.Core.Mechanics.Core;
-using Dawnsbury.Core.Mechanics.Enumerations;
 using Dawnsbury.Core.Mechanics.Targeting;
 using Dawnsbury.Core.Possibilities;
 using Dawnsbury.Core.Roller;
-using Dawnsbury.Display.Illustrations;
-using Dawnsbury.Modding;
-using Dawnsbury.Core.CharacterBuilder.Spellcasting;
-using Dawnsbury.Core.Mechanics.Treasure;
 using Dawnsbury.Audio;
-using Dawnsbury.Auxiliary;
 using Dawnsbury.Core.Animations;
-using Dawnsbury.Core.CharacterBuilder.FeatsDb.Common;
-using Dawnsbury.Core.CharacterBuilder.FeatsDb.TrueFeatDb;
-using Dawnsbury.Core.CharacterBuilder.Spellcasting;
-using Dawnsbury.Core.CombatActions;
-using Dawnsbury.Core.Coroutines.Options;
-using Dawnsbury.Core.Coroutines.Requests;
-using Dawnsbury.Core.Creatures;
-using Dawnsbury.Core.Intelligence;
-using Dawnsbury.Core.Mechanics.Core;
-using Dawnsbury.Core.Mechanics.Enumerations;
-using Dawnsbury.Core.Mechanics.Targeting;
-using Dawnsbury.Core.Mechanics.Targeting.TargetingRequirements;
-using Dawnsbury.Core.Mechanics.Targeting.Targets;
-using Dawnsbury.Core.Mechanics.Treasure;
-using Dawnsbury.Core.Possibilities;
-using Dawnsbury.Core.Roller;
-using Dawnsbury.Display.Illustrations;
-using Dawnsbury.Display.Text;
-using Dawnsbury.ThirdParty.SteamApi;
 using Humanizer;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
 {
@@ -170,12 +108,12 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
 
         public static Feat DragonResistance = new DragonAncestryFeat("Draconic Resistances", "You have revitalized the magical pathways that protect your body from the type of damage you would normally use for your breath weapon.", "You gain resistance equal to half your level (minimum 1) to your heritage's associated damage type.").WithOnCreature((creature =>
                     {
-                        if (creature.PersistentCharacterSheet.Heritage == null || creature.PersistentCharacterSheet.Heritage is not DragonHertiageFeat)
+                        if (creature.PersistentCharacterSheet.Heritage == null || creature.PersistentCharacterSheet.Heritage is not DragonHeritageFeat)
                         {
                             return;
                         }
 
-                        DragonHertiageFeat feat = (DragonHertiageFeat)creature.PersistentCharacterSheet.Heritage;
+                        DragonHeritageFeat feat = (DragonHeritageFeat)creature.PersistentCharacterSheet.Heritage;
 
                         creature.AddQEffect(QEffect.DamageResistance(feat.AssociatedDamage, Math.Max(creature.Level / 2, 1)));
                     }
@@ -216,27 +154,29 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
 
             DragonBreath = new DragonAncestryFeat("Dragon Breath", "You breathe in deeply and release the energy stored within you in a powerful exhalation.", "Your dragon breath is a 30-foot line, a 15-foot cone, or a 5-foot burst within 30 feet, depending on your heritage, and deals 2d4 damage of a type depending on your heritage. \n\nEach creature in the area must attempt a basic Reflex saving throw against the higher of your class DC or spell DC.\n\nIf the damage type is poison, the saving throw is Fortitude, and if the  damage type is mental, the saving throw is Will. \n\nYou can't use this ability again for 10 minutes; starting at level 3, you instead can't use the ability again for 1d4 rounds.").WithOnCreature((creature =>
                     {
-                        if (creature.PersistentCharacterSheet.Heritage == null || creature.PersistentCharacterSheet.Heritage is not DragonHertiageFeat || creature.PersistentCharacterSheet.Class.ClassTrait == null)
+                        if (creature.PersistentCharacterSheet.Heritage == null || creature.PersistentCharacterSheet.Heritage is not DragonHeritageFeat || creature.PersistentCharacterSheet.Class.ClassTrait == null)
                         {
                             return;
                         }
 
-                        DragonHertiageFeat hertiage = (DragonHertiageFeat)creature.PersistentCharacterSheet.Heritage;
+                        else {
+                            
+                            
+                            }
 
-
-
+                        DragonHeritageFeat heritage = (DragonHeritageFeat)creature.PersistentCharacterSheet.Heritage;
                         Defense BreathSavingThrow = Defense.Reflex;
-                        if (hertiage.AssociatedDamage == DamageKind.Mental)
+                        if (heritage.AssociatedDamage == DamageKind.Mental)
                         {
                             BreathSavingThrow = Defense.Will;
                         }
-                        else if (hertiage.AssociatedDamage == DamageKind.Poison)
+                        else if (heritage.AssociatedDamage == DamageKind.Poison)
                         {
                             BreathSavingThrow = Defense.Fortitude;
                         }
 
 
-                        creature.AddQEffect(AncestryBreathWeapon("", hertiage.BreathTargeting, BreathSavingThrow, hertiage.AssociatedDamage, DiceFormula.FromText("2d6"), SfxName.BeastRoar)
+                        creature.AddQEffect(AncestryBreathWeapon("", heritage.BreathTargeting, BreathSavingThrow, heritage.AssociatedDamage, DiceFormula.FromText("2d6"), SfxName.BeastRoar)
                         );
                     }
                 ));
@@ -245,12 +185,12 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
 
             DragonExtraUnarmedAttack = new DragonAncestryFeat("Additional Unarmed Attack", "You’ve directed magic through a part of your body, honing it into a powerful unarmed attack.", "You gain that additional attack as an unarmed attack in the brawling weapon group. Choose one of the additional attacks available to your heritage.\n\n• A horn unarmed attack deals 1d4 piercing damage and has the deadly d6 and finesse traits.\n• A tail unarmed attack deals 1d4 bludgeoning damage and has the finesse, sweep and trip traits.\n• A wing unarmed attack deals 1d4 bludgeoning damage and has the backswing, finesse, and shove traits.").WithOnCreature((creature =>
         {
-            if (creature.PersistentCharacterSheet.Heritage == null || creature.PersistentCharacterSheet.Heritage is not DragonHertiageFeat)
+            if (creature.PersistentCharacterSheet.Heritage == null || creature.PersistentCharacterSheet.Heritage is not DragonHeritageFeat)
             {
                 return;
             }
 
-            DragonHertiageFeat feat = (DragonHertiageFeat)creature.PersistentCharacterSheet.Heritage;
+            DragonHeritageFeat feat = (DragonHeritageFeat)creature.PersistentCharacterSheet.Heritage;
 
         }
         ));
@@ -265,13 +205,13 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
                         })
             .WithPrerequisite(sheet =>
             {
-                if (sheet.Sheet.Heritage == null || sheet.Sheet.Heritage is not DragonHertiageFeat)
+                if (sheet.Sheet.Heritage == null || sheet.Sheet.Heritage is not DragonHeritageFeat)
                 {
                     return false;
                 }
-                DragonHertiageFeat hertiage = (DragonHertiageFeat)sheet.Sheet.Heritage;
+                DragonHeritageFeat heritage = (DragonHeritageFeat)sheet.Sheet.Heritage;
 
-                if (hertiage.ExtraUnarmed1 != "horn" && hertiage.ExtraUnarmed2 != "horn")
+                if (heritage.ExtraUnarmed1 != "horn" && heritage.ExtraUnarmed2 != "horn")
                 {
                     return false;
                 }
@@ -287,13 +227,13 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
                                 })
                     .WithPrerequisite(sheet =>
                     {
-                        if (sheet.Sheet.Heritage == null || sheet.Sheet.Heritage is not DragonHertiageFeat)
+                        if (sheet.Sheet.Heritage == null || sheet.Sheet.Heritage is not DragonHeritageFeat)
                         {
                             return false;
                         }
-                        DragonHertiageFeat hertiage = (DragonHertiageFeat)sheet.Sheet.Heritage;
+                        DragonHeritageFeat heritage = (DragonHeritageFeat)sheet.Sheet.Heritage;
 
-                        if (hertiage.ExtraUnarmed1 != "tail" && hertiage.ExtraUnarmed2 != "tail")
+                        if (heritage.ExtraUnarmed1 != "tail" && heritage.ExtraUnarmed2 != "tail")
                         {
                             return false;
                         }
@@ -309,13 +249,13 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
                                     })
                         .WithPrerequisite(sheet =>
                         {
-                            if (sheet.Sheet.Heritage == null || sheet.Sheet.Heritage is not DragonHertiageFeat)
+                            if (sheet.Sheet.Heritage == null || sheet.Sheet.Heritage is not DragonHeritageFeat)
                             {
                                 return false;
                             }
-                            DragonHertiageFeat hertiage = (DragonHertiageFeat)sheet.Sheet.Heritage;
+                            DragonHeritageFeat heritage = (DragonHeritageFeat)sheet.Sheet.Heritage;
 
-                            if (hertiage.ExtraUnarmed1 != "wing" && hertiage.ExtraUnarmed2 != "wing")
+                            if (heritage.ExtraUnarmed1 != "wing" && heritage.ExtraUnarmed2 != "wing")
                             {
                                 return false;
                             }
@@ -326,14 +266,14 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
             DraconicCantrip = new DragonAncestryFeat("Draconic Ancestry", "You're able to use some of your innate magic, which you can use to cast a cantrip from the tradition associated with your heritage.", "Choose a cantrip from the spell list corresponding to the tradition indicated in your heritage.You can cast that cantrip as an innate spell.\n\nAs normal, cantrips are heightened to half your level, rounded up.\n\nYour spellcasting ability for that spell is either the mental ability score you gained from the fixed ability score boost from the dragon ancestry, or Charisma if you gained a physical ability score boost from your fixed ability boost.").WithOnCreature((Action<Creature>)(creature =>
             {
 
-                if (creature.PersistentCharacterSheet.Heritage == null || creature.PersistentCharacterSheet.Heritage is not DragonHertiageFeat || creature.PersistentCharacterSheet.Class.ClassTrait == null)
+                if (creature.PersistentCharacterSheet.Heritage == null || creature.PersistentCharacterSheet.Heritage is not DragonHeritageFeat || creature.PersistentCharacterSheet.Class.ClassTrait == null)
                 {
                     return;
                 }
 
-                DragonHertiageFeat hertiage = (DragonHertiageFeat)creature.PersistentCharacterSheet.Heritage;
+                DragonHeritageFeat heritage = (DragonHeritageFeat)creature.PersistentCharacterSheet.Heritage;
 
-                creature.GetOrCreateSpellcastingSource(SpellcastingKind.Innate, Trait.Dragon, Ability.Charisma, hertiage.SpellList);
+                creature.GetOrCreateSpellcastingSource(SpellcastingKind.Innate, Trait.Dragon, Ability.Charisma, heritage.SpellList);
 
             }));
 

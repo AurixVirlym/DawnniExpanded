@@ -26,9 +26,9 @@ public static class ItemMutagenDrakeheart
 
         new Item(itemName, illustrationDrakeheart, "Drakeheart Mutagen (Lesser)", 1, 4, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "Your skin grows tough scales like a drake, your eyesight become sharp and your pupils slitted, and your limbs grow wiry and quick, but your mind and reflexes become slow. \n\n{b}Benefit{/b} You gain a +4 bonus to AC, a Dexterity cap of +2 (as usual, use your lowest Dexterity cap if you have more than one), and a +1 item bonus to Perception checks. If you're wearing armor, you still calculate your proficiency bonus to AC based on your proficiency in the armor you're wearing, even if the drakeheart mutagen has a higher item bonus. \n\nYou also gain the Final Surge action.\nActivate {icon:Action} {b}Final Surge{/b}\n{b}Effect{/b} You Stride twice. The drakeheart mutagen's duration ends.\n\n{b}Drawback{/b} You take a –1 penalty to Will saves and Reflex saves.\n\n",
+            Description = "Your skin grows tough scales like a drake, your eyesight become sharp and your pupils slitted, and your limbs grow wiry and quick, but your mind and reflexes become slow. \n\n{b}Benefit{/b} You gain a +4 bonus to AC, a Dexterity cap of +2 (as usual, use your lowest Dexterity cap if you have more than one), and a +1 item bonus to Perception checks. If you're wearing armor, you still calculate your proficiency bonus to AC based on your proficiency in the armor you're wearing, even if the drakeheart mutagen has a higher item bonus. \n\nYou also gain the Final Surge action.\nActivate {icon:Action} {b}Final Surge{/b}\n{b}Effect{/b} You Stride twice. The drakeheart mutagen's duration ends.\n\n{b}Drawback{/b} You take a –1 penalty to Will saves and Reflex saves.",
 
-            DrinkableEffect = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 Item obj = new Item(illustrationDrakeheart, "Drakeheart Scales", new Trait[6]
@@ -92,6 +92,7 @@ public static class ItemMutagenDrakeheart
                 TraitMutagens.PreventMutagenDrinking(DrakeHeartEffect);
                 self.AddQEffect(DrakeHeartEffect);
                 Sfxs.Play(SfxName.PotionUse2);
+                return;
             }
 
 
@@ -103,9 +104,9 @@ public static class ItemMutagenDrakeheart
 
         new Item(itemName, illustrationDrakeheart, "Drakeheart Mutagen (Moderate)", 3, 12, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "Your skin grows tough scales like a drake, your eyesight become sharp and your pupils slitted, and your limbs grow wiry and quick, but your mind and reflexes become slow. \n\n{b}Benefit{/b} You gain a +5 bonus to AC, a Dexterity cap of +2 (as usual, use your lowest Dexterity cap if you have more than one), and a +2 item bonus to Perception checks. If you're wearing armor, you still calculate your proficiency bonus to AC based on your proficiency in the armor you're wearing, even if the drakeheart mutagen has a higher item bonus. \n\nYou also gain the Final Surge action.\nActivate {icon:Action} {b}Final Surge{/b}\n{b}Effect{/b} You Stride twice. The drakeheart mutagen's duration ends.\n\n{b}Drawback{/b} You take a –1 penalty to Will saves and Reflex saves.\n\n",
+            Description = "Your skin grows tough scales like a drake, your eyesight become sharp and your pupils slitted, and your limbs grow wiry and quick, but your mind and reflexes become slow. \n\n{b}Benefit{/b} You gain a +5 bonus to AC, a Dexterity cap of +2 (as usual, use your lowest Dexterity cap if you have more than one), and a +2 item bonus to Perception checks. If you're wearing armor, you still calculate your proficiency bonus to AC based on your proficiency in the armor you're wearing, even if the drakeheart mutagen has a higher item bonus. \n\nYou also gain the Final Surge action.\nActivate {icon:Action} {b}Final Surge{/b}\n{b}Effect{/b} You Stride twice. The drakeheart mutagen's duration ends.\n\n{b}Drawback{/b} You take a –1 penalty to Will saves and Reflex saves.",
 
-            DrinkableEffect = (CombatAction ca, Creature self) =>
+            WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
 
                 Item obj = new Item((Illustration)illustrationDrakeheart, "Drakeheart Scales", new Trait[6]
@@ -166,7 +167,7 @@ public static class ItemMutagenDrakeheart
 
                 TraitMutagens.PreventMutagenDrinking(DrakeHeartEffect);
                 self.AddQEffect(DrakeHeartEffect);
-
+                return;
             }
 
 

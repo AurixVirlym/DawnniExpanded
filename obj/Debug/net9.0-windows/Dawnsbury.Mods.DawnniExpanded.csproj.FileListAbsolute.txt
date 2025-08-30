@@ -1,0 +1,180 @@
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.csproj.AssemblyReference.cache
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.GeneratedMSBuildEditorConfig.editorconfig
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.AssemblyInfoInputs.cache
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.AssemblyInfo.cs
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.csproj.CoreCompileInputs.cache
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.sourcelink.json
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.deps.json
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.pdb
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\YourApi.XML
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Common.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Dawnsbury Days.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\MonoGame.Framework.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\MonoGame.Extended.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Windows.Forms.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Steamworks.NET.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Newtonsoft.Json.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\TiledLib.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\PriorityQueue.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\FmodForFoxes.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\MoreLinq.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Drawing.Common.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\FmodForFoxes.Desktop.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\SharpDX.DXGI.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\SharpDX.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\SharpDX.Direct3D11.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Windows.Forms.Primitives.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\SharpDX.MediaFoundation.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\SharpDX.XInput.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\SharpDX.XAudio2.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Private.Windows.Core.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Accessibility.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Microsoft.Win32.SystemEvents.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Configuration.ConfigurationManager.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Formats.Nrbf.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Windows.Extensions.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\SharpDX.Direct3D9.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\SharpDX.Mathematics.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Diagnostics.EventLog.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Security.Cryptography.ProtectedData.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Dawnsbury Days.pdb
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Dawnsbury Days.xml
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\Dawnsbury Days.dll.config
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\cs\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\de\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\es\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\fr\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\it\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\ja\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\ko\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\pl\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\pt-BR\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\ru\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\tr\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\zh-Hans\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\zh-Hant\System.Windows.Forms.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\cs\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\de\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\es\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\fr\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\it\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\ja\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\ko\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\pl\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\pt-BR\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\ru\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\tr\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\zh-Hans\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\zh-Hant\System.Windows.Forms.Primitives.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\Dawnsbur.61EC3506.Up2Date
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\refint\Dawnsbury.Mods.DawnniExpanded.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.pdb
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\obj\Debug\net9.0-windows\ref\Dawnsbury.Mods.DawnniExpanded.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.Windows.Forms.Design.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\MedallionTopologicalSort.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\System.CodeDom.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\cs\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\de\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\es\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\fr\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\it\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\ja\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\ko\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\pl\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\pt-BR\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\ru\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\tr\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\zh-Hans\System.Windows.Forms.Design.resources.dll
+E:\SteamLibrary\steamapps\common\Dawnsbury Days\CustomMods\Dawnsbury.Mods.DawnniExpanded\bin\Debug\net9.0-windows\zh-Hant\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.deps.json
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.pdb
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\YourApi.XML
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Common.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Dawnsbury Days.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\MonoGame.Framework.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\MonoGame.Extended.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Windows.Forms.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Steamworks.NET.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Newtonsoft.Json.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\TiledLib.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\PriorityQueue.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Windows.Forms.Design.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\FmodForFoxes.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\MedallionTopologicalSort.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\MoreLinq.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Drawing.Common.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\FmodForFoxes.Desktop.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\SharpDX.DXGI.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\SharpDX.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\SharpDX.Direct3D11.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Windows.Forms.Primitives.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\SharpDX.MediaFoundation.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\SharpDX.XInput.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\SharpDX.XAudio2.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Private.Windows.Core.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Accessibility.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Microsoft.Win32.SystemEvents.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Configuration.ConfigurationManager.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Formats.Nrbf.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Windows.Extensions.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.CodeDom.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\SharpDX.Direct3D9.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\SharpDX.Mathematics.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Diagnostics.EventLog.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\System.Security.Cryptography.ProtectedData.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Dawnsbury Days.pdb
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Dawnsbury Days.xml
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\Dawnsbury Days.dll.config
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\cs\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\de\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\es\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\fr\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\it\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\ja\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\ko\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\pl\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\pt-BR\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\ru\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\tr\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\zh-Hans\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\zh-Hant\System.Windows.Forms.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\cs\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\de\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\es\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\fr\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\it\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\ja\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\ko\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\pl\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\pt-BR\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\ru\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\tr\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\zh-Hans\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\zh-Hant\System.Windows.Forms.Design.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\cs\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\de\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\es\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\fr\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\it\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\ja\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\ko\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\pl\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\pt-BR\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\ru\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\tr\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\zh-Hans\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\bin\Debug\net9.0-windows\zh-Hant\System.Windows.Forms.Primitives.resources.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.csproj.AssemblyReference.cache
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.AssemblyInfoInputs.cache
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.AssemblyInfo.cs
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.csproj.CoreCompileInputs.cache
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.sourcelink.json
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\Dawnsbur.61EC3506.Up2Date
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\refint\Dawnsbury.Mods.DawnniExpanded.dll
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\Dawnsbury.Mods.DawnniExpanded.pdb
+C:\Users\jcbco\RiderProjects\DawnniExpanded3\obj\Debug\net9.0-windows\ref\Dawnsbury.Mods.DawnniExpanded.dll
