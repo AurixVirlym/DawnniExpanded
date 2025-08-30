@@ -66,7 +66,7 @@ public static class FeatRecallWeakness
 
     }
 
-    return new CombatAction(self, IllustrationName.Action, "Recall Weakness", new Trait[] { Trait.Basic, DawnniExpanded.DETrait, DawnniExpanded.HomebrewTrait, Trait.Skill },
+    return new CombatAction(self, IllustrationName.NarratorBook, "Recall Weakness", new Trait[] { Trait.Basic, DawnniExpanded.DETrait, DawnniExpanded.HomebrewTrait, Trait.Skill },
                               "You attempt to recall a weakness of a foe to use to your advantage. Attempt a skill check against a foe within 30ft using a skill relevant to a creature's type (see table below) with a level based DC on the foe's level." + S.FourDegreesOfSuccess(
         "The creatures gains a -2 circumstance penalty to the next saving throw check it attempts against your allies before the end of your next turn.",
         "As critical success except the penalty is reduced to -1.",
@@ -83,39 +83,35 @@ public static class FeatRecallWeakness
                               .WithActionId(ActionID)
                               .WithActionCost(1)
                               .WithEffectOnEachTarget((Delegates.EffectOnEachTarget)(async (action, caster, target, checkResult) =>
-    {
-      int num;
+                              {
+                                int num;
 
-      target.AddQEffect(QEffect.ImmunityToTargeting(ActionID, caster));
+                                target.AddQEffect(QEffect.ImmunityToTargeting(ActionID, caster));
 
-      switch (checkResult)
-      {
-        case CheckResult.CriticalFailure:
-          num = +1;
-          break;
-        case CheckResult.Success:
-          num = -1;
-          break;
-        case CheckResult.CriticalSuccess:
-          num = -2;
-          break;
-        default:
-          num = 0;
-          break;
-      }
+                                switch (checkResult)
+                                {
+                                  case CheckResult.CriticalFailure:
+                                    num = +1;
+                                    break;
+                                  case CheckResult.Success:
+                                    num = -1;
+                                    break;
+                                  case CheckResult.CriticalSuccess:
+                                    num = -2;
+                                    break;
+                                  default:
+                                    num = 0;
+                                    break;
+                                }
 
-      if (checkResult == CheckResult.Failure)
-        return;
+                                if (checkResult == CheckResult.Failure)
+                                  return;
 
-      bool IndepthCheck = false;
+                                bool IndepthCheck = caster.PersistentCharacterSheet!.Calculated.AllFeats.Contains<Feat>(IndepthWeakness);
 
-      if (caster.PersistentCharacterSheet.Calculated.AllFeats.Contains<Feat>(IndepthWeakness))
-      {
-        IndepthCheck = true;
-      }
-      target.AddQEffect(RecallWeaknessEffect(num, caster, IndepthCheck));
+                                target.AddQEffect(RecallWeaknessEffect(num, caster, IndepthCheck));
 
-    }));
+                              }));
   }
 
   public static ActionId ActionID = ModManager.RegisterEnumMember<ActionId>("RecallWeaknessActionID");
@@ -160,7 +156,7 @@ public static class FeatRecallWeakness
     || target.Traits.Contains(Trait.Beast)
     || target.Traits.Contains(Trait.Elemental)
     || target.Traits.Contains(Trait.Primal)
-    // || target.Traits.Contains(Trait.Fey)
+    || target.Traits.Contains(Trait.Fey)
     || target.Traits.Contains(Trait.Plant)
     || target.Traits.Contains(Trait.Leshy)
     )
@@ -170,7 +166,7 @@ public static class FeatRecallWeakness
 
     //Occultism
     if (target.Traits.Contains(Trait.Aberration)
-      // ||target.Traits.Contains(Trait.Ooze)
+      ||target.Traits.Contains(Trait.Ooze)
       || target.Traits.Contains(Trait.Occult)
 
       )
@@ -224,7 +220,7 @@ public static class FeatRecallWeakness
       List<CalculatedNumber.CalculatedNumberProducer> bestAmongSkills = new List<CalculatedNumber.CalculatedNumberProducer>();
 
       //Arcana
-      if (target.Traits.Contains(Trait.Construct)
+      if (target!.Traits.Contains(Trait.Construct)
       || target.Traits.Contains(Trait.Beast)
       || target.Traits.Contains(Trait.Elemental)
       || target.Traits.Contains(Trait.Arcana)
@@ -345,7 +341,7 @@ public static class FeatRecallWeakness
 
   {
 
-    IndepthWeakness = new TrueFeat(FeatName.CustomFeat,
+    IndepthWeakness = new TrueFeat(ModManager.RegisterFeatName("DE_IndepthWeakness", "In-depth Weakness"),
                     2,
                     "Your knowledge of enemy weaknesses runs deeper than most.",
                     "Whenever you use the Recall Weakness action, your Critical Success and Success are not removed after the foe makes a saving throw check.",
@@ -358,66 +354,70 @@ public static class FeatRecallWeakness
                     || values.GetProficiency(Trait.Religion) >= Proficiency.Expert
                     || values.GetProficiency(Trait.Society) >= Proficiency.Expert
                     || values.GetProficiency(NewSkills.BardicLoreSkillTrait) >= Proficiency.Trained
-                    , "You must be expert in Arcane, Crafting, Nature, Occultism, Religion or Society or be trained in Bardic Lore")
-                   .WithCustomName("In-depth Weakness");
+                    , "You must be expert in Arcane, Crafting, Nature, Occultism, Religion or Society or be trained in Bardic Lore");
 
-    SlightestGlanceWeakness = new TrueFeat(FeatName.CustomFeat,
+    SlightestGlanceWeakness = new TrueFeat(ModManager.RegisterFeatName("DE_SlightestGlanceWeakness", "Slightest Glance Weakness"),
                     2,
                     "You only need a small glismpe of your foe to understand their weakness.",
                     "Whenever you use the Recall Weakness action, you may target foes within 60ft instead of 30ft.\n\nIf you are a master of perception, you may use Recall Weakness on foes within 120ft.",
                     new Trait[] { Trait.General, Trait.SkillFeat, DawnniExpanded.DETrait, DawnniExpanded.HomebrewTrait })
                     .WithPrerequisite((values) =>
                     values.GetProficiency(Trait.Perception) >= Proficiency.Expert
-                    , "You must be expert in Perception.")
-                   .WithCustomName("Slightest Glance Weakness");
+                    , "You must be expert in Perception.");
 
-    CombatAssessment = new TrueFeat(FeatName.CustomFeat, 1, "You make a telegraphed attack to learn about your foe.", "Make a melee Strike. On a hit, you can immediately attempt a check to Recall Weakness about the target. On a critical hit, you gain a +2 circumstance bonus to the check to Recall Weakness.\n\nThe target is temporarily immune to Combat Assessment for 1 day."
-, new Trait[1]
-{
-        Trait.Fighter
-}).WithActionCost(1).WithCustomName("Combat Assessment").WithPermanentQEffect("If you hit, you Recall Weakness against the target", (Action<QEffect>)(qf => qf.ProvideStrikeModifier = (Func<Item, CombatAction>)(item =>
-{
-  CombatAction strike = qf.Owner.CreateStrike(item);
-  strike.Illustration = (Illustration)new SideBySideIllustration(strike.Illustration, (Illustration)IllustrationName.Action);
-  strike.Name = "Combat Assessment " + strike.Name;
-  strike.Traits.Add(Trait.Basic);
-  strike.ActionId = CombatAssessmentActionID;
-  strike.Description = StrikeRules.CreateBasicStrikeDescription2(strike.StrikeModifiers, additionalSuccessText: "Recall Weakness against the target", additionalCriticalSuccessText: "Gain a +2 circumstance bonus to the check to Recall Weakness.", additionalAftertext: "The target is temporarily immune to Combat Assessment for 1 day.");
-
-  strike.StrikeModifiers.OnEachTarget += (Func<Creature, Creature, CheckResult, Task>)(async (caster, target, checkResult) =>
-  {
-
-
-    target.AddQEffect(QEffect.ImmunityToTargeting(CombatAssessmentActionID, caster));
-
-    if (checkResult < CheckResult.Success)
-      return;
-
-    if (target.Alive == false)
-      return;
-
-    if (checkResult == CheckResult.CriticalSuccess)
-    {
-      strike.Owner.AddQEffect(new QEffect("Combat Assessment (Critical Success)", null, ExpirationCondition.Ephemeral, null)
+    CombatAssessment = new TrueFeat(ModManager.RegisterFeatName("DE_CombatAssessment", "Combat Assessment"), 1, "You make a telegraphed attack to learn about your foe.",
+      "Make a melee Strike. On a hit, you can immediately attempt a check to Recall Weakness about the target. On a critical hit, you gain a +2 circumstance bonus to the check to Recall Weakness.\n\nThe target is temporarily immune to Combat Assessment for 1 day."
+      , [Trait.Fighter]).WithActionCost(1).WithPermanentQEffect(null,
+      qf => qf.ProvideStrikeModifier = item =>
       {
-        BonusToSkillChecks = (skill, action, target) => action.ActionId == FeatRecallWeakness.ActionID ? new Bonus(2, BonusType.Circumstance, "Combat Assessment (Critical Success)") : (Bonus)null,
+        CombatAction strike = qf.Owner.CreateStrike(item);
+        strike.Illustration = new SideBySideIllustration(strike.Illustration,
+          IllustrationName.NarratorBook);
+        strike.Name = "Combat Assessment " + strike.Name;
+        strike.Traits.Add(Trait.Basic);
+        strike.ActionId = CombatAssessmentActionID;
+        strike.Description = StrikeRules.CreateBasicStrikeDescription2(strike.StrikeModifiers,
+          additionalSuccessText: "Recall Weakness against the target",
+          additionalCriticalSuccessText: "Gain a +2 circumstance bonus to the check to Recall Weakness.",
+          additionalAftertext: "The target is temporarily immune to Combat Assessment for 1 day.");
+        strike.StrikeModifiers.OnEachTarget +=
+          (Func<Creature, Creature, CheckResult, Task>)(async (caster, target, checkResult) =>
+          {
+            target.AddQEffect(QEffect.ImmunityToTargeting(CombatAssessmentActionID,
+              caster));
+            QEffect crit = new(
+              "Combat Assessment" + " (Critical Success)",
+              "",
+              ExpirationCondition.ExpiresAtEndOfAnyTurn, null)
+            {
+              BonusToSkillChecks =
+                ((Func<Skill, CombatAction, Creature, Bonus?>)((_, action, _) =>
+                  action.ActionId != ActionID
+                    ? null
+                    : new Bonus(2, BonusType.Circumstance,
+                      "Combat Assessment" +
+                      " (Critical Success)")))!
+            };
+            switch (checkResult)
+            {
+              case < CheckResult.Success:
+                return;
+              case CheckResult.CriticalSuccess:
+                strike.Owner.AddQEffect(crit);
+                break;
+            }
+            TBattle battle = strike.Owner.Battle;
+            CombatAction recall = RecallWeaknessAction(strike.Owner);
+            recall.WithActionCost(0);
+            recall.Target = strike.Target;
+            bool done = await battle.GameLoop.FullCast(recall, ChosenTargets.CreateSingleTarget(target));
+            if (done)
+            {
+              crit.ExpiresAt = ExpirationCondition.Immediately;
+            }
+          });
+        return item.HasTrait(Trait.Melee) ? strike : null;
       });
-    }
-
-
-    TBattle battle = strike.Owner.Battle;
-
-
-    await battle.GameLoop.FullCast(RecallWeaknessAction(strike.Owner), new ChosenTargets
-    {
-      ChosenCreature = target
-    });
-
-  });
-
-  ((CreatureTarget)strike.Target).WithAdditionalConditionOnTargetCreature((CreatureTargetingRequirement)new AdjacencyCreatureTargetingRequirement());
-  return strike;
-})));
 
 
     ModManager.RegisterActionOnEachCreature(creature =>

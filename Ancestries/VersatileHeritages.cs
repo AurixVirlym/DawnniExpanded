@@ -34,7 +34,7 @@ using Dawnsbury.Core.CharacterBuilder.Spellcasting;
 
 namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
 {
-    public class VersatileHertiages
+    public class VersatileHeritages
     {
 
 
@@ -70,7 +70,7 @@ namespace Dawnsbury.Mods.DawnniExpanded.Ancestries
             }
             */
             
-            VersatileHertiageSuli.LoadMod();
+            VersatileHeritageSuli.LoadMod();
 
 
         }

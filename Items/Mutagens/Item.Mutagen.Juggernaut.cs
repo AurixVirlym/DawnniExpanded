@@ -22,7 +22,7 @@ public static class ItemMutagenJuggernaut
 
             new Item(itemName, illustrationJuggernaut, "Juggernaut Mutagen (Lesser)", 1, 4, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
             {
-                Description = "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n{b}Benefit{/b} You gain a +1 item bonus to Fortitude saves and 5 temporary Hit Points.\n\n{b}Drawback{/b} You take a –2 penalty to Will saves and Perception checks.\n\n",
+                Description = "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n{b}Benefit{/b} You gain a +1 item bonus to Fortitude saves and 5 temporary Hit Points.\n\n{b}Drawback{/b} You take a –2 penalty to Will saves and Perception checks.",
 
                 WhenYouDrink = async (CombatAction ca, Creature self) =>
                 {
@@ -82,7 +82,7 @@ public static class ItemMutagenJuggernaut
 
         new Item(itemName, illustrationJuggernaut, "Juggernaut Mutagen (Moderate)", 3, 12, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n{b}Benefit{/b} You gain a +2 item bonus to Fortitude saves and 10 temporary Hit Points.\n\n{b}Drawback{/b} You take a –2 penalty to Will saves and Perception checks.\n\n",
+            Description = "After you drink this mutagen, your body becomes thick and sturdy. You exhibit a healthy glow, though you tend to be ponderous and unobservant.\n\n{b}Benefit{/b} You gain a +2 item bonus to Fortitude saves and 10 temporary Hit Points.\n\n{b}Drawback{/b} You take a –2 penalty to Will saves and Perception checks.",
 
             WhenYouDrink = async (CombatAction ca, Creature self) =>
             {

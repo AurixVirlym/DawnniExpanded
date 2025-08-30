@@ -24,20 +24,14 @@ public static class FeatArchetype
 
     public static Feat NoneFeat;
     public static void LoadMod()
-
-
     {
         DedicationTrait = ModManager.RegisterTrait(
-            "Dedication",
-            new TraitProperties("Dedication", true, "", false)
-            {
-            });
+            "DE_Dedication",
+            new TraitProperties("Dedication", false));
 
         ArchetypeTrait = ModManager.RegisterTrait(
-            "Archetype",
-            new TraitProperties("Archetype", true, "", false)
-            {
-            });
+            "DE_Archetype",
+            new TraitProperties("Archetype", false));
 
         ArchetypeSpellcastingTrait = ModManager.RegisterTrait(
             "ArchetypeSpellcasting",
@@ -117,30 +111,40 @@ public static class FeatArchetype
 
 
 
-        };
+        }
+        
+        // ModManager.AddFeat(ArchetypeFeat);
+        // ModManager.AddFeat(DedicationFeat);
+        // ModManager.AddFeat(NoneFeat);
 
-        ModManager.AddFeat(ArchetypeFeat);
-        ModManager.AddFeat(DedicationFeat);
-        ModManager.AddFeat(NoneFeat);
-
-        ArchetypeMedic.LoadMod();
-        ArchetypeFighter.LoadMod();
-        ArchetypeMonk.LoadMod();
-        ArchetypeRogue.LoadMod();
-        ArchetypeRanger.LoadMod();
-        ArchetypeBarbarian.LoadMod();
-        ArchetypeSentinel.LoadMod();
-        ArchetypeDuelist.LoadMod();
-        ArchetypeBeastmaster.LoadMod();
+        //ArchetypeMedic.LoadMod();
+        // ArchetypeFighter.LoadMod();
+        // ArchetypeMonk.LoadMod();
+        // ArchetypeRogue.LoadMod();
+        // ArchetypeRanger.LoadMod();
+        // ArchetypeBarbarian.LoadMod();
+        // ArchetypeSentinel.LoadMod();
+        // ArchetypeDuelist.LoadMod();
+        // ArchetypeBeastmaster.LoadMod();
         ArchetypeAlchemist.LoadMod();
-        ArchetypeBard.LoadMod();
-        ArchetypePsychic.LoadMod();
-        ArchetypeWizard.LoadMod();
-        ArchetypeCleric.LoadMod();
-        ArchetypeSorcerer.LoadMod();
+        // ArchetypeBard.LoadMod();
+        // ArchetypePsychic.LoadMod();
+        // ArchetypeWizard.LoadMod();
+        // ArchetypeCleric.LoadMod();
+        // ArchetypeSorcerer.LoadMod();
         ArchetypeDualWeaponWarrior.LoadMod();
-        ArchetypeWrestler.LoadMod();
-        ArchetypeDruid.LoadMod();
+        // ArchetypeWrestler.LoadMod();
+        // ArchetypeDruid.LoadMod();
         ArchetypeFamiliarMaster.LoadMod();
+        LoadOrder.AtEndOfLoadingSequence += () =>
+        {
+            AllFeats.All.ForEach(feat =>
+            {
+                if (feat.HasTrait(Trait.Dedication))
+                    feat.Traits.Add(DedicationTrait);
+                if (feat.HasTrait(Trait.Archetype))
+                    feat.Traits.Add(ArchetypeTrait);
+            });
+        };
     }
 }

@@ -25,7 +25,7 @@ public static class ItemMutagenEnergy
         ItemName EnergyMutagenLesserAcid = ModManager.RegisterNewItemIntoTheShop("Energy Mutagen(Lesser, Acid)", itemName =>
       new Item(itemName, MutagenAcid, "Energy Mutagen(Lesser, Acid)", 1, 4, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
       {
-          Description = "When created, this mutagen was attuned to energy type of acid. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (cold, electricity, and fire).\n\n",
+          Description = "When created, this mutagen was attuned to energy type of acid. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (cold, electricity, and fire).",
 
           WhenYouDrink = async (CombatAction ca, Creature self) =>
           {
@@ -62,7 +62,7 @@ public static class ItemMutagenEnergy
         ItemName EnergyMutagenLesserCold = ModManager.RegisterNewItemIntoTheShop("Energy Mutagen(Lesser, Cold)", itemName =>
         new Item(itemName, MutagenCold, "Energy Mutagen(Lesser, Cold)", 1, 4, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "When created, this mutagen was attuned to energy type of cold. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, electricity, and fire).\n\n",
+            Description = "When created, this mutagen was attuned to energy type of cold. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, electricity, and fire).",
 
             WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
@@ -100,7 +100,7 @@ public static class ItemMutagenEnergy
         ItemName EnergyMutagenLesserElectricity = ModManager.RegisterNewItemIntoTheShop("Energy Mutagen(Lesser, Electricity)", itemName =>
         new Item(itemName, MutagenElectricity, "Energy Mutagen(Lesser, Electricity)", 1, 4, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "When created, this mutagen was attuned to energy type of electricity. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and fire).\n\n",
+            Description = "When created, this mutagen was attuned to energy type of electricity. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and fire).",
 
             WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
@@ -138,7 +138,7 @@ public static class ItemMutagenEnergy
         ItemName EnergyMutagenLesserFire = ModManager.RegisterNewItemIntoTheShop("Energy Mutagen(Lesser, Fire)", itemName =>
         new Item(itemName, MutagenFire, "Energy Mutagen(Lesser, Fire)", 1, 4, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "When created, this mutagen was attuned to energy type of fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and electricity).\n\n",
+            Description = "When created, this mutagen was attuned to energy type of fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1 damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and electricity).",
 
             WhenYouDrink = async  (CombatAction ca, Creature self) =>
             {
@@ -177,7 +177,7 @@ public static class ItemMutagenEnergy
         ItemName EnergyMutagenModerateAcid = ModManager.RegisterNewItemIntoTheShop("Energy Mutagen(Moderate, Acid)", itemName =>
         new Item(itemName, MutagenAcid, "Energy Mutagen(Moderate, Acid)", 3, 12, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "When created, this mutagen was attuned to energy type of acid. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (cold, electricity, and fire).\n\n",
+            Description = "When created, this mutagen was attuned to energy type of acid. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (cold, electricity, and fire).",
 
             WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
@@ -215,7 +215,7 @@ public static class ItemMutagenEnergy
         ItemName EnergyMutagenModerateCold = ModManager.RegisterNewItemIntoTheShop("Energy Mutagen(Moderate, Cold)", itemName =>
         new Item(itemName, MutagenCold, "Energy Mutagen(Moderate, Cold)", 3, 12, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "When created, this mutagen was attuned to energy type of cold. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, electricity, and fire).\n\n",
+            Description = "When created, this mutagen was attuned to energy type of cold. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, electricity, and fire).",
 
             WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
@@ -253,7 +253,7 @@ public static class ItemMutagenEnergy
         ItemName EnergyMutagenModerateElectricity = ModManager.RegisterNewItemIntoTheShop("Energy Mutagen(Moderate, Electricity)", itemName =>
         new Item(itemName, MutagenElectricity, "Energy Mutagen(Moderate, Electricity)", 3, 12, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "When created, this mutagen was attuned to energy type of electricity. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and fire).\n\n",
+            Description = "When created, this mutagen was attuned to energy type of electricity. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 of damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and fire).",
 
             WhenYouDrink = async (CombatAction ca, Creature self) =>
             {
@@ -291,7 +291,7 @@ public static class ItemMutagenEnergy
         ItemName EnergyMutagenModerateFire = ModManager.RegisterNewItemIntoTheShop("Energy Mutagen(Moderate, Fire)", itemName =>
         new Item(itemName, MutagenFire, "Energy Mutagen(Moderate, Fire)", 3, 12, Trait.Elixir, TraitMutagens.MutagenTrait, TraitMutagens.PolymorphTrait, Trait.Alchemical, DawnniExpanded.DETrait)
         {
-            Description = "When created, this mutagen was attuned to energy type of fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and electricity).\n\n",
+            Description = "When created, this mutagen was attuned to energy type of fire. When consumed, the mutagen suffuses your body with energy that spills out of you whenever you attack. \n\n{b}Benefit{/b} You gain resistance to the attuned energy type. Whenever you score a hit with a melee weapon, add 1d4 damage of the attuned energy type.\n\n{b}Drawback{/b} You gain weakness 5 to the other three energy types (acid, cold, and electricity).",
 
             WhenYouDrink = async (CombatAction ca, Creature self) =>
             {

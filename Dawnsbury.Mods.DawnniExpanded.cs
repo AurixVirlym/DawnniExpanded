@@ -12,7 +12,7 @@ namespace Dawnsbury.Mods.DawnniExpanded;
 public class DawnniExpanded
 {
     public static Trait DETrait;
-    public static Trait HomebrewTrait;
+    public static readonly Trait HomebrewTrait = Trait.Homebrew;
 
     [DawnsburyDaysModMainMethod]
     public static void LoadMod()
@@ -21,11 +21,6 @@ public class DawnniExpanded
             "DawnniEx",
             new TraitProperties("DawnniEx", true)
             );
-        HomebrewTrait = ModManager.RegisterTrait(
-            "Homebrew",
-            new TraitProperties("Homebrew", true)
-            );
-
         //new Harmony("com.Danni.DawnniExpanded").PatchAll();
 
 
@@ -48,8 +43,9 @@ public class DawnniExpanded
         SpellInnerRadianceTorrent.LoadMod();
         SpellHexes.LoadMod();
 
-        FeatBattleMedicine.LoadMod();
+        //FeatBattleMedicine.LoadMod();
         //FeatPowerfulLeap.LoadMod();
+        FeatDoctorsVisitation.LoadMod();
 
         BackgroundFieldMedic.LoadMod();
         BackgroundMartialDisciple.LoadMod();
@@ -61,9 +57,9 @@ public class DawnniExpanded
         ItemStaffofSpellPotency.LoadMod();
         TraitMutagens.LoadMod();
         ItemMutagens.LoadMod();
-        // ItemRunestone.LoadMod();
+        //  ItemRunestone.LoadMod();
 
-        FeatDuelingParry.LoadMod();
+        // FeatDuelingParry.LoadMod();
 
         FeatArchetype.LoadMod();
         MonsterBadger.LoadMod();
@@ -71,7 +67,7 @@ public class DawnniExpanded
         //GenerateHeightenedScrolls.LoadMod();
         //KinTest.LoadMod();
 
-        VersatileHertiages.LoadMod();
+        VersatileHeritages.LoadMod();
         //AncestryHalfling.LoadMod();
         AncestryDragon.LoadMod();
         

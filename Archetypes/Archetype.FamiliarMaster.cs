@@ -4,7 +4,7 @@ using Dawnsbury.Core.CharacterBuilder.Feats;
 using Dawnsbury.Core.CharacterBuilder;
 using System.Linq;
 using System;
-
+using Dawnsbury.Core.CharacterBuilder.FeatsDb.TrueFeatDb.Archetypes;
 using Dawnsbury.Mods.DawnniExpanded.Feats;
 using Dawnsbury.Core.CharacterBuilder.Selections.Options;
 
@@ -19,39 +19,36 @@ public static class ArchetypeFamiliarMaster
   public static Feat EnhancedFamiliarArchetype;
 
   public static Trait FamiliarMasterTrait = ModManager.RegisterTrait(
-        "FamiliarMasterTrait",
-        new TraitProperties("FamiliarMasterTrait", false, "", false)
+        "DE_FamiliarMasterTrait",
+        new TraitProperties("Familiar Master", false)
   {
   });
   public static void LoadMod()
 
   {
 
-    FamiliarMasterDedication = new TrueFeat(FeatName.CustomFeat,
-            2,
-            "You have forged a mystical bond with a creature. This might have involved complex rituals and invocations, such as meditating under the moon until something crept out of the forest. Or maybe you just did each other a good turn, such as rescuing the beast from a trap or a foe, and then being rescued in turn. Whatever the details, you are now comrades until the end.",
-            "You gain a familiar. If you already have a familiar, you gain the Enhanced Familiar feat.",
-            new Trait[] { FeatArchetype.DedicationTrait, FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait })
-            .WithCustomName("Familiar Master Dedication")
+    FamiliarMasterDedication = ArchetypeFeats.CreateAgnosticArchetypeDedication(FamiliarMasterTrait, "You have forged a mystical bond with a creature. This might have involved complex rituals and invocations, such as meditating under the moon until something crept out of the forest. Or maybe you just did each other a good turn, such as rescuing the beast from a trap or a foe, and then being rescued in turn. Whatever the details, you are now comrades until the end.",
+        "You gain a familiar. If you already have a familiar, you gain the Enhanced Familiar feat.")
             .WithPrerequisite((CalculatedCharacterSheetValues values) => !values.AllFeats.Contains(Familiars.EnhancedFamiliar), "You already have the Enhanced Familiar feat.")
             .WithOnSheet(sheet => 
             {
               
               if (sheet.AllFeats.Contains<Feat>(Familiars.Familiar)){
-              sheet.AddFeat(EnhancedFamiliarArchetype, null);
+                sheet.AddFeat(EnhancedFamiliarArchetype, null);
               } 
               else {
-              sheet.AddFeat(Familiars.Familiar,null);
+                sheet.AddFeat(Familiars.Familiar,null);
               }
             }
             );
+    FamiliarMasterDedication.Traits.Add(DawnniExpanded.DETrait);
 
-    EnhancedFamiliarArchetype = new TrueFeat(FeatName.CustomFeat,
+    EnhancedFamiliarArchetype = new TrueFeat(ModManager.RegisterFeatName("DE_EnhancedFamiliar", "Enhanced Familiar"),
                     4,
                     "You infuse your familiar with additional magical energy.",
                     "You can select two more familiar abilities.",
                     new Trait[] { FeatArchetype.ArchetypeTrait, DawnniExpanded.DETrait, Trait.Homebrew })
-                    .WithCustomName("Enhanced Familiar (Archetype)")
+                    .WithAvailableAsArchetypeFeat(FamiliarMasterTrait)
                     .WithPrerequisite((CalculatedCharacterSheetValues values) => values.AllFeats.Contains<Feat>(FamiliarMasterDedication), "You must have the Familiar Master Dedication feat.")
                     .WithEquivalent(values => values.AllFeats.Contains(Familiars.EnhancedFamiliar))
                     .WithOnSheet(delegate (CalculatedCharacterSheetValues sheet)
