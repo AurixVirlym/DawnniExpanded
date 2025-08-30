@@ -129,7 +129,7 @@ namespace Dawnsbury.Mods.DawnniExpanded
   }).WithOnSheet(sheet =>
   {
     sheet.GrantFeat(FeatName.Occultism);
-    sheet.AddFeat(NewSkills.Performance, null);
+    sheet.GrantFeat(FeatName.Performance);
 
     Trait spellList = Trait.Occult;
     sheet.SpellTraditionsKnown.Add(spellList);
